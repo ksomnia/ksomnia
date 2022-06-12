@@ -25,7 +25,8 @@ config :ksomnia, KsomniaWeb.Endpoint,
   secret_key_base: "54txKCJ8uP86ipNQlmqcv03rhM6wsnXy7mmJCuEqaQEsW5OA9JLJZlNBnYHNgQWG",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support
