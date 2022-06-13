@@ -50,7 +50,9 @@ defmodule Ksomnia.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:ecto_shortuuid, "~> 0.1.3"},
-      {:tailwind, "~> 0.1.6", runtime: Mix.env() == :dev}
+      {:tailwind, "~> 0.1.6", runtime: Mix.env() == :dev},
+      {:comeonin, "~> 5.3"},
+      {:argon2_elixir, "~> 3.0"}
     ]
   end
 

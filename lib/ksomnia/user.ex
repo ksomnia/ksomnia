@@ -1,6 +1,7 @@
 defmodule Ksomnia.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Ksomnia.Repo
   alias Ksomnia.User
 
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
@@ -9,7 +10,7 @@ defmodule Ksomnia.User do
     field :email, :string
     field :encrypted_password, :string
     field :username, :string
-    field :password, virtual: true
+    field :password, :string, virtual: true
 
     timestamps()
   end
@@ -20,10 +21,13 @@ defmodule Ksomnia.User do
     |> cast(attrs, [:email, :username, :password])
     |> validate_required([:email, :username, :password])
     |> encrypt_password()
+    |> validate_format(:email, ~r/@/)
+    |> unique_constraint(:email)
   end
 
   def encrypt_password(changeset) do
-    changeset
+    password = get_change(changeset, :password)
+    put_change(changeset, :encrypted_password, Argon2.hash_pwd_salt(password))
   end
 
   def new(attrs) do

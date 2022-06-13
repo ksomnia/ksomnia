@@ -8,6 +8,7 @@ defmodule KsomniaWeb.Router do
     plug :put_root_layout, {KsomniaWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug KsomniaWeb.SessionPlug
   end
 
   pipeline :api do
@@ -20,6 +21,7 @@ defmodule KsomniaWeb.Router do
     get "/", PageController, :index
     get "/login", SessionController, :new
     post "/login", SessionController, :create
+    get "/logout", SessionController, :logout
   end
 
   # Other scopes may use custom stacks.

@@ -1,5 +1,11 @@
 <div class="mt-56 flex justify-center">
   <%= form_for @conn, Routes.session_path(@conn, :create), fn f -> %>
+    <%= if assigns[:error] do %>
+      <div class="p-2 bg-red-100 mb-5">
+        <%= @error %>
+      </div>
+    <% end %>
+
     <div class="mb-5">
       <label class="block">Email</label>
       <input type="email" name="email" class="p-1 border border-slate-300" />
@@ -11,5 +17,5 @@
     <div class="mb-5">
       <%= submit "Login", class: "p-2 bg-slate-200 hover:bg-slate-300" %>
     </div>
-    <% end %>
+  <% end %>
 </div>

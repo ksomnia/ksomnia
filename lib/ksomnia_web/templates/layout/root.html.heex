@@ -16,7 +16,24 @@
           <a class="font-bold">Ksomnia</a>
         </div>
         <div class="">
-          <a class="font-bold" href="/login">Login</a>
+          <%= if assigns[:user] do %>
+            <div x-data="{opened: false}" class="relative">
+              <a @click="opened = ! opened" class="font-medium hover:cursor-pointer">
+                <%= @user.email %>
+              </a>
+              <div
+                @click.away="opened = false"
+                x-show="opened"
+                class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+              >
+                <div class="py-1" role="none">
+                  <a href="/logout" class="hover:bg-slate-100 block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">Logout</a>
+                </div>
+              </div>
+            </div>
+          <% else %>
+            <a class="font-bold" href="/login">Login</a>
+          <% end %>
         </div>
       </div>
     </header>
