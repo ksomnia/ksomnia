@@ -18,6 +18,8 @@ defmodule KsomniaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/login", SessionController, :new
+    post "/login", SessionController, :create
   end
 
   # Other scopes may use custom stacks.

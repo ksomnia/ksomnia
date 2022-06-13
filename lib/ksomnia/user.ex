@@ -9,6 +9,7 @@ defmodule Ksomnia.User do
     field :email, :string
     field :encrypted_password, :string
     field :username, :string
+    field :password, virtual: true
 
     timestamps()
   end
@@ -16,12 +17,22 @@ defmodule Ksomnia.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :encrypted_password])
-    |> validate_required([:email, :username, :encrypted_password])
+    |> cast(attrs, [:email, :username, :password])
+    |> validate_required([:email, :username, :password])
+    |> encrypt_password()
+  end
+
+  def encrypt_password(changeset) do
+    changeset
   end
 
   def new(attrs) do
     %User{}
     |> changeset(attrs)
+  end
+
+  def create(attrs) do
+    new(attrs)
+    |> Repo.insert()
   end
 end
