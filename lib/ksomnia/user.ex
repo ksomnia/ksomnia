@@ -26,8 +26,11 @@ defmodule Ksomnia.User do
   end
 
   def encrypt_password(changeset) do
-    password = get_change(changeset, :password)
-    put_change(changeset, :encrypted_password, Argon2.hash_pwd_salt(password))
+    if password = get_change(changeset, :password) do
+      put_change(changeset, :encrypted_password, Argon2.hash_pwd_salt(password))
+    else
+      changeset
+    end
   end
 
   def new(attrs) do

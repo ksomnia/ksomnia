@@ -7,13 +7,14 @@
     <%= csrf_meta_tag() %>
     <%= live_title_tag assigns[:page_title] || "Ksomnia", suffix: " · Phoenix Framework" %>
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body>
-    <header>
-      <div class="p-2 bg-slate-100 flex justify-between">
-        <div class="">
-          <a class="font-bold">Ksomnia</a>
+  <body class="bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50 h-full">
+    <header class="container mx-auto">
+      <div class="p-4 flex justify-between">
+        <div class="text-indigo-500">
+          <a href="/" class="font-bold text-lg">Ksomnia</a>
         </div>
         <div class="">
           <%= if assigns[:user] do %>
@@ -32,11 +33,14 @@
               </div>
             </div>
           <% else %>
-            <a class="font-bold" href="/login">Login</a>
+            <%= link "Sign in", to: Routes.session_path(@conn, :new), class: "font-bold text-indigo-500 hover:bg-indigo-100 p-2 px-5 border-2 border-indigo-500 rounded-full" %>
+            <%= link "Create an account", to: Routes.registration_path(@conn, :new), class: "font-bold bg-indigo-500 text-white hover:bg-indigo-600 p-2 px-5 border-2 border-indigo-500 hover:border-indigo-600 rounded-full" %>
           <% end %>
         </div>
       </div>
     </header>
-    <%= @inner_content %>
+    <div class="container mx-auto h-full">
+      <%= @inner_content %>
+    </div>
   </body>
 </html>

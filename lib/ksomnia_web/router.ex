@@ -19,9 +19,13 @@ defmodule KsomniaWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/login", SessionController, :new
-    post "/login", SessionController, :create
+    get "/signin", SessionController, :new
+    post "/signin", SessionController, :create
     get "/logout", SessionController, :logout
+    get "/signup", RegistrationController, :new
+    post "/signup", RegistrationController, :create
+    get "/password-reset", RegistrationController, :password_reset
+    post "/password-reset", RegistrationController, :do_password_reset
   end
 
   # Other scopes may use custom stacks.
