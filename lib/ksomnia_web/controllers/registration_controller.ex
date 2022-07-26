@@ -7,7 +7,7 @@ defmodule KsomniaWeb.RegistrationController do
   end
 
   def create(conn, params) do
-    with {:ok, user} <- User.create(params) do
+    with {:ok, user} <- User.create(params["user"]) do
       conn
       |> put_session(:user_id, user.id)
       |> redirect(to: "/")

@@ -52,7 +52,9 @@ defmodule Ksomnia.MixProject do
       {:ecto_shortuuid, "~> 0.1.3"},
       {:tailwind, "~> 0.1.6", runtime: Mix.env() == :dev},
       {:comeonin, "~> 5.3"},
-      {:argon2_elixir, "~> 3.0"}
+      {:argon2_elixir, "~> 3.0"},
+      {:shortuuid, "~> 2.1"},
+      {:elixir_uuid, "~> 1.6", hex: :uuid_utils}
     ]
   end
 

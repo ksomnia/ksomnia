@@ -4,7 +4,8 @@ defmodule Ksomnia.User do
   alias Ksomnia.Repo
   alias Ksomnia.User
 
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
+  # @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
+  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
   schema "users" do
     field :email, :string

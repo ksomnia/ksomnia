@@ -1,4 +1,4 @@
-<div class="mt-36 sm:mx-auto sm:w-full sm:max-w-md">
+<div class="lg:mt-36 mt-10 sm:mx-auto sm:w-full sm:max-w-md">
   <div class="mx-auto w-full text-center py-1">
     <h2 class="mt-1 text-center text-2xl font-semibold text-indigo-500">
       Ksomnia
@@ -9,7 +9,7 @@
       Sign up for an account
     </h2>
   </div>
-  <div class="bg-white py-10 px-4 shadow-lg sm:rounded-lg">
+  <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
     <div class="my-5 flex justify-center">
       <%= form_for @changeset, Routes.registration_path(@conn, :create), fn f -> %>
         <%= if assigns[:error] do %>
@@ -21,16 +21,25 @@
         <div class="mb-5">
           <label class="block text-slate-700 text-sm font-medium">Full name</label>
           <%= text_input f, :username, class: "mt-1 border border-slate-300 rounded-md shadow-sm px-2 py-2 placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 " %>
+          <div class="py-2 text-red-500">
+            <%= error_tag f, :username %>
+          </div>
         </div>
 
         <div class="mb-5">
           <label class="block text-slate-700 text-sm font-medium">Email</label>
           <%= email_input f, :email, class: "mt-1 border border-slate-300 rounded-md shadow-sm px-2 py-2 placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 " %>
+          <div class="py-2 text-red-500">
+            <%= error_tag f, :email %>
+          </div>
         </div>
 
         <div class="mb-5">
           <label class="block text-slate-700 text-sm font-medium">Password</label>
           <%= password_input f, :password, class: "mt-1 border border-slate-300 rounded-md shadow-sm px-2 py-2 placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 " %>
+          <div class="py-2 text-red-500">
+            <%= error_tag f, :password %>
+          </div>
         </div>
         <div class="mb-5">
           <%= submit "Create account", class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
