@@ -46,3 +46,18 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
+
+const BASE_URL = "/api/v1"
+
+window.KSOMNIA = {}
+
+KSOMNIA.api = (url, method, data) => {
+  return fetch(`${BASE_URL}/${url}`, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+}

@@ -54,7 +54,8 @@ defmodule Ksomnia.MixProject do
       {:comeonin, "~> 5.3"},
       {:argon2_elixir, "~> 3.0"},
       {:shortuuid, "~> 2.1"},
-      {:elixir_uuid, "~> 1.6", hex: :uuid_utils}
+      {:elixir_uuid, "~> 1.6", hex: :uuid_utils},
+      {:timex, "~> 3.7"}
     ]
   end
 

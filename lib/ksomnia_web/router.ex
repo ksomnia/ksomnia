@@ -12,7 +12,9 @@ defmodule KsomniaWeb.Router do
   end
 
   pipeline :api do
+    plug :fetch_session
     plug :accepts, ["json"]
+    plug KsomniaWeb.SessionPlug
   end
 
   scope "/", KsomniaWeb do
@@ -26,12 +28,16 @@ defmodule KsomniaWeb.Router do
     post "/signup", RegistrationController, :create
     get "/password-reset", RegistrationController, :password_reset
     post "/password-reset", RegistrationController, :do_password_reset
+    get "/projects/:id", ProjectController, :show
+    get "/projects", ProjectController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", KsomniaWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", KsomniaWeb do
+    pipe_through :api
+
+    post "/projects", ProjectController, :create
+  end
 
   # Enables LiveDashboard only for development
   #
