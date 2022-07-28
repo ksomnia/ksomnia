@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.ProjectController do
   use KsomniaWeb, :controller
   alias Ksomnia.Project
+  alias Ksomnia.Repo
   action_fallback KsomniaWeb.FallbackController
 
   plug :put_root_layout, {KsomniaWeb.LayoutView, "app_root.html"}
@@ -15,8 +16,9 @@ defmodule KsomniaWeb.ProjectController do
     end
   end
 
-  def show(conn, _params) do
-    render(conn, "show.html")
+  def show(conn, %{"id" => project_id}) do
+    project = Repo.get(Project, project_id)
+    render(conn, "show.html", project: project)
   end
 
   def index(conn, _params) do
