@@ -55,6 +55,15 @@ defmodule KsomniaWeb do
     end
   end
 
+  def live_app_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {KsomniaWeb.LayoutView, "app_live.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
   def live_component do
     quote do
       use Phoenix.LiveComponent
@@ -95,6 +104,7 @@ defmodule KsomniaWeb do
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
+      import KsomniaWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View

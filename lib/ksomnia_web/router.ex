@@ -28,8 +28,23 @@ defmodule KsomniaWeb.Router do
     post "/signup", RegistrationController, :create
     get "/password-reset", RegistrationController, :password_reset
     post "/password-reset", RegistrationController, :do_password_reset
-    get "/projects/:id", ProjectController, :show
-    get "/projects", ProjectController, :index
+    # get "/projects/:id", ProjectController, :show
+    # get "/projects", ProjectController, :index
+
+    live "/apps", AppLive.Index, :index
+    live "/apps/new", AppLive.Index, :new
+    live "/apps/:id/edit", AppLive.Index, :edit
+    live "/apps/:id", AppLive.Show, :show
+    live "/apps/:id/show/edit", AppLive.Show, :edit
+
+    live "/projects", ProjectLive.Index, :index
+    live "/projects/new", ProjectLive.Index, :new
+    live "/projects/:id/edit", ProjectLive.Index, :edit
+    live "/projects/:id", ProjectLive.Show, :show
+    live "/projects/:id/show/edit", ProjectLive.Show, :edit
+    live "/projects/:id/show/new_app", ProjectLive.Show, :new_app
+
+    live "/error_identities/:id", ErrorIdentityLive.Show, :show
   end
 
   # Other scopes may use custom stacks.
@@ -37,6 +52,8 @@ defmodule KsomniaWeb.Router do
     pipe_through :api
 
     post "/projects", ProjectController, :create
+
+    post("/track", TrackerController, :track)
   end
 
   # Enables LiveDashboard only for development

@@ -1,0 +1,42 @@
+<h1 class="py-10 font-semibold text-lg text-slate-700">Listing Apps</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.app_index_path(@socket, :index)}>
+    <.live_component
+      module={KsomniaWeb.AppLive.FormComponent}
+      id={@app.id || :new}
+      title={@page_title}
+      action={@live_action}
+      app={@app}
+      return_to={Routes.app_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+
+<table class="min-w-full divide-y divide-gray-300">
+  <thead class="bg-gray-50">
+    <tr>
+      <th>Name</th>
+      <th>Token</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="apps" class="divide-y divide-gray-200 bg-white">
+    <%= for app <- @apps do %>
+      <tr id={"app-#{app.id}"}>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= app.name %></td>
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= app.token %></td>
+
+        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+          <span><%= live_redirect "Show", to: Routes.app_show_path(@socket, :show, app) %></span>
+          <span><%= live_patch "Edit", to: Routes.app_index_path(@socket, :edit, app) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: app.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="py-10">
+  <span class="p-2 bg-slate-200 rounded-md"><%= live_patch "New App", to: Routes.app_index_path(@socket, :new) %></span>
+</div>

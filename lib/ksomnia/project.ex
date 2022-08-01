@@ -45,4 +45,8 @@ defmodule Ksomnia.Project do
     )
     |> Repo.all()
   end
+
+  def all() do
+    Repo.all(Project)
+  end
 end
