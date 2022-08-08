@@ -11,6 +11,17 @@ defmodule KsomniaWeb.Router do
     plug KsomniaWeb.SessionPlug
   end
 
+  pipeline :authenticated_browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, {KsomniaWeb.LayoutView, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug KsomniaWeb.SessionPlug
+    plug KsomniaWeb.RequireCurrentUser
+  end
+
   pipeline :api do
     plug :fetch_session
     plug :accepts, ["json"]
@@ -30,7 +41,12 @@ defmodule KsomniaWeb.Router do
     post "/password-reset", RegistrationController, :do_password_reset
     # get "/projects/:id", ProjectController, :show
     # get "/projects", ProjectController, :index
+  end
 
+  scope "/", KsomniaWeb do
+    pipe_through :authenticated_browser
+
+    live "/dashboard", DashboardLive.Index, :index
     live "/apps", AppLive.Index, :index
     live "/apps/new", AppLive.Index, :new
     live "/apps/:id/edit", AppLive.Index, :edit
@@ -41,6 +57,7 @@ defmodule KsomniaWeb.Router do
     live "/projects/new", ProjectLive.Index, :new
     live "/projects/:id/edit", ProjectLive.Index, :edit
     live "/projects/:id", ProjectLive.Show, :show
+    live "/projects/:id/show/:app_id/edit_app", ProjectLive.Show, :edit_app
     live "/projects/:id/show/edit", ProjectLive.Show, :edit
     live "/projects/:id/show/new_app", ProjectLive.Show, :new_app
 
@@ -69,7 +86,7 @@ defmodule KsomniaWeb.Router do
     scope "/" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: KsomniaWeb.Telemetry
+      live_dashboard "/system-dashboard", metrics: KsomniaWeb.Telemetry
     end
   end
 

@@ -5,6 +5,8 @@ defmodule KsomniaWeb.ProjectLive.Show do
   alias Ksomnia.Project
   alias Ksomnia.Repo
 
+  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, :apps, [])}
@@ -36,7 +38,14 @@ defmodule KsomniaWeb.ProjectLive.Show do
     |> assign(:app, %App{project_id: socket.assigns.project.id})
   end
 
+  defp apply_action(socket, :edit_app, %{"app_id" => id}) do
+    socket
+    |> assign(:page_title, "Edit App")
+    |> assign(:app, Repo.get(App, id))
+  end
+
+  defp page_title(:edit_app), do: "Edit App"
   defp page_title(:new_app), do: "New App"
-  defp page_title(:show), do: "Show App"
-  defp page_title(:edit), do: "Edit App"
+  defp page_title(:show), do: "Show Project"
+  defp page_title(:edit), do: "Edit Project"
 end

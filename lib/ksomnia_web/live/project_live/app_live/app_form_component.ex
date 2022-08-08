@@ -26,7 +26,7 @@ defmodule KsomniaWeb.ProjectLive.AppFormComponent do
     save_app(socket, socket.assigns.action, app_params)
   end
 
-  defp save_app(socket, :edit, app_params) do
+  defp save_app(socket, :edit_app, app_params) do
     case App.update(socket.assigns.app, app_params) do
       {:ok, _app} ->
         {:noreply,

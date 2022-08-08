@@ -50,7 +50,8 @@ defmodule Ksomnia.App do
 
   def for_project(project_id) do
     from(a in App,
-      where: a.project_id == ^project_id
+      where: a.project_id == ^project_id,
+      order_by: [asc: a.inserted_at]
     )
     |> Repo.all()
   end

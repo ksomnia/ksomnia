@@ -11,34 +11,19 @@
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body class="bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50 h-full">
-    <header class="container mx-auto">
-      <div class="p-4 flex justify-between">
-        <div class="text-indigo-500">
-          <a href="/" class="font-bold text-lg">Ksomnia</a>
-        </div>
-        <div class="">
-          <%= if assigns[:user] do %>
-            <div x-data="{opened: false}" class="relative">
-              <a @click="opened = ! opened" class="font-medium hover:cursor-pointer">
-                <%= @user.email %>
-              </a>
-              <div
-                @click.away="opened = false"
-                x-show="opened"
-                class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-              >
-                <div class="py-1" role="none">
-                  <a href="/logout" class="hover:bg-slate-100 block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">Logout</a>
-                </div>
-              </div>
-            </div>
-          <% else %>
+    <%= unless assigns[:user] do %>
+      <header class="container mx-auto">
+        <div class="p-4 flex justify-between">
+          <div class="text-indigo-500">
+            <a href="/" class="font-bold text-lg">Ksomnia</a>
+          </div>
+          <div class="">
             <%= link "Sign in", to: Routes.session_path(@conn, :new), class: "font-bold text-indigo-500 hover:bg-indigo-100 p-2 px-5 border-2 border-indigo-500 rounded-full" %>
             <%= link "Create an account", to: Routes.registration_path(@conn, :new), class: "font-bold bg-indigo-500 text-white hover:bg-indigo-600 p-2 px-5 border-2 border-indigo-500 hover:border-indigo-600 rounded-full" %>
-          <% end %>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    <% end %>
     <div class="">
       <%= @inner_content %>
     </div>

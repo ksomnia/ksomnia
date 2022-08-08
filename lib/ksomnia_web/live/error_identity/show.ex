@@ -1,10 +1,11 @@
 defmodule KsomniaWeb.ErrorIdentityLive.Show do
   use KsomniaWeb, :live_app_view
 
-  alias Ksomnia.App
   alias Ksomnia.Repo
   alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
+
+  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
 
   @impl true
   def mount(_params, _session, socket) do

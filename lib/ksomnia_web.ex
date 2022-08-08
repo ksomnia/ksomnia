@@ -61,6 +61,8 @@ defmodule KsomniaWeb do
         layout: {KsomniaWeb.LayoutView, "app_live.html"}
 
       unquote(view_helpers())
+
+      on_mount {KsomniaWeb.LiveCurrentUser, :current_user}
     end
   end
 

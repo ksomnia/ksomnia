@@ -6,8 +6,7 @@ defmodule KsomniaWeb.PageController do
 
     if user do
       conn
-      |> put_root_layout({KsomniaWeb.LayoutView, "app_root.html"})
-      |> render("app_index.html", user: user)
+      |> redirect(to: "/projects")
     else
       conn
       |> render("index.html", user: user)

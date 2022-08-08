@@ -18,23 +18,14 @@
 
 <div class="py-2 px-5">
   <span>
-    <%= live_patch "New Project", to: Routes.project_index_path(@socket, :new), class: "order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1 sm:ml-3" %>
+    <%= live_patch [to: Routes.project_index_path(@socket, :new), class: "order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:order-1 sm:ml-3"] do %>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      <span>New project</span>
+    <% end %>
   </span>
 </div>
-
-<%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.project_index_path(@socket, :index)}>
-    <.live_component
-      module={KsomniaWeb.ProjectLive.FormComponent}
-      id={@project.id || :new}
-      title={@page_title}
-      action={@live_action}
-      project={@project}
-      user={@current_user}
-      return_to={Routes.project_index_path(@socket, :index)}
-    />
-  </.modal>
-<% end %>
 
 <div class="hidden mt-8 sm:block">
   <div class="align-middle inline-block min-w-full border-b border-gray-200">
@@ -71,3 +62,17 @@
     </table>
   </div>
 </div>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.project_index_path(@socket, :index)}>
+    <.live_component
+      module={KsomniaWeb.ProjectLive.FormComponent}
+      id={@project.id || :new}
+      title={@page_title}
+      action={@live_action}
+      project={@project}
+      user={@current_user}
+      return_to={Routes.project_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>

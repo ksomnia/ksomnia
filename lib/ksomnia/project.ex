@@ -38,10 +38,17 @@ defmodule Ksomnia.Project do
     |> Repo.transaction()
   end
 
+  def update(project, attrs) do
+    project
+    |> changeset(attrs)
+    |> Repo.update()
+  end
+
   def for_user(user) do
     from(p in Project,
       join: pu in assoc(p, :project_users),
-      where: pu.user_id == ^user.id
+      where: pu.user_id == ^user.id,
+      order_by: [asc: p.inserted_at]
     )
     |> Repo.all()
   end

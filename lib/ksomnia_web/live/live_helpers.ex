@@ -1,7 +1,6 @@
 defmodule KsomniaWeb.LiveHelpers do
   import Phoenix.LiveView
   import Phoenix.LiveView.Helpers
-
   alias Phoenix.LiveView.JS
 
   @doc """
@@ -38,17 +37,6 @@ defmodule KsomniaWeb.LiveHelpers do
         <%= render_slot(@inner_block) %>
       </div>
     </div>
-    """
-  end
-
-  def close_modal_link(assigns) do
-    ~H"""
-    <%= live_patch "✖",
-      to: @return_to,
-      id: "close",
-      class: "phx-modal-close",
-      phx_click: hide_modal()
-    %>
     """
   end
 
