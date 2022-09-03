@@ -20,10 +20,10 @@ defmodule KsomniaWeb.TrackerController do
   end
 
   def error_record_params(conn) do
-    {a, b, c, d} = conn.remote_ip
+    id_address = Tuple.to_list(conn.remote_ip) |> Enum.join(".")
 
     Map.merge(conn.params, %{
-      "ip_address" => "#{a}.#{b}.#{c}.#{d}",
+      "ip_address" => id_address,
       "user_agent" => get_user_agent(conn),
       "line_number" => "#{conn.params["line_number"]}",
       "column_number" => "#{conn.params["column_number"]}"

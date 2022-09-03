@@ -34,7 +34,7 @@ let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({barColors: {0: "#6366f1"}, shadowColor: "rgba(0, 0, 0, .3)"})
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
@@ -46,18 +46,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
-const BASE_URL = "/api/v1"
-
-window.KSOMNIA = {}
-
-KSOMNIA.api = (url, method, data) => {
-  return fetch(`${BASE_URL}/${url}`, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-}

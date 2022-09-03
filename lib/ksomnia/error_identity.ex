@@ -14,10 +14,9 @@ defmodule Ksomnia.ErrorIdentity do
     field :column_number, :string
     field :message, :string
     field :stacktrace, :string
-
+    field :commit_hash, :string
     field :track_count, :integer, default: 1
     field :last_error_at, :naive_datetime
-
     belongs_to :app, App, type: Ksomnia.ShortUUID6
 
     timestamps()
@@ -32,7 +31,8 @@ defmodule Ksomnia.ErrorIdentity do
       :column_number,
       :message,
       :stacktrace,
-      :last_error_at
+      :last_error_at,
+      :commit_hash
     ])
     |> validate_required([
       :source,

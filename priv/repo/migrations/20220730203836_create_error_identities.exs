@@ -9,6 +9,7 @@ defmodule Ksomnia.Repo.Migrations.CreateErrorIdentities do
       add :stacktrace, :text
       add :line_number, :string
       add :column_number, :string
+      add :commit_hash, :string
       add :track_count, :bigint, default: 1
       add :last_error_at, :naive_datetime
       add :app_id, references(:apps, type: :uuid)
@@ -22,6 +23,7 @@ defmodule Ksomnia.Repo.Migrations.CreateErrorIdentities do
                :source,
                :line_number,
                :column_number,
+               :commit_hash,
                :message,
                :stacktrace
              ],

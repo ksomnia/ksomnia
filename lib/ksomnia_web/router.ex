@@ -71,6 +71,7 @@ defmodule KsomniaWeb.Router do
     post "/projects", ProjectController, :create
 
     post("/track", TrackerController, :track)
+    post("/source_maps", SourceMapController, :create)
   end
 
   # Enables LiveDashboard only for development
@@ -99,6 +100,7 @@ defmodule KsomniaWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+      get "/dummy_js_app", KsomniaWeb.PageController, :dummy_js_app
     end
   end
 end

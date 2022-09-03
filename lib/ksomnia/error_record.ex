@@ -12,7 +12,6 @@ defmodule Ksomnia.ErrorRecord do
     field :ip_address, :string
     field :user_agent, :string
     field :client_version, :string
-
     belongs_to :app, App, type: Ksomnia.ShortUUID6
     belongs_to :error_identity, App, type: Ksomnia.ShortUUID6
 

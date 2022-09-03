@@ -33,7 +33,7 @@ defmodule Ksomnia.Project do
     Multi.new()
     |> Multi.insert(:project, new(attrs))
     |> Ecto.Multi.insert(:project_user, fn %{project: project} ->
-      ProjectUser.new(project.id, user.id) |> IO.inspect()
+      ProjectUser.new(project.id, user.id)
     end)
     |> Repo.transaction()
   end

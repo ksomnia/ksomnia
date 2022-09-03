@@ -11,7 +11,8 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(:display_token, nil)
+      |> assign(:display_stacktrace_type, "original")
+      |> assign(:mapped_stacktrace, "")
 
     {:ok, socket}
   end
@@ -31,9 +32,37 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:project, project)
       |> assign(:error_records, error_records)
 
+    view_pid = self()
+
+    spawn(fn ->
+      case Ksomnia.SourceMapper.map_stacktrace(error_identity) do
+        {:ok, %{body: %{"mapping" => _mappings, "mapped_stacktrace" => mapped_stacktrace}}} ->
+          send(view_pid, {:map_stacktrace, mapped_stacktrace})
+
+        _ ->
+          nil
+      end
+    end)
+
     {:noreply, socket}
   end
 
   defp page_title(:show), do: "Show App"
   defp page_title(:edit), do: "Edit App"
+
+  def commit_hash_abbriv(error_identity) do
+    if error_identity.commit_hash do
+      String.slice(error_identity.commit_hash, 0, 7)
+    end
+  end
+
+  @impl true
+  def handle_info({:map_stacktrace, result}, socket) do
+    {:noreply, assign(socket, mapped_stacktrace: result)}
+  end
+
+  @impl true
+  def handle_event("set_display_stacktrace_type", %{"type" => value}, socket) do
+    {:noreply, assign(socket, :display_stacktrace_type, value)}
+  end
 end
