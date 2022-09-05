@@ -1,0 +1,5 @@
+ksomnia: elixir --sname ksomnia -S mix phx.server
+source_mapper: cd source_mapper && node app.js
+# dummy_js_app_build: cd dev_extras/dummy_js_app && node build.js --watch
+# dummy_js_app: cd dev_extras/dummy_js_app && node server.js
+sample_app: cd dev_extras/sample_app && PORT=5500 mix phx.server

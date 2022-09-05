@@ -69,4 +69,19 @@ defmodule Ksomnia.SourceMap do
     )
     |> Repo.one()
   end
+
+  def latest_for_app(app) do
+    from(s in SourceMap,
+      where: s.app_id == ^app.id,
+      order_by: [desc: :inserted_at],
+      limit: 1
+    )
+    |> Repo.one()
+  end
+
+  def commit_hash_abbriv(error_identity) do
+    if error_identity.commit_hash do
+      String.slice(error_identity.commit_hash, 0, 7)
+    end
+  end
 end

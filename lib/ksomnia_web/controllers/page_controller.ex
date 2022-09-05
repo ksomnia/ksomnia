@@ -12,9 +12,4 @@ defmodule KsomniaWeb.PageController do
       |> render("index.html", user: user)
     end
   end
-
-  def dummy_js_app(conn, _params) do
-    conn
-    |> render("dummy_js_app.html", [])
-  end
 end

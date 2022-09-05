@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "alpinejs": "^3.10.2"
+  },
+  "scripts": {
+    "build": "node build.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.0",
+    "phoenix": "../deps/phoenix",
+    "phoenix_html": "../deps/phoenix_html",
+    "phoenix_live_view": "../deps/phoenix_live_view"
+  }
+}

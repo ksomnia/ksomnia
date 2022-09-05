@@ -57,9 +57,11 @@ defmodule Ksomnia.ErrorIdentity do
         ]
       ],
       conflict_target: [
+        :app_id,
         :source,
         :line_number,
         :column_number,
+        :commit_hash,
         :message,
         :stacktrace
       ],

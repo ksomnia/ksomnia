@@ -56,7 +56,8 @@ defmodule Ksomnia.MixProject do
       {:shortuuid, "~> 2.1"},
       {:elixir_uuid, "~> 1.6", hex: :uuid_utils},
       {:timex, "~> 3.7"},
-      {:tesla, "~> 1.4"}
+      {:tesla, "~> 1.4"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

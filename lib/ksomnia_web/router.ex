@@ -68,10 +68,16 @@ defmodule KsomniaWeb.Router do
   scope "/api/v1", KsomniaWeb do
     pipe_through :api
 
-    post "/projects", ProjectController, :create
+    # post "/projects", ProjectController, :create
+
+    post("/source_maps", SourceMapController, :create)
+  end
+
+  # Other scopes may use custom stacks.
+  scope "/tracker_api/v1", KsomniaWeb.TrackerApi.V1 do
+    pipe_through :api
 
     post("/track", TrackerController, :track)
-    post("/source_maps", SourceMapController, :create)
   end
 
   # Enables LiveDashboard only for development
@@ -100,7 +106,6 @@ defmodule KsomniaWeb.Router do
       pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
-      get "/dummy_js_app", KsomniaWeb.PageController, :dummy_js_app
     end
   end
 end

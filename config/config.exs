@@ -58,6 +58,11 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
+config :cors_plug,
+  origin: ["http://localhost:5500"],
+  max_age: 86400,
+  methods: ["GET", "POST"]
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

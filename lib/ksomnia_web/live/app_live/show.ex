@@ -4,6 +4,7 @@ defmodule KsomniaWeb.AppLive.Show do
   alias Ksomnia.App
   alias Ksomnia.Repo
   alias Ksomnia.ErrorIdentity
+  alias Ksomnia.SourceMap
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
 
@@ -21,6 +22,7 @@ defmodule KsomniaWeb.AppLive.Show do
     app = Repo.get(App, id)
     project = Repo.preload(app, :project).project
     error_identities = ErrorIdentity.for_app(app)
+    latest_source_map = SourceMap.latest_for_app(app)
 
     socket =
       socket
@@ -28,6 +30,7 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:app, app)
       |> assign(:project, project)
       |> assign(:error_identities, error_identities)
+      |> assign(:latest_source_map, latest_source_map)
 
     {:noreply, socket}
   end

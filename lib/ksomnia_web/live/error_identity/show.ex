@@ -50,12 +50,6 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   defp page_title(:show), do: "Show App"
   defp page_title(:edit), do: "Edit App"
 
-  def commit_hash_abbriv(error_identity) do
-    if error_identity.commit_hash do
-      String.slice(error_identity.commit_hash, 0, 7)
-    end
-  end
-
   @impl true
   def handle_info({:map_stacktrace, result}, socket) do
     {:noreply, assign(socket, mapped_stacktrace: result)}

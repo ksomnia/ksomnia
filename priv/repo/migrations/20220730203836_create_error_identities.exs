@@ -20,6 +20,7 @@ defmodule Ksomnia.Repo.Migrations.CreateErrorIdentities do
     create index(
              "error_identities",
              [
+               :app_id,
                :source,
                :line_number,
                :column_number,

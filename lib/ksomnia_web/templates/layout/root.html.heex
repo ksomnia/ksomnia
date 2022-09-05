@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body class="bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50 h-full">
+  <body class={"#{if assigns[:user], do: "bg-blue-50", else: "bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50"} h-full"}>
     <%= unless assigns[:user] do %>
       <header class="mx-auto px-20">
         <div class="p-4 flex justify-between">
