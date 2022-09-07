@@ -13,6 +13,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       socket
       |> assign(:display_stacktrace_type, "original")
       |> assign(:mapped_stacktrace, "")
+      |> assign(:mapping_lines, [])
 
     {:ok, socket}
   end
@@ -36,8 +37,20 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
     spawn(fn ->
       case Ksomnia.SourceMapper.map_stacktrace(error_identity) do
-        {:ok, %{body: %{"mapping" => _mappings, "mapped_stacktrace" => mapped_stacktrace}}} ->
-          send(view_pid, {:map_stacktrace, mapped_stacktrace})
+        {:ok,
+         %{
+           body: %{
+             "mapping" => mappings,
+             "mapped_stacktrace" => mapped_stacktrace,
+             "sources" => sources
+           }
+         }} ->
+          send(view_pid, {
+            :map_stacktrace,
+            mapped_stacktrace,
+            :mapping_lines,
+            mappings
+          })
 
         _ ->
           nil
@@ -47,12 +60,24 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     {:noreply, socket}
   end
 
+  def mapping_lines(mappings) do
+    mappings |> dbg()
+
+    mappings
+    # |> Enum.map(fn line ->
+    #   line["formattedLine"]
+    # end)
+  end
+
   defp page_title(:show), do: "Show App"
   defp page_title(:edit), do: "Edit App"
 
   @impl true
-  def handle_info({:map_stacktrace, result}, socket) do
-    {:noreply, assign(socket, mapped_stacktrace: result)}
+  def handle_info({:map_stacktrace, result, :mapping_lines, mappings}, socket) do
+    {:noreply,
+     socket
+     |> assign(mapped_stacktrace: result)
+     |> assign(mapping_lines: mappings)}
   end
 
   @impl true

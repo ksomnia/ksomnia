@@ -13,11 +13,9 @@
             </li>
             <li>
               <div class="flex items-center">
-                <!-- Heroicon name: solid/chevron-right -->
                 <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
-
                 <%= live_redirect [to: Routes.project_show_path(@socket, :show, @project), class: "ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"] do %>
                   <%= @project.name %>
                 <% end %>
@@ -25,7 +23,6 @@
             </li>
             <li>
               <div class="flex items-center">
-                <!-- Heroicon name: solid/chevron-right -->
                 <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
@@ -34,7 +31,6 @@
             </li>
             <li>
               <div class="flex items-center">
-                <!-- Heroicon name: solid/chevron-right -->
                 <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                 </svg>
@@ -47,8 +43,6 @@
         </nav>
       </div>
     </div>
-    <div class="mt-4 flex sm:mt-0 sm:ml-4">
-    </div>
   </div>
 
   <div class="px-7 py-2 flex flex-col">
@@ -58,7 +52,7 @@
     <div class="mt-2 border-box">
       <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-indigo-200 hover:bg-indigo-200", else: "bg-indigo-100 hover:bg-indigo-200"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-3 mr-2"}>
         Source map <%= if @error_identity.commit_hash do %>
-          <span class="font-mono bg-indigo-50 text-indigo-500 px-1 rounded-md border" title={"Commit hash #{@error_identity.commit_hash}"}>
+          <span class="bg-indigo-50 text-indigo-500 commit-badge" title={"Commit hash #{@error_identity.commit_hash}"}>
             <%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
         <% end %>
       </span>
@@ -66,9 +60,16 @@
         Generated
       </span>
     </div>
-    <pre class="z-50 bg-indigo-200 whitespace-pre-line leading-6 p-5 border-box rounded-md text-indigo-900"><code class="py-2 border-box whitespace-pre-line "><%= if @display_stacktrace_type == "generated" do %><%= @error_identity.stacktrace %><% else %><%= if @mapped_stacktrace do %><%= @error_identity.message %>
+    <pre class="z-50 bg-indigo-200 whitespace-pre-line leading-6 p-5 border-box rounded-md text-indigo-900"><code class="py-2 border-box whitespace-pre-line text-sm"><%= if @display_stacktrace_type == "generated" do %><%= @error_identity.stacktrace %><% else %><%= if @mapped_stacktrace do %><%= @error_identity.message %>
       <%= @mapped_stacktrace %><% end %><% end %></code></pre>
     </div>
+    <pre class="z-50 bg-indigo-200 whitespace-pre-line leading-6 p-5 border-box rounded-md text-indigo-900"><code class="py-2 border-box whitespace-pre-line text-sm">
+      <%= if @display_stacktrace_type == "original" do %>
+        <%= for line <- mapping_lines(@mapping_lines) do %>
+          <span class="text-indigo-500 hover:text-indigo-600 cursor-pointer border-r-2 border-rose-400"><%= String.slice(line["formattedLine"], 0, line["column"]) %></span><span class="text-indigo-500 hover:text-indigo-600 cursor-pointer"><%= String.slice(line["formattedLine"], line["column"], String.length(line["formattedLine"])) %></span>
+        <% end %>
+      <% end %>
+    </code></pre>
 
   <%= if @live_action in [:edit] do %>
     <.modal return_to={Routes.app_show_path(@socket, :show, @app)}>

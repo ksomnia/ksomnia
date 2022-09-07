@@ -36,6 +36,7 @@ fastify.post('/map_stacktrace', async (request, reply) => {
 
   let mapping = []
   let mappedStacktrace = []
+  let sources = {}
 
   await SourceMapConsumer.with(sourceMap, null, consumer => {
     stack.split('\n').forEach(line => {
@@ -47,14 +48,25 @@ fastify.post('/map_stacktrace', async (request, reply) => {
           column: pos[1]
         })
 
+        if (mappedPos.source) {
+          let content = consumer.sourceContentFor(mappedPos.source)
+
+          if (content) {
+            sources[mappedPos.source] = content
+          }
+        }
+
         let mappedLine = `${mappedPos.source}:${mappedPos.line}:${mappedPos.column} ${consumer.sourceContentFor(mappedPos.source).split('\n')[mappedPos.line - 1]}`
         mappedStacktrace.push(mappedLine)
+        mappedPos.formattedLine = `${consumer.sourceContentFor(mappedPos.source).split('\n')[mappedPos.line - 1]}`
         mapping.push(mappedPos)
       }
     })
   })
 
-  return { mapping, mapped_stacktrace: mappedStacktrace.join('\n') }
+  console.log(mapping)
+
+  return { mapping, mapped_stacktrace: mappedStacktrace.join('\n'), sources }
 })
 
 const start = async () => {

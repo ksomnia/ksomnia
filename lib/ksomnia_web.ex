@@ -69,6 +69,7 @@ defmodule KsomniaWeb do
   def live_component do
     quote do
       use Phoenix.LiveComponent
+      alias KsomniaWeb.Router.Helpers, as: Routes
 
       unquote(view_helpers())
     end

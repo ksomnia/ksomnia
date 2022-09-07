@@ -46,20 +46,23 @@ defmodule KsomniaWeb.Router do
   scope "/", KsomniaWeb do
     pipe_through :authenticated_browser
 
-    live "/dashboard", DashboardLive.Index, :index
-    live "/apps", AppLive.Index, :index
-    live "/apps/new", AppLive.Index, :new
-    live "/apps/:id/edit", AppLive.Index, :edit
-    live "/apps/:id", AppLive.Show, :show
-    live "/apps/:id/show/edit", AppLive.Show, :edit
+    # Delete
+    # live "/apps/:id/edit", AppLive.Index, :edit
+    # live "/apps/:id/show/edit", AppLive.Show, :edit
+    # live "/apps", AppLive.Index, :index
+    # live "/apps/new", AppLive.Index, :new
 
+    live "/dashboard", DashboardLive.Index, :index
+    live "/apps/:id/settings", AppLive.Settings, :settings
+    live "/apps/:id/source_maps", AppLive.SourceMaps, :source_maps
+    live "/apps/:id", AppLive.Show, :show
     live "/projects", ProjectLive.Index, :index
     live "/projects/new", ProjectLive.Index, :new
     live "/projects/:id/edit", ProjectLive.Index, :edit
-    live "/projects/:id", ProjectLive.Show, :show
     live "/projects/:id/show/:app_id/edit_app", ProjectLive.Show, :edit_app
     live "/projects/:id/show/edit", ProjectLive.Show, :edit
     live "/projects/:id/show/new_app", ProjectLive.Show, :new_app
+    live "/projects/:id", ProjectLive.Show, :show
 
     live "/error_identities/:id", ErrorIdentityLive.Show, :show
   end

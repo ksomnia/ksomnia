@@ -21,15 +21,15 @@
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
 // Establish Phoenix Socket and LiveView configuration.
-import {Socket} from "phoenix"
-import {LiveSocket} from "phoenix_live_view"
+import { Socket } from "phoenix"
+import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } })
 
 // Show progress bar on live navigation and form submits
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({ barColors: { 0: "#29d" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
@@ -49,7 +49,7 @@ const commitHash = process.env.COMMIT_HASH
 
 console.log('Commit hash', commitHash)
 
-window.onerror = function(message, source, lineNumber, columnNumber, error) {
+window.onerror = function (message, source, lineNumber, columnNumber, error) {
   KSOMNIA.api('track', 'POST', {
     message: message,
     client_app_name: 'ksomnia_sample_app',
@@ -57,7 +57,7 @@ window.onerror = function(message, source, lineNumber, columnNumber, error) {
     token: localStorage.getItem('ksomnia-sample-app-token'),
     commit_hash: process.env.COMMIT_HASH,
     source: source || 'Script error',
-    line_number: lineNumber ,
+    line_number: lineNumber,
     column_number: columnNumber,
     stacktrace: (error && error.stack) || 'Script error'
   })
@@ -84,6 +84,10 @@ const errorSample = (x) => {
   return x['key'](x)
 }
 
+const errorWrapper = (x) => {
+  return errorSample(x)
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   let appTokenInput = document.getElementById('app-token')
   appTokenInput.value = localStorage.getItem('ksomnia-sample-app-token')
@@ -93,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let errorSampleBtn = document.getElementById('error-sample-btn')
   errorSampleBtn.addEventListener('click', () => {
-    errorSample('')
+    errorWrapper('')
   })
 
   document.getElementById('deploy-btn').addEventListener('click', () => {

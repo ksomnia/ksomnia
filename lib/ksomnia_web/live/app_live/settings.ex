@@ -1,4 +1,4 @@
-defmodule KsomniaWeb.AppLive.Show do
+defmodule KsomniaWeb.AppLive.Settings do
   use KsomniaWeb, :live_app_view
 
   alias Ksomnia.App
@@ -7,7 +7,7 @@ defmodule KsomniaWeb.AppLive.Show do
   alias Ksomnia.SourceMap
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
-  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :show]}
+  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :settings]}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -45,5 +45,4 @@ defmodule KsomniaWeb.AppLive.Show do
   defp page_title(:show), do: "Show App"
   defp page_title(:edit), do: "Edit App"
   defp page_title(:settings), do: "Settings"
-  defp page_title(:source_maps), do: "Source maps"
 end

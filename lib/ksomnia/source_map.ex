@@ -84,4 +84,12 @@ defmodule Ksomnia.SourceMap do
       String.slice(error_identity.commit_hash, 0, 7)
     end
   end
+
+  def for_app(app) do
+    from(s in SourceMap,
+      where: s.app_id == ^app.id,
+      order_by: [desc: :inserted_at]
+    )
+    |> Repo.all()
+  end
 end
