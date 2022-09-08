@@ -13,7 +13,8 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       socket
       |> assign(:display_stacktrace_type, "original")
       |> assign(:mapped_stacktrace, "")
-      |> assign(:mapping_lines, [])
+      |> assign(:mappings, [])
+      |> assign(:code_context, [])
 
     {:ok, socket}
   end
@@ -45,12 +46,13 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
              "sources" => sources
            }
          }} ->
-          send(view_pid, {
-            :map_stacktrace,
-            mapped_stacktrace,
-            :mapping_lines,
-            mappings
-          })
+          opts = %{
+            map_stacktrace: mapped_stacktrace,
+            mappings: mappings,
+            sources: sources
+          }
+
+          send(view_pid, opts)
 
         _ ->
           nil
@@ -60,28 +62,74 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     {:noreply, socket}
   end
 
-  def mapping_lines(mappings) do
-    mappings |> dbg()
+  def code_snippet(mappings) do
+    lines =
+      for {line, i} <- Enum.with_index(mappings) do
+        formatted_line = line["formattedLine"]
+        left_half = String.slice(formatted_line, 0, line["column"])
 
-    mappings
-    # |> Enum.map(fn line ->
-    #   line["formattedLine"]
-    # end)
+        left =
+          content_tag(:span, left_half,
+            class: "whitespace-pre-wrap border-r-2 border-red-300 py-1"
+          )
+
+        right_half = String.slice(formatted_line, line["column"], String.length(formatted_line))
+
+        right = content_tag(:span, right_half, class: "whitespace-pre-wrap py-1")
+
+        content_tag(:div, [left, right],
+          class: "block group w-full hover:bg-indigo-100 cursor-pointer",
+          "phx-click": "set_line_context",
+          "phx-value-line": i
+        )
+      end
+
+    code = content_tag(:code, lines)
+    content_tag(:pre, code, class: "mt-5 code-snippet")
+  end
+
+  def source_snippet(source) do
+    lines =
+      for {line, _i} <- Enum.with_index(source) do
+        code_line =
+          content_tag(:span, if(line == "", do: " ", else: line),
+            class: "whitespace-pre-wrap py-1"
+          )
+
+        content_tag(:div, code_line,
+          class: "block group w-full hover:bg-indigo-100 cursor-pointer"
+        )
+      end
+
+    code = content_tag(:code, lines)
+    content_tag(:pre, code, class: "mt-5 code-snippet")
   end
 
   defp page_title(:show), do: "Show App"
   defp page_title(:edit), do: "Edit App"
 
   @impl true
-  def handle_info({:map_stacktrace, result, :mapping_lines, mappings}, socket) do
-    {:noreply,
-     socket
-     |> assign(mapped_stacktrace: result)
-     |> assign(mapping_lines: mappings)}
+  def handle_info(opts, socket) do
+    {:noreply, assign(socket, opts)}
   end
 
   @impl true
   def handle_event("set_display_stacktrace_type", %{"type" => value}, socket) do
     {:noreply, assign(socket, :display_stacktrace_type, value)}
+  end
+
+  @impl true
+  def handle_event("set_line_context", %{"line" => line}, socket) do
+    sources = socket.assigns.sources
+    {line, ""} = Integer.parse(line)
+    map = Enum.at(socket.assigns.mappings, line)
+    source = sources[map["source"]]
+    {:noreply, assign(socket, :code_context, surr(source, map["line"]))}
+  end
+
+  def surr(source, line) do
+    source
+    |> String.split(~r/\n/)
+    |> Enum.slice(line - 3, 5)
   end
 end
