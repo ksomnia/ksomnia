@@ -62,18 +62,11 @@
     </div>
     <pre class="bg-indigo-200 whitespace-pre-line leading-6 p-5 border-box rounded-md text-indigo-900"><code class="py-2 border-box whitespace-pre-line text-sm"><%= if @display_stacktrace_type == "generated" do %><%= @error_identity.stacktrace %><% else %><%= if @mapped_stacktrace do %><%= @error_identity.message %>
       <%= @mapped_stacktrace %><% end %><% end %></code></pre>
-    <pre class="mt-5 code-snippet"><code>
-      <%= if @display_stacktrace_type == "original" do %>
-        <%= for line <- @mappings do %>
-          <span class="text-indigo-500 hover:text-indigo-600 bg-indigo-200 cursor-pointer border-r-2 border-red-300 whitespace-pre-wrap"><%= String.slice(line["formattedLine"], 0, line["column"]) %></span><span class="text-indigo-500 hover:text-indigo-600 cursor-pointer"><%= String.slice(line["formattedLine"], line["column"], String.length(line["formattedLine"])) %></span>
-        <% end %>
-      <% end %>
-    </code></pre>
     <div class="flex">
       <div class="w-full">
         <%= code_snippet(@mappings) %>
       </div>
-      <div class="mt-5 w-full">
+      <div class="w-full">
         <%= source_snippet(@code_context) %>
       </div>
     </div>

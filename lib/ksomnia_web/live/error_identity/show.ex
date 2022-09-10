@@ -90,14 +90,16 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
   def source_snippet(source) do
     lines =
-      for {line, _i} <- Enum.with_index(source) do
+      for {line, i} <- Enum.with_index(source) do
         code_line =
           content_tag(:span, if(line == "", do: " ", else: line),
             class: "whitespace-pre-wrap py-1"
           )
 
         content_tag(:div, code_line,
-          class: "block group w-full hover:bg-indigo-100 cursor-pointer"
+          class:
+            "block group w-full hover:bg-indigo-100 cursor-pointer " <>
+              if(i == 3, do: "bg-indigo-100", else: "")
         )
       end
 
@@ -130,6 +132,6 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   def surr(source, line) do
     source
     |> String.split(~r/\n/)
-    |> Enum.slice(line - 3, 5)
+    |> Enum.slice(line - 4, 7)
   end
 end
