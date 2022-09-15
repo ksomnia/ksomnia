@@ -13,7 +13,6 @@ defmodule SampleApp.Deploy do
       |> Multipart.add_file(asset_path("app.js"), name: "target_file")
 
     post("/api/v1/source_maps", multipart)
-    |> IO.inspect()
   end
 
   def asset_path(target) do

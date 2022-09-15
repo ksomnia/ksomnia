@@ -50,40 +50,29 @@
       <%= @error_identity.message %>
     </div>
     <div class="mt-2 border-box">
-      <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-indigo-200 hover:bg-indigo-200", else: "bg-indigo-100 hover:bg-indigo-200"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-3 mr-2"}>
+      <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-indigo-100 hover:bg-indigo-100", else: "bg-indigo-50 hover:bg-indigo-100"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
         Source map <%= if @error_identity.commit_hash do %>
           <span class="bg-indigo-50 text-indigo-500 commit-badge" title={"Commit hash #{@error_identity.commit_hash}"}>
             <%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
         <% end %>
       </span>
-      <span phx-click="set_display_stacktrace_type" phx-value-type="generated" class={"#{if @display_stacktrace_type == "generated", do: "bg-indigo-200 hover:bg-indigo-200", else: "bg-indigo-100 hover:bg-indigo-200"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-3"}>
+      <span phx-click="set_display_stacktrace_type" phx-value-type="generated" class={"#{if @display_stacktrace_type == "generated", do: "bg-indigo-100 hover:bg-indigo-100", else: "bg-indigo-50 hover:bg-indigo-100"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}>
         Generated
       </span>
     </div>
-    <pre class="bg-indigo-200 whitespace-pre-line leading-6 p-5 border-box rounded-md text-indigo-900"><code class="py-2 border-box whitespace-pre-line text-sm"><%= if @display_stacktrace_type == "generated" do %><%= @error_identity.stacktrace %><% else %><%= if @mapped_stacktrace do %><%= @error_identity.message %>
-      <%= @mapped_stacktrace %><% end %><% end %></code></pre>
-    <div class="flex">
-      <div class="w-full">
-        <%= code_snippet(@mappings) %>
+    <%= if @display_stacktrace_type == "generated" do %>
+      <%= bare_code_snippet(@error_identity.stacktrace) %>
+    <% else %>
+      <div class="flex">
+        <div class="w-full">
+          <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
+        </div>
+        <div class="w-full">
+          <%= render_line_source_context(@mappings, @current_line, @line_source_context) %>
+        </div>
       </div>
-      <div class="w-full">
-        <%= source_snippet(@code_context) %>
-      </div>
-    </div>
+    <% end %>
   </div>
-
-  <%= if @live_action in [:edit] do %>
-    <.modal return_to={Routes.app_show_path(@socket, :show, @app)}>
-      <.live_component
-        module={KsomniaWeb.AppLive.FormComponent}
-        id={@app.id}
-        title={@page_title}
-        action={@live_action}
-        app={@app}
-        return_to={Routes.app_show_path(@socket, :show, @app)}
-      />
-    </.modal>
-  <% end %>
 
   <div class="px-7 mt-8 overflow-hidden">
     <table class="min-w-full divide-y divide-gray-300">

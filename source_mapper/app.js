@@ -11,8 +11,13 @@ const getSourceMap = async (filePath) => {
   return JSON.parse(content.toString())
 }
 
+// const extractPosition = (error) => {
+//   return doExtractPosition(/\(.*\:(\d+)\:(\d+)\)$/, error) ||
+//     doExtractPosition(/\:(\d+)\:(\d+)$/, error)
+// }
+
 const extractPosition = (error) => {
-  return doExtractPosition(/\(.*\:(\d+)\:(\d+)\)$/, error) ||
+  return doExtractPosition(/\:(\d+)\:(\d+)\)/, error) ||
     doExtractPosition(/\:(\d+)\:(\d+)$/, error)
 }
 
@@ -34,39 +39,39 @@ fastify.post('/map_stacktrace', async (request, reply) => {
   let filePath = request.body.file_path
   let sourceMap = await getSourceMap(filePath)
 
-  let mapping = []
-  let mappedStacktrace = []
+  let mappings = []
   let sources = {}
 
-  await SourceMapConsumer.with(sourceMap, null, consumer => {
-    stack.split('\n').forEach(line => {
-      line = line.trim()
-      let pos = extractPosition(line)
-      if (pos) {
-        let mappedPos = consumer.originalPositionFor({
-          line: pos[0],
-          column: pos[1]
-        })
+  try {
+    await SourceMapConsumer.with(sourceMap, null, consumer => {
+      stack.split('\n').forEach(line => {
+        line = line.trim()
 
-        if (mappedPos.source) {
-          let content = consumer.sourceContentFor(mappedPos.source)
+        let pos = extractPosition(line)
+        if (pos) {
+          let mappedPos = consumer.originalPositionFor({
+            line: pos[0],
+            column: pos[1]
+          })
 
-          if (content) {
-            sources[mappedPos.source] = content
+          if (mappedPos.source) {
+            let content = consumer.sourceContentFor(mappedPos.source)
+
+            if (content) {
+              sources[mappedPos.source] = content
+            }
+
+            mappedPos.formattedLine = `${consumer.sourceContentFor(mappedPos.source).split('\n')[mappedPos.line - 1]}`
+            mappings.push(mappedPos)
           }
         }
-
-        let mappedLine = `${mappedPos.source}:${mappedPos.line}:${mappedPos.column} ${consumer.sourceContentFor(mappedPos.source).split('\n')[mappedPos.line - 1]}`
-        mappedStacktrace.push(mappedLine)
-        mappedPos.formattedLine = `${consumer.sourceContentFor(mappedPos.source).split('\n')[mappedPos.line - 1]}`
-        mapping.push(mappedPos)
-      }
+      })
     })
-  })
 
-  console.log(mapping)
-
-  return { mapping, mapped_stacktrace: mappedStacktrace.join('\n'), sources }
+    return { mappings, sources }
+  } catch (error) {
+    console.error(error)
+  }
 })
 
 const start = async () => {
