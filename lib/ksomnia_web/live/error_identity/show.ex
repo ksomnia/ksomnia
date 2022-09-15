@@ -46,7 +46,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
            }
          }} ->
           opts = %{
-            mappings: mappings |> dbg(),
+            mappings: mappings,
             sources: sources,
             line_source_context: set_line_context(sources, mappings, 0)
           }
@@ -136,11 +136,15 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
             class: "whitespace-pre-wrap py-1"
           )
 
-        content_tag(:div, [line_num, code_line],
-          class:
-            "block group w-full hover:bg-indigo-100 cursor-pointer" <>
-              if(i + 1 == current_line_map["line"], do: " bg-indigo-100", else: "")
-        )
+        if i + 1 == current_line_map["line"] do
+          content_tag(:div, [line_num, code_line],
+            class: "block group w-full hover:bg-indigo-100 cursor-pointer bg-indigo-100"
+          )
+        else
+          content_tag(:div, [line_num, code_line],
+            class: "block group w-full hover:bg-indigo-100 cursor-pointer"
+          )
+        end
       end
 
     message =
