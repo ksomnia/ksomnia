@@ -16,7 +16,8 @@
               <span class="commit-badge"><%= SourceMap.commit_hash_abbriv(source_map) %></span>
             </td>
             <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium sm:w-auto sm:max-w-none sm:pl-6">
-              <%= Timex.format!(source_map.inserted_at, "{h24}:{m}:{s} {D} {Mshort} {YYYY}") %>
+              <%= Timex.format!(source_map.inserted_at, "{D} {Mshort} {YYYY}") %>
+              <span class="text-slate-500"><%= Timex.format!(source_map.inserted_at, "{h24}:{m}") %></span>
             </td>
           </tr>
         <% end %>
@@ -24,4 +25,3 @@
     </table>
   </div>
 </main>
-

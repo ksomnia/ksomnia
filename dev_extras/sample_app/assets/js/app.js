@@ -80,36 +80,40 @@ KSOMNIA.api = (url, method, data) => {
   })
 }
 
-const errorSample = (x) => {
-  return x['key'](x)
-}
+const nested = () => {
+  const errorSample = (x) => {
+    return x['key'](x)
+  }
 
-const errorWrapper = (x) => {
-  return errorSample(x)
-}
+  const errorWrapper = (...x) => {
+    return errorSample.apply(x)
+  }
 
-document.addEventListener("DOMContentLoaded", () => {
-  let appTokenInput = document.getElementById('app-token')
-  appTokenInput.value = localStorage.getItem('ksomnia-sample-app-token')
-  appTokenInput.addEventListener('input', (e) => {
-    localStorage.setItem('ksomnia-sample-app-token', e.target.value)
-  })
+  document.addEventListener("DOMContentLoaded", () => {
+    let appTokenInput = document.getElementById('app-token')
+    appTokenInput.value = localStorage.getItem('ksomnia-sample-app-token')
+    appTokenInput.addEventListener('input', (e) => {
+      localStorage.setItem('ksomnia-sample-app-token', e.target.value)
+    })
 
-  let errorSampleBtn = document.getElementById('error-sample-btn')
-  errorSampleBtn.addEventListener('click', () => {
-    errorWrapper('')
-  })
+    let errorSampleBtn = document.getElementById('error-sample-btn')
+    errorSampleBtn.addEventListener('click', () => {
+      errorWrapper('')
+    })
 
-  document.getElementById('deploy-btn').addEventListener('click', () => {
-    console.log('deploy', document.getElementById('app-token').value)
+    document.getElementById('deploy-btn').addEventListener('click', () => {
+      console.log('deploy', document.getElementById('app-token').value)
 
-    fetch(`/api/deploy`, {
-      method: 'POST',
-      headers: JSONHeaders,
-      body: JSON.stringify({
-        token: document.getElementById('app-token').value,
-        commit_hash: commitHash
+      fetch(`/api/deploy`, {
+        method: 'POST',
+        headers: JSONHeaders,
+        body: JSON.stringify({
+          token: document.getElementById('app-token').value,
+          commit_hash: commitHash
+        })
       })
     })
   })
-})
+}
+
+nested()
