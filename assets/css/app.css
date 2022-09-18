@@ -32,10 +32,10 @@
   }
 
   .commit-badge {
-    @apply px-1 py-1 bg-blue-50 text-slate-600 font-semibold text-sm rounded-md font-mono;
+    @apply px-2 py-1 bg-blue-50 text-slate-600 font-semibold text-sm rounded-md font-mono;
   }
 
   .code-snippet {
-    @apply bg-indigo-50 border border-indigo-200 text-indigo-600 whitespace-pre-line leading-6 px-2 rounded-md py-2 text-sm;
+    @apply bg-slate-50 border border-slate-200 text-indigo-600 whitespace-pre-line leading-6 rounded-md py-2 text-sm w-full;
   }
 }

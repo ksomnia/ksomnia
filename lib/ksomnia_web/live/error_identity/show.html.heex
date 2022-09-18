@@ -45,30 +45,34 @@
     </div>
   </div>
 
-  <div class="px-7 py-2 flex flex-col">
-    <div class="py-2 text-indigo-600 font-medium">
+  <div class="px-7">
+    <div class="py-2 text-indigo-600 font-medium mb-3">
       <%= @error_identity.message %>
     </div>
-    <div class="mt-2 border-box">
-      <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-indigo-100 hover:bg-indigo-100", else: "bg-indigo-50 hover:bg-indigo-100"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
+    <span class="bg-slate-100 text-slate-500 commit-badge py-1 mb-2 inline-block" title={"Commit hash #{@error_identity.commit_hash}"}>
+      <span class="text-slate-400 select-none">COMMIT:</span> <%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
+    <div class="mt-2 mb-4 border-box">
+      <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
         Source map <%= if @error_identity.commit_hash do %>
-          <span class="bg-indigo-50 text-indigo-500 commit-badge" title={"Commit hash #{@error_identity.commit_hash}"}>
-            <%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
         <% end %>
       </span>
-      <span phx-click="set_display_stacktrace_type" phx-value-type="generated" class={"#{if @display_stacktrace_type == "generated", do: "bg-indigo-100 hover:bg-indigo-100", else: "bg-indigo-50 hover:bg-indigo-100"} text-indigo-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}>
+      <span phx-click="set_display_stacktrace_type" phx-value-type="generated" class={"#{if @display_stacktrace_type == "generated", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}>
         Generated
       </span>
     </div>
     <%= if @display_stacktrace_type == "generated" do %>
       <%= bare_code_snippet(@error_identity.stacktrace) %>
     <% else %>
-      <div class="flex">
-        <div class="w-full">
-          <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
+      <div class="grid grid-rows-4 h-full">
+        <div class="row-span-2">
+          <div class="overflow-x-auto">
+            <%= render_line_source_context(@mappings, @current_line, @line_source_context, @error_identity.message) %>
+          </div>
         </div>
-        <div class="w-full">
-          <%= render_line_source_context(@mappings, @current_line, @line_source_context) %>
+        <div class="row-span-2">
+          <div class="overflow-x-auto">
+            <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
+          </div>
         </div>
       </div>
     <% end %>
