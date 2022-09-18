@@ -49,8 +49,8 @@
     <div class="py-2 text-indigo-600 font-medium mb-3">
       <%= @error_identity.message %>
     </div>
-    <span class="bg-slate-100 text-slate-500 commit-badge py-1 mb-2 inline-block" title={"Commit hash #{@error_identity.commit_hash}"}>
-      <span class="text-slate-400 select-none">COMMIT:</span> <%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
+    <span class="bg-slate-100 text-slate-500 commit-badge py-1 mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
+      <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
     <div class="mt-2 mb-4 border-box">
       <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
         Source map <%= if @error_identity.commit_hash do %>
@@ -63,14 +63,14 @@
     <%= if @display_stacktrace_type == "generated" do %>
       <%= bare_code_snippet(@error_identity.stacktrace) %>
     <% else %>
-      <div class="grid grid-rows-4 h-full">
-        <div class="row-span-2">
+      <div class="">
+        <div class="row-span-2 scroller">
           <div class="overflow-x-auto">
             <%= render_line_source_context(@mappings, @current_line, @line_source_context, @error_identity.message) %>
           </div>
         </div>
         <div class="row-span-2">
-          <div class="overflow-x-auto">
+          <div class="overflow-x-auto ">
             <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
           </div>
         </div>

@@ -38,4 +38,15 @@
   .code-snippet {
     @apply bg-slate-50 border border-slate-200 text-indigo-600 whitespace-pre-line leading-6 rounded-md py-2 text-sm w-full;
   }
+
+  ::-webkit-scrollbar {
+    width: 16px;
+    height: 8px;
+    @apply rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 hover:bg-slate-300 rounded-full;
+    min-height: 40px;
+  }
 }

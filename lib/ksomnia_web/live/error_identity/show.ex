@@ -91,17 +91,18 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
         content_tag(:div, [left, right],
           class:
-            "group w-full hover:bg-indigo-100 cursor-pointer whitespace-nowrap " <>
+            "group w-full hover:bg-indigo-100 cursor-pointer whitespace-nowrap pl-2 " <>
               if(current_line == i, do: " bg-indigo-100", else: ""),
           "phx-click": "set_line_context",
           "phx-value-line": i
         )
       end
 
-    message = content_tag(:div, error_identity_message, class: "block group w-full text-xs mb-1 ")
+    message =
+      content_tag(:div, error_identity_message, class: "block group w-full text-xs mb-1 pl-2 ")
 
     code = content_tag(:code, [message | lines])
-    content_tag(:pre, code, class: "code-snippet px-2")
+    content_tag(:pre, code, class: "code-snippet")
   end
 
   def render_line_source_context(mappings, current_line, source, error_identity_message) do
@@ -159,13 +160,13 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
               class: "whitespace-pre-wrap py-1"
             )
 
-          content_tag(:div, [line_num, code_line], class: "group w-full pl-2")
+          content_tag(:div, [line_num, code_line], class: "group w-full pl-2 whitespace-nowrap")
         end
       end
 
     message =
       content_tag(:div, source_file_name,
-        class: "block group w-full text-xs mb-1 text-slate-400 whitespace-nowrap pl-2 "
+        class: "block group w-full text-xs mb-1 text-slate-400 whitespace-nowrap pl-2"
       )
 
     code = content_tag(:code, [message | lines])
