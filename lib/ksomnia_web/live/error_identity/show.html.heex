@@ -52,27 +52,22 @@
     <span class="bg-slate-100 text-slate-500 commit-badge py-1 mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
       <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
     <div class="mt-2 mb-4 border-box">
-      <span phx-click="set_display_stacktrace_type" phx-value-type="original" class={"#{if @display_stacktrace_type == "original", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
-        Source map <%= if @error_identity.commit_hash do %>
-        <% end %>
+      <span phx-click="set_stacktrace_type" phx-value-type="source_map" class={"#{if @stacktrace_type == "source_map", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
+        Source map
       </span>
-      <span phx-click="set_display_stacktrace_type" phx-value-type="generated" class={"#{if @display_stacktrace_type == "generated", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}>
-        Generated
+      <span phx-click="set_stacktrace_type" phx-value-type="generated_source" class={"#{if @stacktrace_type == "generated_source", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}>
+        Generated source
       </span>
     </div>
-    <%= if @display_stacktrace_type == "generated" do %>
+    <%= if @stacktrace_type == "generated_source" do %>
       <%= bare_code_snippet(@error_identity.stacktrace) %>
     <% else %>
-      <div class="">
-        <div class="row-span-2 scroller">
-          <div class="overflow-x-auto">
-            <%= render_line_source_context(@mappings, @current_line, @line_source_context, @error_identity.message) %>
-          </div>
+      <div>
+        <div class="overflow-x-auto">
+          <%= render_line_source_context(@mappings, @current_line, @current_stack_context, @error_identity.message) %>
         </div>
-        <div class="row-span-2">
-          <div class="overflow-x-auto ">
-            <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
-          </div>
+        <div class="overflow-x-auto mt-2">
+          <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
         </div>
       </div>
     <% end %>

@@ -7,13 +7,15 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
 
+  @stacktrace_types ["source_map", "generated_source"]
+
   @impl true
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(:display_stacktrace_type, "original")
+      |> assign(:stacktrace_type, "source_map")
       |> assign(:mappings, [])
-      |> assign(:line_source_context, [])
+      |> assign(:current_stack_context, [])
       |> assign(:current_line, 0)
 
     {:ok, socket}
@@ -28,7 +30,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
     socket =
       socket
-      |> assign(:page_title, page_title(socket.assigns.live_action))
+      |> assign(:page_title, error_identity.message)
       |> assign(:error_identity, error_identity)
       |> assign(:app, app)
       |> assign(:project, project)
@@ -48,7 +50,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
           opts = %{
             mappings: mappings,
             sources: sources,
-            line_source_context: set_line_context(sources, mappings, 0)
+            current_stack_context: set_line_context(sources, mappings, 0)
           }
 
           send(view_pid, opts)
@@ -99,7 +101,9 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       end
 
     message =
-      content_tag(:div, error_identity_message, class: "block group w-full text-xs mb-1 pl-2 ")
+      content_tag(:div, error_identity_message,
+        class: "block group w-full text-xs mb-1 pl-2 text-rose-500 "
+      )
 
     code = content_tag(:code, [message | lines])
     content_tag(:pre, code, class: "code-snippet")
@@ -178,17 +182,15 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     content_tag(:pre, code, class: "code-snippet px-2")
   end
 
-  defp page_title(:show), do: "Show App"
-  defp page_title(:edit), do: "Edit App"
-
   @impl true
   def handle_info(opts, socket) do
     {:noreply, assign(socket, opts)}
   end
 
   @impl true
-  def handle_event("set_display_stacktrace_type", %{"type" => value}, socket) do
-    {:noreply, assign(socket, :display_stacktrace_type, value)}
+  def handle_event("set_stacktrace_type", %{"type" => value}, socket)
+      when value in @stacktrace_types do
+    {:noreply, assign(socket, :stacktrace_type, value)}
   end
 
   @impl true
@@ -197,7 +199,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     sources = socket.assigns.sources
     mappings = socket.assigns.mappings
     line_context = set_line_context(sources, mappings, line)
-    socket = assign(socket, line_source_context: line_context, current_line: line)
+    socket = assign(socket, current_stack_context: line_context, current_line: line)
     {:noreply, socket}
   end
 
