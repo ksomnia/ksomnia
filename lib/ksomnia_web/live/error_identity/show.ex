@@ -4,6 +4,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   alias Ksomnia.Repo
   alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
+  alias Ksomnia.SourceMapper
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
 
@@ -15,8 +16,8 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       socket
       |> assign(:stacktrace_type, "source_map")
       |> assign(:mappings, [])
-      |> assign(:current_stack_context, [])
       |> assign(:current_line, 0)
+      |> assign(:sources, nil)
 
     {:ok, socket}
   end
@@ -39,21 +40,9 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     view_pid = self()
 
     spawn(fn ->
-      case Ksomnia.SourceMapper.map_stacktrace(error_identity) do
-        {:ok,
-         %{
-           body: %{
-             "mappings" => mappings,
-             "sources" => sources
-           }
-         }} ->
-          opts = %{
-            mappings: mappings,
-            sources: sources,
-            current_stack_context: set_line_context(sources, mappings, 0)
-          }
-
-          send(view_pid, opts)
+      case SourceMapper.map_stacktrace(error_identity) do
+        {:ok, %{body: %{"mappings" => mappings, "sources" => sources}}} ->
+          send(view_pid, %{mappings: mappings, sources: sources})
 
         _ ->
           nil
@@ -63,7 +52,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     {:noreply, socket}
   end
 
-  def code_snippet(mappings, current_line, error_identity_message) do
+  def render_stacktrace_navigation(mappings, current_line, error_identity_message) do
     max_line_num_len =
       Enum.map(mappings, & &1["line"])
       |> case do
@@ -77,24 +66,16 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       for {line, i} <- Enum.with_index(mappings) do
         formatted_line = line["formattedLine"]
         left_half = String.slice(formatted_line, 0, line["column"])
-
-        line_num =
-          content_tag(:span, String.pad_leading("#{line["line"]}", max_line_num_len, " "),
-            class: "text-slate-400"
-          )
-
+        line_num_content = String.pad_leading("#{line["line"]}", max_line_num_len, " ")
+        line_num = content_tag(:span, line_num_content, class: "text-slate-400")
         left = content_tag(:span, [line_num, left_half], class: "border-r-2 border-red-300 py-1")
-
         right_half = String.slice(formatted_line, line["column"], String.length(formatted_line))
-
         source = content_tag(:span, " #{Path.basename(line["source"])}", class: "text-slate-400")
-
         right = content_tag(:span, [right_half, source], class: "py-1")
 
         content_tag(:div, [left, right],
           class:
-            "group w-full hover:bg-indigo-100 cursor-pointer whitespace-nowrap pl-2 " <>
-              if(current_line == i, do: " bg-indigo-100", else: ""),
+            "group w-full hover:bg-indigo-100 cursor-pointer whitespace-nowrap pl-2 #{if(current_line == i, do: " bg-indigo-100", else: "")}",
           "phx-click": "set_line_context",
           "phx-value-line": i
         )
@@ -102,17 +83,19 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
     message =
       content_tag(:div, error_identity_message,
-        class: "block group w-full text-xs mb-1 pl-2 text-rose-500 "
+        class: "block group w-full text-xs mb-1 pl-2 text-rose-500"
       )
 
     code = content_tag(:code, [message | lines])
     content_tag(:pre, code, class: "code-snippet")
   end
 
-  def render_line_source_context(mappings, current_line, source, error_identity_message) do
+  def render_line_source_context(_, _, _, nil), do: nil
+
+  def render_line_source_context(mappings, current_line, error_identity_message, sources) do
     current_line_map = Enum.at(mappings, current_line)
     source_file_name = current_line_map["source"]
-    dbg(current_line_map)
+    source = get_stack_context(mappings, current_line, sources)
 
     max_line_num_len =
       Enum.map(source, fn {_, i} -> i end)
@@ -125,14 +108,8 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
     lines =
       for {line, i} <- source do
-        {line, i}
-
-        line_num =
-          content_tag(
-            :span,
-            String.pad_leading("#{i + 1} ", max_line_num_len, " "),
-            class: "text-slate-400 select-none"
-          )
+        line_num_content = String.pad_leading("#{i + 1} ", max_line_num_len, " ")
+        line_num = content_tag(:span, line_num_content, class: "text-slate-400 select-none")
 
         if i + 1 == current_line_map["line"] do
           code_line_left_half = String.slice(line, 0, current_line_map["column"])
@@ -182,6 +159,15 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     content_tag(:pre, code, class: "code-snippet px-2")
   end
 
+  def get_stack_context(mappings, current_line, sources) do
+    map = Enum.at(mappings, current_line)
+
+    sources[map["source"]]
+    |> String.split(~r/\n/)
+    |> Enum.with_index()
+    |> Enum.slice(map["line"] - 4, 7)
+  end
+
   @impl true
   def handle_info(opts, socket) do
     {:noreply, assign(socket, opts)}
@@ -196,19 +182,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   @impl true
   def handle_event("set_line_context", %{"line" => line}, socket) do
     {line, ""} = Integer.parse(line)
-    sources = socket.assigns.sources
-    mappings = socket.assigns.mappings
-    line_context = set_line_context(sources, mappings, line)
-    socket = assign(socket, current_stack_context: line_context, current_line: line)
+    socket = assign(socket, current_line: line)
     {:noreply, socket}
-  end
-
-  def set_line_context(sources, mappings, line) do
-    map = Enum.at(mappings, line)
-
-    sources[map["source"]]
-    |> String.split(~r/\n/)
-    |> Enum.with_index()
-    |> Enum.slice(map["line"] - 4, 7)
   end
 end

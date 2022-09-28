@@ -64,10 +64,10 @@
     <% else %>
       <div>
         <div class="overflow-x-auto">
-          <%= render_line_source_context(@mappings, @current_line, @current_stack_context, @error_identity.message) %>
+          <%= render_line_source_context(@mappings, @current_line, @error_identity.message, @sources) %>
         </div>
         <div class="overflow-x-auto mt-2">
-          <%= code_snippet(@mappings, @current_line, @error_identity.message) %>
+          <%= render_stacktrace_navigation(@mappings, @current_line, @error_identity.message) %>
         </div>
       </div>
     <% end %>
