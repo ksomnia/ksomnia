@@ -16,5 +16,16 @@
       <% end %>
     </code></pre>
   </div>
+  <div>
+    <%= if @app do %>
+      <.live_component
+        id={@app.id}
+        module={KsomniaWeb.AppLive.AppSettingsFormComponent}
+        project_id={@project.id}
+        app={@app}
+        action={:edit_app}
+      />
+    <% end %>
+  </div>
 </main>
 

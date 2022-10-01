@@ -35,3 +35,5 @@ npm-debug.log
 
 # Temporary files
 /tmp/
+
+*.DS_Store

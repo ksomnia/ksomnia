@@ -32,6 +32,7 @@ defmodule KsomniaWeb.AppLive.Settings do
       |> assign(:project, project)
       |> assign(:error_identities, error_identities)
       |> assign(:latest_source_map, latest_source_map)
+      |> assign(:app_changeset, App.changeset(app, %{}))
 
     {:noreply, socket}
   end
