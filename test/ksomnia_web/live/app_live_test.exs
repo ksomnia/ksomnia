@@ -1,5 +1,8 @@
 defmodule KsomniaWeb.AppLiveTest do
   use KsomniaWeb.ConnCase
+  alias Ksomnia.App
+  alias Ksomnia.Project
+  alias Ksomnia.User
 
   import Phoenix.LiveViewTest
 
@@ -7,9 +10,23 @@ defmodule KsomniaWeb.AppLiveTest do
   @update_attrs %{name: "some updated name", token: "some updated token"}
   @invalid_attrs %{name: nil, token: nil}
 
-  defp create_app(_) do
-    app = app_fixture()
-    %{app: app}
+  def create_app(opts) do
+    dbg(opts)
+    {:ok, user} = User.create(%{email: "test@user", password: "password", username: "testuser"})
+    {:ok, %{project: project}} = Project.create(user, %{name: "testing"})
+    app = App.create(project.id, %{name: "app"})
+    %{app: app, user: user}
+  end
+
+  describe "Displays user projects" do
+    setup [:create_app]
+
+    test "", %{conn: conn, app: app, user: user} do
+      url = Routes.dashboard_index_path(conn, :index)
+      Plug.Conn.fetch_session(conn)
+      conn = put_session(conn, :user_id, user.id)
+      {:ok, _index_live, html} = live(conn, url)
+    end
   end
 
   describe "Index" do

@@ -1,9 +1,9 @@
 <main class="">
-  <p class="alert alert-info" role="alert"
+  <p class="fixed top-1 left-64 alert alert-info bg-slate-200 text-slate-700 font-thin text-xs opacity-50 rounded-md" role="alert"
     phx-click="lv:clear-flash"
     phx-value-key="info"><%= live_flash(@flash, :info) %></p>
 
-  <p class="alert alert-danger" role="alert"
+  <p class="fixed top-1 left-64 alert alert-danger bg-slate-200 text-slate-700 font-thin text-xs opacity-50 rounded-md" role="alert"
     phx-click="lv:clear-flash"
     phx-value-key="error"><%= live_flash(@flash, :error) %></p>
 
@@ -42,17 +42,20 @@
           </nav>
         </div>
       <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
-        <a href="#" class="flex-shrink-0 w-full group block">
+        <%= live_redirect [
+          to: Routes.account_profile_path(@socket, :profile),
+          class: "flex-shrink-0 w-full group block"
+        ] do %>
           <div class="flex items-center">
             <div>
               <img class="object-cover inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1658211260722-416576a2f1ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60" alt="">
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><%= @current_user.email %></p>
+              <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><%= @current_user.username %></p>
               <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
             </div>
           </div>
-        </a>
+        <% end %>
       </div>
     </div>
   </div>

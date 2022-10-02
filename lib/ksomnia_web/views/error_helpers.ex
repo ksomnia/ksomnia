@@ -9,12 +9,15 @@ defmodule KsomniaWeb.ErrorHelpers do
   Generates tag for inlined form input errors.
   """
   def error_tag(form, field) do
-    Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:span, translate_error(error),
-        class: "invalid-feedback",
-        phx_feedback_for: input_name(form, field)
-      )
-    end)
+    errors =
+      Enum.map(Keyword.get_values(form.errors, field), fn error ->
+        content_tag(:span, translate_error(error),
+          class: "mr-2",
+          phx_feedback_for: input_name(form, field)
+        )
+      end)
+
+    content_tag(:div, errors, class: "absolute bg-red-100 text-red-700 px-1 text-xs rounded-md opacity-75")
   end
 
   @doc """
