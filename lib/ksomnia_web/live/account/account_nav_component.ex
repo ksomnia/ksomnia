@@ -1,5 +1,6 @@
 defmodule KsomniaWeb.AccountLive.AccountNavComponent do
   use KsomniaWeb, :live_component
+  alias Phoenix.LiveView.JS
 
   def render(assigns) do
     ~H"""
@@ -16,7 +17,12 @@ defmodule KsomniaWeb.AccountLive.AccountNavComponent do
       ] do %>
         Password
       <% end %>
-      <div class="bg-red-50 hover:bg-red-100 cursor-pointer rounded-sm px-2 py-2 text-sm text-slate-500">Log out</div>
+      <div
+        class="block bg-red-50 hover:bg-red-100 cursor-pointer rounded-sm px-2 py-2 text-sm text-slate-500"
+        @click="KsomniaHelpers.logout($event)"
+      >
+        Log out
+      </div>
     </div>
     """
   end

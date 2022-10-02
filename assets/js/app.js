@@ -31,7 +31,11 @@ window.Alpine = Alpine
 Alpine.start()
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } })
+let liveSocket = new LiveSocket("/live", Socket, {
+  params: {
+    _csrf_token: csrfToken
+  }
+})
 
 // Show progress bar on live navigation and form submits
 topbar.config({ barColors: { 0: "#6366f1" }, shadowColor: "rgba(0, 0, 0, .3)" })
@@ -51,5 +55,12 @@ window.KsomniaHelpers = {
   copyTokenHandle: (e) => {
     const token = e.target.closest('span').innerText
     navigator.clipboard.writeText(token)
+  },
+
+  logout: (e) => {
+    let confirmLogout = confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      window.location.assign('/logout');
+    }
   }
 }
