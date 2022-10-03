@@ -56,6 +56,7 @@ defmodule KsomniaWeb.Router do
     live "/projects/:id/show/:app_id/edit_app", ProjectLive.Show, :edit_app
     live "/projects/:id/show/edit", ProjectLive.Show, :edit
     live "/projects/:id/show/new_app", ProjectLive.Show, :new_app
+    live "/projects/:id/members", ProjectLive.Members, :members
     live "/projects/:id", ProjectLive.Show, :show
     live "/account/profile", AccountLive.Profile, :profile
     live "/account/password", AccountLive.Password, :password

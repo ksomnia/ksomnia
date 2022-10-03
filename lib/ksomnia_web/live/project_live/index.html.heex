@@ -52,9 +52,7 @@
               <%= Timex.from_now(app.inserted_at) %>
             </td>
             <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-              <span><%= live_redirect "Show", to: Routes.project_show_path(@socket, :show, app), class: "text-indigo-600 hover:text-indigo-900" %></span>
               <span><%= live_patch "Edit", to: Routes.project_index_path(@socket, :edit, app), class: "text-indigo-600 hover:text-indigo-900" %></span>
-              <span><%= link "Delete", class: "text-indigo-600 hover:text-indigo-900", to: "#", phx_click: "delete", phx_value_id: app.id, data: [confirm: "Are you sure?"] %></span>
             </td>
           </tr>
         <% end %>

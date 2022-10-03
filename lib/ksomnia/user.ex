@@ -1,8 +1,10 @@
 defmodule Ksomnia.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
   alias Ksomnia.Repo
   alias Ksomnia.User
+  alias Ksomnia.ProjectUser
 
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
@@ -13,6 +15,7 @@ defmodule Ksomnia.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :current_password, :string, virtual: true
+    has_many :project_users, ProjectUser
 
     timestamps()
   end
@@ -79,5 +82,17 @@ defmodule Ksomnia.User do
     user
     |> profile_changeset(attrs)
     |> Repo.update()
+  end
+
+  def for_project(project) do
+    from(u in User,
+      join: pu in assoc(u, :project_users),
+      where: pu.project_id == ^project.id,
+      select: %{
+        user: u,
+        project_user: pu
+      }
+    )
+    |> Repo.all()
   end
 end
