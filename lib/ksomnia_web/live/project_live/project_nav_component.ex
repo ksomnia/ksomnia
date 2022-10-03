@@ -26,6 +26,7 @@ defmodule KsomniaWeb.AppLive.ProjectNavComponent do
         <span aria-hidden="true" class={"#{if @nav_section == :members, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}></span>
       <% end %>
 
+
       <%= live_redirect [
         to: Routes.project_show_path(@socket, :show, @project.id),
         class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
