@@ -6,24 +6,14 @@ const args = process.argv.slice(2)
 const watch = args.includes('--watch')
 const deploy = args.includes('--deploy')
 
-const getCommitHash = async () => {
-  const { stdout, stderr } = await exec('git show-ref --head --hash head');
-  return stdout.trim()
-}
-
 const main = async () => {
-  console.log(`Compiling for ${await getCommitHash()}`)
-
   let opts = {
     entryPoints: ['js/app.js'],
     bundle: true,
     target: 'es2017',
     external: ['/fonts/*', '/images/*'],
     outdir: '../priv/static/assets',
-    logLevel: 'info',
-    define: {
-      'process.env.COMMIT_HASH': JSON.stringify(await getCommitHash())
-    },
+    logLevel: 'info'
   }
 
   if (watch) {
@@ -38,7 +28,6 @@ const main = async () => {
     opts = {
       ...opts,
       minify: true,
-      sourcemap: 'external'
     }
   }
 

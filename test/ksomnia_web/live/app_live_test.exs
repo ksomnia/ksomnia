@@ -11,7 +11,6 @@ defmodule KsomniaWeb.AppLiveTest do
   @invalid_attrs %{name: nil, token: nil}
 
   def create_app(opts) do
-    dbg(opts)
     {:ok, user} = User.create(%{email: "test@user", password: "password", username: "testuser"})
     {:ok, %{project: project}} = Project.create(user, %{name: "testing"})
     app = App.create(project.id, %{name: "app"})

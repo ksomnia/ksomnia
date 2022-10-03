@@ -1,0 +1,28 @@
+[Unit]
+Description=ksomnia_sample_app
+After=network.target postgresql.service
+
+[Service]
+ExecReload=/bin/kill -9 $MAINPID
+KillMode=process
+Restart=on-failure
+
+User=ksomnia
+Environment="PORT=5500"
+Environment="MIX_ENV=prod"
+Environment="HOME=/opt/ksomnia/dev_extras/sample_app"
+Environment="SECRET_KEY_BASE="UkQ82ES80KkvRNVyld9eDv8FwIFwBPcvJNjBvxB2Z7fR6ibu4gOsXn92TnfI5gsh"
+Environment="KSOMNIA_SAMPLE_APP_DATABASE_URL=postgres://user:password@localhost:5432/ksomnia_sample_app_prod"
+Environment="PHX_HOST=example.com"
+
+WorkingDirectory=/opt/ksomnia/dev_extras/sample_app
+
+ExecStartPre=/usr/bin/bash /opt/ksomnia/dev_extras/sample_app/deployment/service-start-hook
+ExecStart=/usr/bin/mix phx.server
+
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

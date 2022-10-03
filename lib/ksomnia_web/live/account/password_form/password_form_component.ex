@@ -25,7 +25,7 @@ defmodule KsomniaWeb.AppLive.PasswordFormComponent do
   def handle_event("save", %{"user" => new_password_params}, socket) do
     user = socket.assigns.user
 
-    case User.change_password(user, new_password_params) |> dbg() do
+    case User.change_password(user, new_password_params) do
       {:ok, _user} ->
         {:noreply,
          socket

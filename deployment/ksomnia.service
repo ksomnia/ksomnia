@@ -7,23 +7,23 @@ ExecReload=/bin/kill -9 $MAINPID
 KillMode=process
 Restart=on-failure
 
-User=ksomnia_app
+User=ksomnia
 Environment="PORT=4000"
 Environment="MIX_ENV=prod"
 Environment="HOME=/opt/ksomnia"
 Environment="SECRET_KEY_BASE=""
-Environment="DATABASE_URL=postgres://user:password@localhost:5432/ksomnia_prod"
+Environment="KSOMNIA_DATABASE_URL=postgres://user:password@localhost:5432/ksomnia_prod"
+Environment="PHX_HOST=example.com"
 
 WorkingDirectory=/opt/ksomnia
 
-ExecStartPre=/usr/bin/bash /opt/ksomnia/deploy/start
+ExecStartPre=/usr/bin/bash /opt/ksomnia/deployment/service-start-hook
 ExecStart=/usr/bin/mix phx.server
 
+LimitNOFILE=65535
 PrivateTmp=true
 ProtectHome=true
 ProtectSystem=full
-PrivateDevices=false
-CapabilityBoundingSet=~CAP_SYS_ADMIN
 
 [Install]
 WantedBy=multi-user.target

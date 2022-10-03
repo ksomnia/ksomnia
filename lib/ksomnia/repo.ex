@@ -6,13 +6,13 @@ defmodule Ksomnia.Repo do
   require Logger
 
   def init(_type, config) do
-    database_url = System.get_env("DATABASE_URL")
+    database_url = System.get_env("KSOMNIA_DATABASE_URL")
 
     if database_url do
-      Logger.debug("Using $DATABASE_URL to configure the database connection")
+      Logger.debug("Using $KSOMNIA_DATABASE_URL to configure the database connection")
       {:ok, Keyword.put(config, :url, database_url)}
     else
-      Logger.warn("$DATABASE_URL is not set")
+      Logger.warn("$KSOMNIA_DATABASE_URL is not set")
       {:ok, config}
     end
   end

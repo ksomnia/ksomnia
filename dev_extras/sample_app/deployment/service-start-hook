@@ -1,0 +1,1 @@
+/usr/bin/mix do local.hex --force, deps.get, ecto.migrate

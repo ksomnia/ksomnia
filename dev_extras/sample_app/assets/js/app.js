@@ -42,10 +42,7 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-// ---
-
 const commitHash = process.env.COMMIT_HASH
-// const commitAbbriv = commitHash.slice(0, 7)
 
 console.log('Commit hash', commitHash)
 

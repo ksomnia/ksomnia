@@ -35,6 +35,13 @@ const main = async () => {
     }
   }
 
+  if (deploy) {
+    opts = {
+      ...opts,
+      minify: true,
+    }
+  }
+
   const promise = esbuild.build(opts).catch(() => process.exit(1))
 
   if (watch) {

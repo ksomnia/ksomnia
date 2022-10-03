@@ -1,4 +1,4 @@
-<div class="mt-36 sm:mx-auto sm:w-full sm:max-w-md">
+<div class="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
   <div class="mx-auto w-full text-center py-1">
     <h2 class="mt-1 text-center text-2xl font-semibold text-indigo-500">Ksomnia</h2>
   </div>
@@ -6,7 +6,7 @@
     <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700">Sign in to your account</h2>
   </div>
   <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
-    <div class="my-5 flex justify-center">
+    <div class="flex justify-center">
       <%= form_for @conn, Routes.session_path(@conn, :create), fn f -> %>
         <%= if assigns[:error] do %>
           <div class="p-2 bg-red-100 mb-5 text-red-700 rounded-md">

@@ -22,9 +22,9 @@ end
 
 if config_env() == :prod do
   database_url =
-    System.get_env("DATABASE_URL") ||
+    System.get_env("KSOMNIA_SAMPLE_APP_DATABASE_URL") ||
       raise """
-      environment variable DATABASE_URL is missing.
+      environment variable KSOMNIA_SAMPLE_APP_DATABASE_URL is missing.
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
