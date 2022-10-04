@@ -60,7 +60,9 @@ window.onerror = function (message, source, lineNumber, columnNumber, error) {
   })
 }
 
-const BASE_URL = "http://localhost:4000/tracker_api/v1"
+const BASE_URL = process.env.KSOMNIA_BASE_URL
+
+console.log({BASE_URL})
 
 window.KSOMNIA = {}
 

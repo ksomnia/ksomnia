@@ -22,7 +22,8 @@ const main = async () => {
     outdir: '../priv/static/assets',
     logLevel: 'info',
     define: {
-      'process.env.COMMIT_HASH': JSON.stringify(await getCommitHash())
+      'process.env.COMMIT_HASH': JSON.stringify(await getCommitHash()),
+      'process.env.KSOMNIA_BASE_URL': JSON.stringify(process.env.KSOMNIA_BASE_URL) || JSON.stringify('http://localhost:4000/tracker_api/v1')
     },
     minify: true,
     sourcemap: 'external'

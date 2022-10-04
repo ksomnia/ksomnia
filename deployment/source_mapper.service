@@ -1,0 +1,17 @@
+[Unit]
+Description=source_mapper
+After=network.target postgresql.service ksomnia.service
+
+[Service]
+ExecReload=/bin/kill -9 $MAINPID
+KillMode=process
+Restart=on-failure
+
+User=ksomnia
+Environment="HOME=/opt/ksomnia/source_mapper"
+WorkingDirectory=/opt/ksomnia/source_mapper
+ExecStartPre=/usr/bin/yarn
+ExecStart=/usr/bin/node app.js
+
+[Install]
+WantedBy=multi-user.target
