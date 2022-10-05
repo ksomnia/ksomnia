@@ -39,8 +39,12 @@ defmodule KsomniaWeb.Router do
     post "/signup", RegistrationController, :create
     get "/password-reset", RegistrationController, :password_reset
     post "/password-reset", RegistrationController, :do_password_reset
-    # get "/projects/:id", ProjectController, :show
-    # get "/projects", ProjectController, :index
+
+    case Application.compile_env(:ksomnia, :live_demo) do
+      {:ok, _} ->
+        get "/live-demo", PageController, :live_demo
+      _ -> nil
+    end
   end
 
   scope "/", KsomniaWeb do
@@ -60,7 +64,6 @@ defmodule KsomniaWeb.Router do
     live "/projects/:id", ProjectLive.Show, :show
     live "/account/profile", AccountLive.Profile, :profile
     live "/account/password", AccountLive.Password, :password
-
     live "/error_identities/:id", ErrorIdentityLive.Show, :show
   end
 

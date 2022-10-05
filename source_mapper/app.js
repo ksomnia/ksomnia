@@ -11,15 +11,15 @@ const getSourceMap = async (filePath) => {
   return JSON.parse(content.toString())
 }
 
-const extractPosition = (error) => {
-  return doExtractPosition(/\(.*\:(\d+)\:(\d+)\)$/, error) ||
-    doExtractPosition(/\:(\d+)\:(\d+)$/, error)
-}
-
 // const extractPosition = (error) => {
-//   return doExtractPosition(/\:(\d+)\:(\d+)\)/, error) ||
+//   return doExtractPosition(/\(.*\:(\d+)\:(\d+)\)$/, error) ||
 //     doExtractPosition(/\:(\d+)\:(\d+)$/, error)
 // }
+
+const extractPosition = (error) => {
+  return doExtractPosition(/\:(\d+)\:(\d+)\)/, error) ||
+    doExtractPosition(/\:(\d+)\:(\d+)$/, error)
+}
 
 const doExtractPosition = (regex, error) => {
   const position = regex.exec(error)
@@ -48,7 +48,6 @@ fastify.post('/map_stacktrace', async (request, reply) => {
         line = line.trim()
 
         let pos = extractPosition(line)
-        console.log({pos})
         if (pos) {
           let mappedPos = consumer.originalPositionFor({
             line: pos[0],

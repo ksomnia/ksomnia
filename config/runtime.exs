@@ -12,6 +12,10 @@ if System.get_env("PHX_SERVER") && System.get_env("RELEASE_NAME") do
   config :ksomnia, KsomniaWeb.Endpoint, server: true
 end
 
+config :ksomnia, :live_demo,
+  user: System.get_env("LIVE_DEMO_USER")
+  url: System.get_env("LIVE_DEMO_URL")
+
 if config_env() == :prod do
   database_url =
     System.get_env("KSOMNIA_DATABASE_URL") ||
