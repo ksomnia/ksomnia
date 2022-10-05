@@ -81,7 +81,7 @@ KSOMNIA.api = (url, method, data) => {
 
 const nested = () => {
   const errorSample = (x) => {
-    return x['key'](x)
+    return x['missing-key'](x)
   }
 
   const errorWrapper = (...x) => {
