@@ -1,4 +1,3 @@
-ksomnia: LIVE_DEMO_URL=/error_identities/6rLgxw8xzCQHe5wYwfKfV7 LIVE_DEMO_USER=test@user.test elixir --sname ksomnia -S mix phx.server
+ksomnia: elixir --sname ksomnia -S mix phx.server
 source_mapper: cd source_mapper && node app.js
-# sample_app: cd dev_extras/sample_app && PORT=5500 KSOMNIA_BASE_URL='https://ksomnia-demo.xyz/tracker_api/v1' mix phx.server
 sample_app: cd dev_extras/sample_app && PORT=5500 KSOMNIA_BASE_URL='http://localhost:4000/tracker_api/v1' mix phx.server

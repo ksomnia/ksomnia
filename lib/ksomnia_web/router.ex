@@ -40,10 +40,8 @@ defmodule KsomniaWeb.Router do
     get "/password-reset", RegistrationController, :password_reset
     post "/password-reset", RegistrationController, :do_password_reset
 
-    case Application.compile_env(:ksomnia, :live_demo) do
-      {:ok, _} ->
-        get "/live-demo", PageController, :live_demo
-      _ -> nil
+    if System.get_env("LIVE_DEMO_USER") && System.get_env("LIVE_DEMO_URL") do
+      get "/live-demo", PageController, :live_demo
     end
   end
 

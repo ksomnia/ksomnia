@@ -1,19 +1,28 @@
 # Ksomnia
 
-To start your Phoenix server:
+Ksomnia is an open source error tracking software. More on https://ksomnia.com. Installation guide https://ksomnia.com/installation/.
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+![Screenshot](/docs/assets/screenshot.png)
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+### Development
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Install the latest Elixir, Erlang, NodeJS and PostgreSQL. Use [asdf.vm](https://asdf-vm.com/) or follow the instructions from the installation guide https://ksomnia.com/installation/#install-erlang-elixir-and-nodejs).
 
-## Learn more
+Install the dependencies
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```
+mix deps.get
+mix ecto.setup
+cd assets && yarn
+cd source_mapper && yarn
+cd dev_extras/sample_app && mix deps.get
+cd dev_extras/sample_app/assets && yarn
+```
+
+Run [Procfile](https://devcenter.heroku.com/articles/procfile) with your preferred process runner
+
+```
+foreman -f 'Procfile.dev' start
+```
+
+Connect to the server via `iex --sname ksomnia_shell --remsh ksomnia`

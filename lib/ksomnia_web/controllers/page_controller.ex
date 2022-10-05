@@ -17,7 +17,7 @@ defmodule KsomniaWeb.PageController do
 
   def live_demo(conn, _params) do
     case Application.fetch_env(:ksomnia, :live_demo) do
-      {:ok, [user: user, url: url]} ->
+      {:ok, %{user: user, url: url}} ->
         if user = Repo.get_by(User, email: user) do
           conn
           |> put_session(:user_id, user.id)
