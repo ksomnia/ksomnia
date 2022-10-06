@@ -1,14 +1,11 @@
 defmodule KsomniaWeb.AccountLive.Profile do
   use KsomniaWeb, :live_app_view
-
-  alias Ksomnia.Project
-  alias Ksomnia.Repo
   alias Ksomnia.User
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :account]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :account}}
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     %{current_user: user} = socket.assigns
 
     session =
@@ -19,7 +16,7 @@ defmodule KsomniaWeb.AccountLive.Profile do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
+  def handle_params(_params, _url, socket) do
     {:noreply, socket}
   end
 end

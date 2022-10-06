@@ -6,7 +6,11 @@ defmodule KsomniaWeb.LiveCurrentUser do
   def on_mount(:current_user, _params, session, socket) do
     with user_id when is_binary(user_id) <- session["user_id"],
          %User{} = user <- Repo.get(User, user_id) do
-      {:cont, LiveView.assign(socket, :current_user, user)}
+      {:cont,
+        socket
+        |> LiveView.assign(:current_user, user)
+        |> LiveView.assign(:user_apps, Ksomnia.App.for_user(user.id))
+      }
     else
       _ ->
         {:cont, LiveView.assign(socket, :current_user, nil)}

@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AccountLive.Password do
   use KsomniaWeb, :live_app_view
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :account]}
+
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :account}}
 
   @impl true
   def mount(_params, _session, socket) do

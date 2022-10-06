@@ -1,8 +1,9 @@
 defmodule KsomniaWeb.DashboardLive.Index do
   use KsomniaWeb, :live_app_view
+
   alias Ksomnia.App
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :dashboard]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :dashboard}}
 
   @impl true
   def mount(_params, _session, socket) do

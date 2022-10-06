@@ -6,7 +6,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMapper
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
   @stacktrace_types ["source_map", "generated_source"]
 
@@ -36,6 +36,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:app, app)
       |> assign(:project, project)
       |> assign(:error_records, error_records)
+      |> assign(:__current_app__, app.id)
 
     view_pid = self()
 

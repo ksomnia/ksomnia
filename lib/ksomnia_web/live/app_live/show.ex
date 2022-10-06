@@ -6,7 +6,7 @@ defmodule KsomniaWeb.AppLive.Show do
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMap
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :show]}
 
   @impl true
@@ -32,6 +32,7 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:project, project)
       |> assign(:error_identities, error_identities)
       |> assign(:latest_source_map, latest_source_map)
+      |> assign(:__current_app__, app.id)
 
     {:noreply, socket}
   end

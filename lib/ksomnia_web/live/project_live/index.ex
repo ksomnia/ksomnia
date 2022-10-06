@@ -4,10 +4,10 @@ defmodule KsomniaWeb.ProjectLive.Index do
   alias Ksomnia.Project
   alias Ksomnia.Repo
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     %{current_user: user} = socket.assigns
 
     session =

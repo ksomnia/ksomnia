@@ -3,10 +3,9 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
 
   alias Ksomnia.App
   alias Ksomnia.Repo
-  alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMap
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :source_maps]}
 
   @impl true

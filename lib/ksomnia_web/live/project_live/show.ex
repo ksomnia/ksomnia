@@ -5,7 +5,7 @@ defmodule KsomniaWeb.ProjectLive.Show do
   alias Ksomnia.Project
   alias Ksomnia.Repo
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, [set_section: :projects]}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
   @impl true
   def mount(_params, _session, socket) do

@@ -55,4 +55,19 @@ defmodule Ksomnia.App do
     )
     |> Repo.all()
   end
+
+  def for_user(user_id) do
+    project_ids =
+      from(p in Project,
+        join: pu in assoc(p, :project_users),
+        where: pu.user_id == ^user_id,
+        select: p.id
+      )
+      |> Repo.all()
+
+    from(a in App,
+      where: a.project_id in ^project_ids
+    )
+    |> Repo.all()
+  end
 end
