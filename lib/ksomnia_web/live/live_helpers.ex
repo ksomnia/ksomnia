@@ -46,15 +46,7 @@ defmodule KsomniaWeb.LiveHelpers do
     |> JS.hide(to: "#modal-content", transition: "fade-out-scale")
   end
 
-  def user_apps(assigns) do
-    # {:ok, assign_new(socket, :current_user, fn -> Accounts.get_user!(user_id) end)}
-
-    dbg(assigns)
-    dbg(assigns |> Map.keys())
-    dbg(assigns.current_user)
-
-    ~H"""
-    <div>user apps</div>
-    """
+  def user_avatar(user) do
+    user.username |> String.first() |> String.capitalize()
   end
 end

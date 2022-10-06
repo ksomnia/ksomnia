@@ -55,7 +55,9 @@
         ] do %>
           <div class="flex items-center">
             <div>
-              <img class="object-cover inline-block h-9 w-9 rounded-full" src="https://images.unsplash.com/photo-1658211260722-416576a2f1ed?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60" alt="">
+              <div class=" inline-block h-9 w-9 rounded-full bg-indigo-300 text-white flex justify-center items-center font-bold">
+                <%= user_avatar(@current_user) %>
+              </div>
             </div>
             <div class="ml-3">
               <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><%= @current_user.username %></p>
