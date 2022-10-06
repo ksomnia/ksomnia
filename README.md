@@ -6,7 +6,7 @@ Ksomnia is an open source error tracking software. More on https://ksomnia.com. 
 
 ### Development
 
-Install the latest Elixir, Erlang, NodeJS and PostgreSQL. Use [asdf.vm](https://asdf-vm.com/) or follow the instructions from the installation guide https://ksomnia.com/installation/#install-erlang-elixir-and-nodejs).
+Install the latest Elixir, Erlang, NodeJS and PostgreSQL. Use [asdf.vm](https://asdf-vm.com/) or follow the instructions from the installation guide https://ksomnia.com/installation/#install-erlang-elixir-and-nodejs.
 
 Install the dependencies
 
