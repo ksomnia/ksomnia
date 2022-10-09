@@ -12,6 +12,8 @@ defmodule KsomniaWeb.TeamLive.Index do
     session =
       socket
       |> assign(:teams, Team.for_user(user))
+      |> assign(:team, nil)
+
 
     {:ok, session}
   end

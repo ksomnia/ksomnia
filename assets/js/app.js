@@ -28,10 +28,18 @@ window.Alpine = Alpine
 Alpine.start()
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
+
+let Hooks = {}
+Hooks.PlusComponentHook = {
+  mounted() {
+  }
+}
+
 let liveSocket = new LiveSocket("/live", Socket, {
   params: {
     _csrf_token: csrfToken
-  }
+  },
+  hooks: Hooks
 })
 
 // Show progress bar on live navigation and form submits
@@ -61,3 +69,4 @@ window.KsomniaHelpers = {
     }
   }
 }
+

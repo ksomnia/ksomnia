@@ -14,6 +14,7 @@ defmodule KsomniaWeb.AppLive.Show do
     socket =
       socket
       |> assign(:display_token, nil)
+      |> assign(:team, %{})
 
     {:ok, socket}
   end

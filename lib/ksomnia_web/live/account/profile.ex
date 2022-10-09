@@ -11,6 +11,7 @@ defmodule KsomniaWeb.AccountLive.Profile do
     session =
       socket
       |> assign(:changeset, User.changeset(user, %{}))
+      |> assign(:team, nil)
 
     {:ok, session}
   end
