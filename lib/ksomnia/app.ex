@@ -4,6 +4,7 @@ defmodule Ksomnia.App do
   import Ecto.Query
   alias Ksomnia.App
   alias Ksomnia.Project
+  alias Ksomnia.Team
   alias Ksomnia.Repo
 
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
@@ -11,7 +12,7 @@ defmodule Ksomnia.App do
   schema "apps" do
     field :name, :string
     field :token, :string
-    belongs_to :project, Project, type: Ksomnia.ShortUUID6
+    belongs_to :team, Team, type: Ksomnia.ShortUUID6
 
     timestamps()
   end
@@ -42,31 +43,39 @@ defmodule Ksomnia.App do
     |> Repo.update()
   end
 
-  def create(project_id, attrs) when is_binary(project_id) do
-    %App{project_id: project_id}
+  def create(team_id, attrs) when is_binary(team_id) do
+    %App{team_id: team_id}
     |> changeset(attrs)
     |> Repo.insert()
   end
 
-  def for_project(project_id) do
+  def for_project(team_id) do
     from(a in App,
-      where: a.project_id == ^project_id,
+      where: a.team_id == ^team_id,
+      order_by: [asc: a.inserted_at]
+    )
+    |> Repo.all()
+  end
+
+  def for_team(team_id) do
+    from(a in App,
+      where: a.team_id == ^team_id,
       order_by: [asc: a.inserted_at]
     )
     |> Repo.all()
   end
 
   def for_user(user_id) do
-    project_ids =
-      from(p in Project,
-        join: pu in assoc(p, :project_users),
-        where: pu.user_id == ^user_id,
-        select: p.id
+    team_ids =
+      from(t in Team,
+        join: tu in assoc(t, :team_users),
+        where: tu.user_id == ^user_id,
+        select: t.id
       )
       |> Repo.all()
 
     from(a in App,
-      where: a.project_id in ^project_ids
+      where: a.team_id in ^team_ids
     )
     |> Repo.all()
   end

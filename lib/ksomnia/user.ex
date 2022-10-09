@@ -5,6 +5,7 @@ defmodule Ksomnia.User do
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.ProjectUser
+  alias Ksomnia.TeamUser
 
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
@@ -16,6 +17,7 @@ defmodule Ksomnia.User do
     field :password_confirmation, :string, virtual: true
     field :current_password, :string, virtual: true
     has_many :project_users, ProjectUser
+    has_many :team_users, TeamUser
 
     timestamps()
   end

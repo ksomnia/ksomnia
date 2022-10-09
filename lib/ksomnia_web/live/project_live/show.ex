@@ -35,7 +35,7 @@ defmodule KsomniaWeb.ProjectLive.Show do
   defp apply_action(socket, :new_app, _params) do
     socket
     |> assign(:page_title, "New App")
-    |> assign(:app, %App{project_id: socket.assigns.project.id})
+    # |> assign(:app, %App{project_id: socket.assigns.project_id})
   end
 
   defp apply_action(socket, :edit_app, %{"app_id" => id}) do

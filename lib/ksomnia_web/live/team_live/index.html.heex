@@ -1,0 +1,48 @@
+<div class="mx-auto max-w-lg mt-10">
+  <div>
+    <div class="text-center">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+      <h2 class="mt-2 text-lg font-medium text-gray-900">
+        Create team
+      </h2>
+    </div>
+    <form action="#" class="mt-6 flex">
+      <label for="email" class="sr-only">Email address</label>
+      <input type="email" name="email" id="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Team name">
+      <button type="submit" class="ml-4 flex-shrink-0 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        Create
+      </button>
+    </form>
+  </div>
+  <div class="mt-10">
+    <h3 class="text-sm font-medium text-gray-500">
+      Current teams
+    </h3>
+    <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+      <%= for team <- @teams do %>
+        <%= live_redirect [to: Routes.team_default_path(@socket, :default, team), class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
+          <div class="flex min-w-0 flex-1 items-center space-x-3">
+            <div class="flex-shrink-0">
+              <div class=" inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">
+                <%= "T" %>
+              </div>
+            </div>
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-medium text-gray-900"><%= team.name %></p>
+              <%= if false do %>
+                <p class="truncate text-sm font-medium text-gray-500">team.description</p>
+              <% end %>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <button type="button" class="inline-flex items-center rounded-full border border-transparent py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              <span class="text-sm font-medium text-gray-900">Open</span>
+            </button>
+          </div>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>

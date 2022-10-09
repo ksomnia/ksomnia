@@ -48,6 +48,9 @@ defmodule KsomniaWeb.Router do
   scope "/", KsomniaWeb do
     pipe_through :authenticated_browser
 
+    live "/teams", TeamLive.Index, :index
+    live "/t/:team_id/", TeamLive.Default, :default
+    live "/t/:team_id/new_app", TeamLive.Default, :new_app
     live "/dashboard", DashboardLive.Index, :index
     live "/apps/:id/settings", AppLive.Settings, :settings
     live "/apps/:id/source_maps", AppLive.SourceMaps, :source_maps
