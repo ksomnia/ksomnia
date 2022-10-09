@@ -2,7 +2,7 @@
 
 Ksomnia is an open source error tracking software. More on https://ksomnia.com. Installation guide https://ksomnia.com/installation/.
 
-![Screenshot](/docs/assets/screenshot.png)
+![ScreenShot](https://ksomnia.com/ksomnia-screenshot.png)
 
 ### Development
 
