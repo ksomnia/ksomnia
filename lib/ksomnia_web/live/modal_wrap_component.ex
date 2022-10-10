@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.Live.ModalWrapComponent do
   use KsomniaWeb, :live_component
 
+  @impl true
   def render(assigns) do
     ~H"""
       <div id="modal-wrap-component">
@@ -27,26 +28,11 @@ defmodule KsomniaWeb.Live.ModalWrapComponent do
       |> assign(:open_modal, false)
       |> assign(socket, socket.assigns)
 
-    dbg(:mount)
-    dbg(Map.keys(socket.assigns))
-
     {:ok, socket}
   end
 
-  # @impl true
-  # def update(assigns, socket) do
-  #   socket =
-  #     socket
-  #     |> assign(socket, assigns)
-
-  #   dbg(Map.keys(socket.assigns))
-
-  #   {:ok, socket}
-  # end
-
   @impl true
-  def handle_event("open-modal", opts, socket) do
-    dbg(opts)
+  def handle_event("open-modal", _opts, socket) do
     {:noreply, assign(socket, :open_modal, true)}
   end
 end

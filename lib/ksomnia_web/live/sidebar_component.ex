@@ -12,14 +12,14 @@ defmodule KsomniaWeb.Live.SidebarComponent do
           </div>
         </a>
         <nav class="flex-1 space-y-1 mt-5" aria-label="Sidebar">
-            <%= live_redirect to: Routes.project_index_path(@socket, :index), class: "#{if false, do: "bg-slate-50 border-indigo-50 text-slate-600 border-l-4", else: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900"} group flex items-center px-3 py-2 text-sm font-medium border-l-4 relative" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" class="absolute ml-1 flex-shrink-0 h-5 w-5 opacity-50" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-              </svg>
-              <input class="pl-7 p-1 px-2 border-slate-200 border rounded-none bg-slate-50 w-full border-t-0 border-l-0 border-r-0" placeholder="Search ..." />
-            <% end %>
+          <%= live_redirect to: Routes.team_index_path(@socket, :index), class: "#{if false, do: "bg-slate-50 border-indigo-50 text-slate-600 border-l-4", else: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900"} group flex items-center px-3 py-2 text-sm font-medium border-l-4 relative" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="absolute ml-1 flex-shrink-0 h-5 w-5 opacity-50" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input class="pl-7 p-1 px-2 border-slate-200 border rounded-none bg-slate-50 w-full border-t-0 border-l-0 border-r-0" placeholder="Search ..." />
+          <% end %>
 
-            <%= if @team do %>
+          <%= if @team do %>
             <div class="flex justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-500">
               <a>Apps</a>
               <.live_component
@@ -27,23 +27,23 @@ defmodule KsomniaWeb.Live.SidebarComponent do
                 module={KsomniaWeb.Live.PlusComponent}
               />
             </div>
-            <% end %>
+          <% end %>
 
-            <%= for app <- @user_apps do %>
-              <%= live_redirect app.name, [
-                to: Routes.app_show_path(@socket, :show, app),
-                class: "#{if @__current_app__ == app.id, do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4", else: "border-l-4 border-slate-50"} text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"
-              ] %>
-            <% end %>
-
-            <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900 group flex items-center px-3 py-2 text-sm font-medium border-l-4">
-              <svg class="text-gray-400 group-hover:text-gray-500 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              </svg>
-              Team
-            </a>
-          </nav>
+          <%= for app <- @user_apps do %>
+            <%= live_redirect app.name, [
+              to: Routes.app_show_path(@socket, :show, app),
+              class: "#{if @__current_app__ == app.id, do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4", else: "border-l-4 border-slate-50"} text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"
+            ] %>
+          <% end %>
+        </nav>
+      </div>
+      <%= if assigns[:team] do %>
+        <div class="px-4 py-2 text-slate-500 border-t border-gray-200 cursor-pointer">
+          <span class="font-medium text-sm">
+          <%= @team.name %>
+          </span>
         </div>
+      <% end %>
       <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
         <%= live_redirect [
           to: Routes.account_profile_path(@socket, :profile),

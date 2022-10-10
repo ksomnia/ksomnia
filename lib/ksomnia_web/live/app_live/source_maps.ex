@@ -20,14 +20,14 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     app = Repo.get(App, id)
-    project = Repo.preload(app, :project).project
+    team = Repo.get(Ksomnia.Team, app.team_id)
     source_maps = SourceMap.for_app(app)
 
     socket =
       socket
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:app, app)
-      |> assign(:project, project)
+      |> assign(:team, team)
       |> assign(:source_maps, source_maps)
 
     {:noreply, socket}

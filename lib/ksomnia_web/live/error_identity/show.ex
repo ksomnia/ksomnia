@@ -24,9 +24,9 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    error_identity = Repo.preload(Repo.get(ErrorIdentity, id), app: :project)
+    error_identity = Repo.preload(Repo.get(ErrorIdentity, id), app: :team)
     app = error_identity.app
-    project = error_identity.app.project
+    team = error_identity.app.team
     error_records = ErrorRecord.for_error_identity(error_identity)
 
     socket =
@@ -34,7 +34,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:page_title, error_identity.message)
       |> assign(:error_identity, error_identity)
       |> assign(:app, app)
-      |> assign(:project, project)
+      |> assign(:team, team)
       |> assign(:error_records, error_records)
       |> assign(:__current_app__, app.id)
 

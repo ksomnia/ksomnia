@@ -21,7 +21,7 @@ defmodule KsomniaWeb.AppLive.Settings do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     app = Repo.get(App, id)
-    project = Repo.preload(app, :project).project
+    team = Repo.get(Ksomnia.Team, app.team_id)
     error_identities = ErrorIdentity.for_app(app)
     latest_source_map = SourceMap.latest_for_app(app)
 
@@ -29,10 +29,11 @@ defmodule KsomniaWeb.AppLive.Settings do
       socket
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:app, app)
-      |> assign(:project, project)
+      |> assign(:team, team)
       |> assign(:error_identities, error_identities)
       |> assign(:latest_source_map, latest_source_map)
       |> assign(:app_changeset, App.changeset(app, %{}))
+      |> assign(:__current_app__, app.id)
 
     {:noreply, socket}
   end
