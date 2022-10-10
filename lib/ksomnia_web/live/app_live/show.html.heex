@@ -2,7 +2,7 @@
   <%= live_component KsomniaWeb.AppLive.NavComponent, app: @app, team: @team, nav_section: @__nav_section__ %>
 
   <div class="px-7 py-2">
-    <pre class="bg-slate-100 rounded-lg px-3 py-5 shadow-xs"><code class="p-0 m-0 leading-3 text-indigo-900 whitespace-nowrap">
+    <pre class="bg-slate-100 text-sm rounded-lg px-3 py-5 shadow-xs"><code class="p-0 m-0 leading-3 text-indigo-900 whitespace-nowrap">
       <div class="px-3 pb-2">Your app's token</div>
       <span phx-click="toggle_token_visibility" class="btn-primary select-none inline-flex items-center sm:order-1 sm:ml-3">
         <%= if @display_token, do: "Hide", else: "Show" %>
@@ -18,7 +18,7 @@
   </div>
 
   <%= if @latest_source_map do %>
-    <div class="px-7 py-5 text-slate-600">
+    <div class="px-7 py-5 text-slate-600 text-sm">
       Latest source map for the release <span class="commit-badge bg-slate-100"><%= Ksomnia.SourceMap.commit_hash_abbriv(@latest_source_map) %></span>
       uploaded <%= Timex.from_now(@latest_source_map.inserted_at) %>.
     </div>

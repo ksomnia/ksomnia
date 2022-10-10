@@ -22,10 +22,9 @@ defmodule KsomniaWeb.Live.SidebarComponent do
           <%= if @team do %>
             <div class="flex justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-500">
               <a>Apps</a>
-              <.live_component
-                id={"1"}
-                module={KsomniaWeb.Live.PlusComponent}
-              />
+              <svg phx-click={"open-modal"} phx-target="#modal-wrap-component" class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </div>
           <% end %>
 
@@ -67,22 +66,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
   end
 
   @impl true
-  def mount(socket) do
-    # socket =
-    #   socket
-    #   |> assign(socket, socket.assigns)
-
-    dbg(Map.keys(socket.assigns))
-
-    {:ok, socket}
+  def handle_event("open-modal", opts, socket) do
+    {:noreply, assign(socket, :open_modal, true)}
   end
-
-  # @impl true
-  # def update(assigns, socket) do
-  #   socket =
-  #     socket
-  #     |> assign(socket, assigns)
-
-  #   {:ok, socket}
-  # end
 end
