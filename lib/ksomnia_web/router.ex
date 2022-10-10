@@ -55,14 +55,6 @@ defmodule KsomniaWeb.Router do
     live "/apps/:id/settings", AppLive.Settings, :settings
     live "/apps/:id/source_maps", AppLive.SourceMaps, :source_maps
     live "/apps/:id", AppLive.Show, :show
-    live "/projects", ProjectLive.Index, :index
-    live "/projects/new", ProjectLive.Index, :new
-    live "/projects/:id/edit", ProjectLive.Index, :edit
-    live "/projects/:id/show/:app_id/edit_app", ProjectLive.Show, :edit_app
-    live "/projects/:id/show/edit", ProjectLive.Show, :edit
-    live "/projects/:id/show/new_app", ProjectLive.Show, :new_app
-    live "/projects/:id/members", ProjectLive.Members, :members
-    live "/projects/:id", ProjectLive.Show, :show
     live "/account/profile", AccountLive.Profile, :profile
     live "/account/password", AccountLive.Password, :password
     live "/error_identities/:id", ErrorIdentityLive.Show, :show
@@ -71,8 +63,6 @@ defmodule KsomniaWeb.Router do
   # Other scopes may use custom stacks.
   scope "/api/v1", KsomniaWeb do
     pipe_through :api
-
-    # post "/projects", ProjectController, :create
 
     post("/source_maps", SourceMapController, :create)
   end

@@ -8,7 +8,7 @@ defmodule KsomniaWeb.PageController do
 
     if user do
       conn
-      |> redirect(to: "/projects")
+      |> redirect(to: "/teams")
     else
       conn
       |> render("index.html", user: user)

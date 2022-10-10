@@ -49,14 +49,6 @@ defmodule Ksomnia.App do
     |> Repo.insert()
   end
 
-  def for_project(team_id) do
-    from(a in App,
-      where: a.team_id == ^team_id,
-      order_by: [asc: a.inserted_at]
-    )
-    |> Repo.all()
-  end
-
   def for_team(team_id) do
     from(a in App,
       where: a.team_id == ^team_id,
