@@ -4,7 +4,6 @@ defmodule KsomniaWeb.Live.ModalWrapComponent do
   def render(assigns) do
     ~H"""
       <div id="modal-wrap-component">
-        <%= "wrap #{@open_modal}" %>
         <%= if @open_modal do %>
           <.modal return_to={nil}>
             <.live_component

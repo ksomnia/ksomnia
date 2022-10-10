@@ -1,25 +1,10 @@
-<main class="">
-  <p class="fixed top-1 left-64 alert alert-info bg-slate-200 text-slate-700 font-thin text-xs opacity-50 rounded-md" role="alert"
-    phx-click="lv:clear-flash"
-    phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+defmodule KsomniaWeb.Live.SidebarComponent do
+  use KsomniaWeb, :live_component
 
-  <p class="fixed top-1 left-64 alert alert-danger bg-slate-200 text-slate-700 font-thin text-xs opacity-50 rounded-md" role="alert"
-    phx-click="lv:clear-flash"
-    phx-value-key="error"><%= live_flash(@flash, :error) %></p>
-
-  <div class="hidden md:flex md:w-48 md:flex-col md:fixed md:inset-y-0">
-    <!-- Sidebar component, swap this element with another sidebar if you like -->
-    <.live_component
-      module={KsomniaWeb.Live.SidebarComponent}
-      id={:sidebar}
-      team={@team}
-      user_apps={@user_apps}
-      __current_app__={@__current_app__}
-      current_user={@current_user}
-      __section__={@__section__}
-    />
-
-    <%!-- <div class="flex-1 flex flex-col min-h-0 border-r border-gray-200 shadow-md bg-gray-50">
+  @impl true
+  def render(assigns) do
+    ~H"""
+    <div class="flex-1 flex flex-col min-h-0 border-r border-gray-200 shadow-md bg-gray-50">
       <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <a href="/">
           <div class="flex items-center flex-shrink-0 px-4">
@@ -27,7 +12,7 @@
           </div>
         </a>
         <nav class="flex-1 space-y-1 mt-5" aria-label="Sidebar">
-            <%= live_redirect to: Routes.project_index_path(@socket, :index), class: "#{if @__section__ == :projects, do: "bg-slate-50 border-indigo-50 text-slate-600 border-l-4", else: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900"} group flex items-center px-3 py-2 text-sm font-medium border-l-4 relative" do %>
+            <%= live_redirect to: Routes.project_index_path(@socket, :index), class: "#{if false, do: "bg-slate-50 border-indigo-50 text-slate-600 border-l-4", else: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900"} group flex items-center px-3 py-2 text-sm font-medium border-l-4 relative" do %>
               <svg xmlns="http://www.w3.org/2000/svg" class="absolute ml-1 flex-shrink-0 h-5 w-5 opacity-50" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
               </svg>
@@ -37,7 +22,6 @@
             <%= if @team do %>
             <div class="flex justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-500">
               <a>Apps</a>
-
               <.live_component
                 id={"1"}
                 module={KsomniaWeb.Live.PlusComponent}
@@ -73,40 +57,32 @@
             </div>
             <div class="ml-3">
               <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900"><%= @current_user.username %></p>
-              <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile <%= @open_modal %></p>
+              <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
             </div>
           </div>
         <% end %>
       </div>
-    </div> --%>
-  </div>
-  <div class="md:pl-48 flex flex-col flex-1">
-    <div class="sticky top-0 z-10 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100">
-      <button type="button" class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-        <span class="sr-only">Open sidebar</span>
-        <!-- Heroicon name: outline/menu -->
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
     </div>
-    <main class="flex-1">
-      <%= @inner_content %>
-      <.live_component module={KsomniaWeb.Live.ModalWrapComponent} id={:wrap} team={@team} />
+    """
+  end
 
-      <%= if @open_modal do %>
-        <.modal return_to={"/"}>
-          <.live_component
-            module={KsomniaWeb.TeamLive.AppFormComponent}
-            id={@app.id || :new}
-            team_id={@team.id}
-            title={@page_title}
-            action={@live_action}
-            app={@app}
-            return_to={Routes.team_default_path(@socket, :default, @team)}
-          />
-        </.modal>
-      <% end %>
-    </main>
-  </div>
-</main>
+  @impl true
+  def mount(socket) do
+    # socket =
+    #   socket
+    #   |> assign(socket, socket.assigns)
+
+    dbg(Map.keys(socket.assigns))
+
+    {:ok, socket}
+  end
+
+  # @impl true
+  # def update(assigns, socket) do
+  #   socket =
+  #     socket
+  #     |> assign(socket, assigns)
+
+  #   {:ok, socket}
+  # end
+end
