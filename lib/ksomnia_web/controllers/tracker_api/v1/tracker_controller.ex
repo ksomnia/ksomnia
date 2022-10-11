@@ -7,7 +7,7 @@ defmodule KsomniaWeb.TrackerApi.V1.TrackerController do
   alias Ksomnia.Repo
   action_fallback KsomniaWeb.TrackerApi.V1.FallbackController
 
-  def track(conn, %{"token" => token} = params) do
+  def track(conn, %{"token" => token} = _params) do
     token = String.trim(token)
 
     with {:app, %App{} = app} <- {:app, Repo.get_by(App, token: token)},

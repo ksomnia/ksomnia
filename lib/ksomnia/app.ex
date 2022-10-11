@@ -3,7 +3,6 @@ defmodule Ksomnia.App do
   import Ecto.Changeset
   import Ecto.Query
   alias Ksomnia.App
-  alias Ksomnia.Project
   alias Ksomnia.Team
   alias Ksomnia.Repo
 

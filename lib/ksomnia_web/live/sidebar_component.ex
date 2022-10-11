@@ -66,7 +66,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
   end
 
   @impl true
-  def handle_event("open-modal", opts, socket) do
+  def handle_event("open-modal", _opts, socket) do
     {:noreply, assign(socket, :open_modal, true)}
   end
 end

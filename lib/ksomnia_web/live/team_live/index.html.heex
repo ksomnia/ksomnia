@@ -8,13 +8,19 @@
         Create team
       </h2>
     </div>
-    <form action="#" class="mt-6 flex">
-      <label for="email" class="sr-only">Email address</label>
-      <input type="email" name="email" id="email" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Team name">
+    <.form
+      let={f}
+      for={@changeset}
+      id="team-form"
+      class="mt-6 flex"
+      phx-change="validate"
+      phx-submit="save">
+      <%= label f, :name, class: "block text-slate-700 text-sm font-medium sr-only" %>
+      <%= text_input f, :name, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm", placeholder: "Team name" %>
       <button type="submit" class="ml-4 flex-shrink-0 rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
         Create
       </button>
-    </form>
+    </.form>
   </div>
   <div class="mt-10">
     <h3 class="text-sm font-medium text-gray-500">

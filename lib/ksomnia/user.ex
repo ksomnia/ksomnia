@@ -1,7 +1,6 @@
 defmodule Ksomnia.User do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.TeamUser
