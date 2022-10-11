@@ -4,7 +4,7 @@
       <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z" />
       </svg>
-      <h2 class="mt-2 text-lg font-medium text-gray-900">
+      <h2 class="mt-2 text-lg font-medium text-slate-500">
         Create team
       </h2>
     </div>
@@ -28,11 +28,11 @@
     </h3>
     <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
       <%= for team <- @teams do %>
-        <%= live_redirect [to: Routes.team_default_path(@socket, :default, team), class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
+        <%= live_redirect [to: Routes.team_settings_path(@socket, :settings, team), class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
           <div class="flex min-w-0 flex-1 items-center space-x-3">
             <div class="flex-shrink-0">
               <div class=" inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">
-                <%= "T" %>
+                <%= String.first(team.name) |> String.capitalize() %>
               </div>
             </div>
             <div class="min-w-0 flex-1">
