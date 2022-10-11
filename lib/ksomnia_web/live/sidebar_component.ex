@@ -12,13 +12,6 @@ defmodule KsomniaWeb.Live.SidebarComponent do
           </div>
         </a>
         <nav class="flex-1 space-y-1 mt-5" aria-label="Sidebar">
-          <%= live_redirect to: Routes.team_index_path(@socket, :index), class: "#{if false, do: "bg-slate-50 border-indigo-50 text-slate-600 border-l-4", else: "border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900"} group flex items-center px-3 py-2 text-sm font-medium border-l-4 relative" do %>
-            <svg xmlns="http://www.w3.org/2000/svg" class="absolute ml-1 flex-shrink-0 h-5 w-5 opacity-50" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-            </svg>
-            <input class="pl-7 p-1 px-2 border-slate-200 border rounded-none bg-slate-50 w-full border-t-0 border-l-0 border-r-0" placeholder="Search ..." />
-          <% end %>
-
           <%= for team <- @user_apps_grouped do %>
             <div class="flex justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-400">
               <%= live_redirect "#{team.name}", [to: Routes.team_settings_path(@socket, :settings, team), class: "hover:text-indigo-500"] %>
@@ -36,13 +29,6 @@ defmodule KsomniaWeb.Live.SidebarComponent do
           <% end %>
         </nav>
       </div>
-      <%= if assigns[:team] do %>
-        <div class="px-4 py-2 text-slate-500 border-t border-gray-200 cursor-pointer">
-          <span class="font-medium text-sm">
-          <%= @team.name %>
-          </span>
-        </div>
-      <% end %>
       <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
         <%= live_redirect [
           to: Routes.account_profile_path(@socket, :profile),
