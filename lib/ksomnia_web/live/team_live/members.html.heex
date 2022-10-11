@@ -1,0 +1,24 @@
+<div class="text-center mt-1">
+  <%= live_component KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :members %>
+
+  <div class="px-7 mt-8 overflow-hidden">
+    <table class="min-w-full divide-y divide-gray-300">
+      <thead class="bg-gray-50">
+        <tr>
+          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 sm:pl-6">
+            Member
+          </th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 bg-white">
+        <%= for user <- @users do %>
+          <tr>
+            <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+              <%= user.username %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

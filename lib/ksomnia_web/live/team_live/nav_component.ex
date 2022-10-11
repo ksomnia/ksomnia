@@ -29,7 +29,7 @@ defmodule KsomniaWeb.TeamLive.NavComponent do
         <% end %>
 
         <%= live_redirect [
-          to: Routes.team_settings_path(@socket, :settings, @team),
+          to: Routes.team_members_path(@socket, :members, @team),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">

@@ -1,6 +1,7 @@
 defmodule Ksomnia.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.TeamUser
@@ -81,5 +82,14 @@ defmodule Ksomnia.User do
     user
     |> profile_changeset(attrs)
     |> Repo.update()
+  end
+
+  def for_team(team) do
+    from(u in User,
+      join: tu in assoc(u, :team_users),
+      where: tu.team_id == ^team.id
+    )
+    |> Repo.all()
+    |> dbg()
   end
 end

@@ -51,6 +51,7 @@ defmodule KsomniaWeb.Router do
     live "/teams", TeamLive.Index, :index
     live "/t/:team_id/apps", TeamLive.Apps, :apps
     live "/t/:team_id/settings", TeamLive.Settings, :settings
+    live "/t/:team_id/members", TeamLive.Members, :members
     live "/t/:team_id/", TeamLive.Default, :default
     live "/t/:team_id/new_app", TeamLive.Default, :new_app
     live "/dashboard", DashboardLive.Index, :index
