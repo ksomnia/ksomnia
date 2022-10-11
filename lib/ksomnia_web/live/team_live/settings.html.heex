@@ -1,3 +1,9 @@
 <div class="text-center mt-1">
   <%= live_component KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :settings %>
+  <.live_component
+    id={:team_settings}
+    module={KsomniaWeb.AppLive.TeamSettingsFormComponent}
+    team={@team}
+    action={:edit_team}
+  />
 </div>

@@ -8,20 +8,19 @@ defmodule KsomniaWeb.TeamLive.Settings do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :apps, [])}
+    {:ok, assign(socket, %{
+      team: nil
+    })}
   end
 
   @impl true
   def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    apps = App.for_team(team.id)
 
     socket =
       socket
       |> assign(:team, team)
-      |> assign(:apps, apps)
       |> assign(:page_title, "#{team.name}")
-      |> assign(:app, %{id: nil})
 
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
