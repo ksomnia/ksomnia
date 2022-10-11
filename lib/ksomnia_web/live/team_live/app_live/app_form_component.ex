@@ -4,8 +4,6 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
 
   @impl true
   def update(%{app: app} = assigns, socket) do
-
-    dbg("dbg")
     changeset = App.changeset(app, %{})
 
     {:ok,

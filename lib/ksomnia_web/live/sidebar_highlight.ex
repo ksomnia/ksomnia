@@ -1,6 +1,5 @@
 defmodule KsomniaWeb.Live.SidebarHighlight do
   def on_mount(%{section: section_name} = opts, _params, _session, socket) do
-    # dbg(opts)
     {:cont,
       socket
       |> Phoenix.LiveView.assign(:__section__, section_name)

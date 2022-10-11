@@ -57,17 +57,24 @@ defmodule Ksomnia.App do
   end
 
   def for_user(user_id) do
-    team_ids =
+    teams =
       from(t in Team,
         join: tu in assoc(t, :team_users),
-        where: tu.user_id == ^user_id,
-        select: t.id
+        where: tu.user_id == ^user_id
       )
       |> Repo.all()
 
-    from(a in App,
-      where: a.team_id in ^team_ids
-    )
-    |> Repo.all()
+    grouped_teams =
+      Enum.group_by(teams, & &1.id)
+
+    grouped_apps =
+      from(a in App, where: a.team_id in ^Enum.map(teams, & &1.id))
+      |> Repo.all()
+      |> Enum.group_by(& &1.team_id)
+
+    grouped_teams
+    |> Enum.map(fn {_, [team]} ->
+      Map.put(team, :apps, grouped_apps[team.id])
+    end)
   end
 end

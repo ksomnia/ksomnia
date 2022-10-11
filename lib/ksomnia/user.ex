@@ -90,6 +90,5 @@ defmodule Ksomnia.User do
       where: tu.team_id == ^team.id
     )
     |> Repo.all()
-    |> dbg()
   end
 end
