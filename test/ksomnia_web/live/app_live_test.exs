@@ -1,12 +1,9 @@
 defmodule KsomniaWeb.AppLiveTest do
   use KsomniaWeb.ConnCase
-  alias Ksomnia.App
-  alias Ksomnia.User
-  alias Ksomnia.Team
 
   import Phoenix.LiveViewTest
 
-  def create_app(opts) do
+  def create_app(_opts) do
     user = insert(:user, email: "for_team@test.test")
     team = insert(:team)
     app = insert(:app, team: team)
@@ -15,10 +12,10 @@ defmodule KsomniaWeb.AppLiveTest do
     %{app: app, user: user, team: team}
   end
 
-  describe "Displays the user's apps" do
+  describe "the user's home page" do
     setup [:create_app]
 
-    test "", %{conn: conn, app: app, user: user} do
+    test "displays the user's apps", %{conn: conn, app: app, user: user} do
       url = Routes.dashboard_index_path(conn, :index)
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
       {:ok, _index_live, html} = live(conn, url)
