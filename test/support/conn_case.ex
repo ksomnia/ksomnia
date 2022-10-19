@@ -23,6 +23,7 @@ defmodule KsomniaWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import KsomniaWeb.ConnCase
+      import Ksomnia.Factory
 
       alias KsomniaWeb.Router.Helpers, as: Routes
 

@@ -19,11 +19,14 @@ defmodule Ksomnia.DataCase do
   using do
     quote do
       alias Ksomnia.Repo
+      alias Ksomnia.User
+      alias Ksomnia.Team
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
       import Ksomnia.DataCase
+      import Ksomnia.Factory
     end
   end
 
