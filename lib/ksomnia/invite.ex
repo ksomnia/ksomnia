@@ -4,12 +4,13 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.Invite
   alias Ksomnia.Team
   alias Ksomnia.User
+  alias Ksomnia.Repo
 
   schema "invites" do
     field :email, :string
     field :accepted_at, :naive_datetime
     belongs_to :team, Team, type: Ksomnia.ShortUUID6
-    belongs_to :user, User, type: Ksomnia.ShortUUID6
+    belongs_to :inviter, User, type: Ksomnia.ShortUUID6
 
     timestamps()
   end
@@ -21,8 +22,13 @@ defmodule Ksomnia.Invite do
     |> validate_required([:email])
   end
 
-  def new(attrs) do
-    %Invite{}
+  def new(team_id, attrs) do
+    %Invite{team_id: team_id}
     |> changeset(attrs)
+  end
+
+  def create(team_id, attrs) do
+    new(team_id, attrs)
+    |> Repo.insert()
   end
 end
