@@ -23,7 +23,7 @@ defmodule KsomniaWeb.TeamLive.InviteModalComponent do
 
   def handle_event("save", %{"invite" => params}, socket) do
     case Invite.create(socket.assigns.team.id, params) do
-      {:ok, _app} ->
+      {:ok, _invite} ->
         {:noreply,
          socket
          |> put_flash(:info, "Invite created successfully")

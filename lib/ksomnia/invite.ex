@@ -1,10 +1,13 @@
 defmodule Ksomnia.Invite do
   use Ecto.Schema
+  # import Ecto.Query
   import Ecto.Changeset
   alias Ksomnia.Invite
   alias Ksomnia.Team
   alias Ksomnia.User
   alias Ksomnia.Repo
+
+  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
   schema "invites" do
     field :email, :string
@@ -30,5 +33,10 @@ defmodule Ksomnia.Invite do
   def create(team_id, attrs) do
     new(team_id, attrs)
     |> Repo.insert()
+  end
+
+  def for_team(team) do
+    team = Repo.preload(team, :invites)
+    team.invites
   end
 end

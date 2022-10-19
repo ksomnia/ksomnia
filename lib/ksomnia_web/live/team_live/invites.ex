@@ -1,8 +1,8 @@
-defmodule KsomniaWeb.TeamLive.Members do
+defmodule KsomniaWeb.TeamLive.Invites do
   use KsomniaWeb, :live_app_view
   alias Ksomnia.Team
   alias Ksomnia.Repo
-  alias Ksomnia.User
+  alias Ksomnia.Invite
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
@@ -10,19 +10,19 @@ defmodule KsomniaWeb.TeamLive.Members do
   def mount(_params, _session, socket) do
     {:ok, assign(socket, %{
       team: nil,
-      members: []
+      invites: []
     })}
   end
 
   @impl true
   def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    users = User.for_team(team)
+    invites = Invite.for_team(team)
 
     socket =
       socket
       |> assign(:team, team)
-      |> assign(:users, users)
+      |> assign(:invites, invites)
       |> assign(:page_title, "#{team.name}")
 
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
