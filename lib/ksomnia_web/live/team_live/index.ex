@@ -12,6 +12,7 @@ defmodule KsomniaWeb.TeamLive.Index do
     session =
       socket
       |> assign(:teams, Team.for_user(user))
+      |> assign(:invites, Team.for_user(user))
       |> assign(:team, %Team{})
       |> assign(:changeset, changeset)
 

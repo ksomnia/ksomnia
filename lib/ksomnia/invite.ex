@@ -39,4 +39,8 @@ defmodule Ksomnia.Invite do
     team = Repo.preload(team, :invites)
     team.invites
   end
+
+  def revoke(invite) do
+    Repo.delete(invite)
+  end
 end

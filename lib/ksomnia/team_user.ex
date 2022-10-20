@@ -8,18 +8,23 @@ defmodule Ksomnia.TeamUser do
   schema "team_users" do
     belongs_to :team, Team, type: Ksomnia.ShortUUID6
     belongs_to :user, User, type: Ksomnia.ShortUUID6
+    field :role, :string
 
     timestamps()
   end
 
+  @user_roles [:owner, :member]
+
   @doc false
   def changeset(team_user, attrs) do
     team_user
-    |> cast(attrs, [:user_id, :team_id])
-    |> validate_required([:user_id, :team_id])
+    |> cast(attrs, [:user_id, :team_id, :role])
+    |> validate_required([:user_id, :team_id, :role])
+    |> validate_inclusion(:role, @user_roles)
   end
 
-  def new(team_id, user_id) do
+  def new(team_id, user_id, attrs) do
     %TeamUser{team_id: team_id, user_id: user_id}
+    |> changeset(attrs)
   end
 end

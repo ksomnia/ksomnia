@@ -24,6 +24,9 @@
             <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
               <%= invite.email %>
             </td>
+            <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+              <button class="btn-primary" phx-click="revoke_invite" phx-value-invite-id="#{invite.id}">Revoke</button>
+            </td>
           </tr>
         <% end %>
       </tbody>
@@ -38,7 +41,6 @@
       id={:invite_member}
       team={@team}
       action={@live_action}
-      return_to={Routes.team_members_path(@socket, :members, @team)}
     />
   </.modal>
 <% end %>
