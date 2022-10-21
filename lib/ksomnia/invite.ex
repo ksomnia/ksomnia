@@ -1,6 +1,6 @@
 defmodule Ksomnia.Invite do
   use Ecto.Schema
-  # import Ecto.Query
+  import Ecto.Query
   import Ecto.Changeset
   alias Ksomnia.Invite
   alias Ksomnia.Team
@@ -38,6 +38,11 @@ defmodule Ksomnia.Invite do
   def for_team(team) do
     team = Repo.preload(team, :invites)
     team.invites
+  end
+
+  def for_user_email(email) do
+    from(i in Invite, where: i.email == ^email)
+    |> Repo.all()
   end
 
   def revoke(invite) do

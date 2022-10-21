@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.TeamLive.Index do
   use KsomniaWeb, :live_app_view
   alias Ksomnia.Team
+  alias Ksomnia.Invite
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
@@ -12,7 +13,7 @@ defmodule KsomniaWeb.TeamLive.Index do
     session =
       socket
       |> assign(:teams, Team.for_user(user))
-      |> assign(:invites, Team.for_user(user))
+      |> assign(:invites, Invite.for_user_email(user.email))
       |> assign(:team, %Team{})
       |> assign(:changeset, changeset)
 

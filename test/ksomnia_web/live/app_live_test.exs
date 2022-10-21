@@ -21,5 +21,15 @@ defmodule KsomniaWeb.AppLiveTest do
       {:ok, _index_live, html} = live(conn, url)
       assert html =~ app.name
     end
+
+    test "displays the user's invites", %{conn: conn, user: user, team: team} do
+      invitee = insert(:user, email: "invitee@test.test")
+      insert(:invite, email: invitee.email, inviter: user)
+
+      url = Routes.team_index_path(conn, :index)
+      conn = Plug.Test.init_test_session(conn, user_id: invitee.id)
+      {:ok, _index_live, html} = live(conn, url)
+      assert html =~ "Pending invites"
+    end
   end
 end

@@ -23,14 +23,18 @@
     </.form>
   </div>
   <div class="mt-10">
+    <%= unless Enum.empty?(@invites) do %>
     <h3 class="text-sm font-medium text-gray-500">
       Pending invites
     </h3>
-    <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
-      <%= for invite <- @invites do %>
-        <%= invite.team_id %>
-      <% end %>
-    </ul>
+      <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+        <%= for invite <- @invites do %>
+          <div>
+            <%= invite.team_id %>
+          </div>
+        <% end %>
+      </ul>
+    <% end %>
   </div>
   <div class="mt-10">
     <h3 class="text-sm font-medium text-gray-500">
