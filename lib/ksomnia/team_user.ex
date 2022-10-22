@@ -13,13 +13,13 @@ defmodule Ksomnia.TeamUser do
     timestamps()
   end
 
-  @user_roles [:owner, :member]
+  @user_roles ["owner", "member"]
 
   @doc false
   def changeset(team_user, attrs) do
     team_user
     |> cast(attrs, [:user_id, :team_id, :role])
-    |> validate_required([:user_id, :team_id, :role])
+    |> validate_required([:user_id, :team_id])
     |> validate_inclusion(:role, @user_roles)
   end
 

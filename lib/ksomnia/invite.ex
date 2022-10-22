@@ -4,6 +4,7 @@ defmodule Ksomnia.Invite do
   import Ecto.Changeset
   alias Ksomnia.Invite
   alias Ksomnia.Team
+  alias Ksomnia.TeamUser
   alias Ksomnia.User
   alias Ksomnia.Repo
 
@@ -41,11 +42,20 @@ defmodule Ksomnia.Invite do
   end
 
   def for_user_email(email) do
-    from(i in Invite, where: i.email == ^email)
+    from(i in Invite, where: i.email == ^email, preload: [:team])
     |> Repo.all()
   end
 
   def revoke(invite) do
     Repo.delete(invite)
+  end
+
+  def accept(invite, invitee) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:invite, change(invite, accepted_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)))
+    |> Ecto.Multi.insert(:team_user, fn %{} ->
+      TeamUser.new(invite.team_id, invitee.id, %{role: "member"})
+    end)
+    |> Repo.transaction()
   end
 end
