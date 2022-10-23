@@ -4,6 +4,7 @@ defmodule Ksomnia.TeamUser do
   alias Ksomnia.TeamUser
   alias Ksomnia.Team
   alias Ksomnia.User
+  alias Ksomnia.Repo
 
   schema "team_users" do
     belongs_to :team, Team, type: Ksomnia.ShortUUID6
@@ -26,5 +27,11 @@ defmodule Ksomnia.TeamUser do
   def new(team_id, user_id, attrs) do
     %TeamUser{team_id: team_id, user_id: user_id}
     |> changeset(attrs)
+  end
+
+  def is_member(team_id, email) when not is_nil(team_id) and not is_nil(email) do
+    with %User{} = user <- User.get(email: email) do
+      Repo.get_by(TeamUser, team_id: team_id, user_id: user.id)
+    end
   end
 end

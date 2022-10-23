@@ -91,4 +91,8 @@ defmodule Ksomnia.User do
     )
     |> Repo.all()
   end
+
+  def get(fields) do
+    Repo.get_by(User, fields)
+  end
 end

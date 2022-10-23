@@ -13,5 +13,7 @@ defmodule Ksomnia.Repo.Migrations.CreateInvites do
     end
 
     create index(:invites, [:email])
+    create index(:invites, [:team_id])
+    create index(:invites, [:email, :team_id], unique: true)
   end
 end
