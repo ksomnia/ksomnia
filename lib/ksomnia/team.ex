@@ -5,6 +5,7 @@ defmodule Ksomnia.Team do
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
   alias Ksomnia.Repo
+  alias Ksomnia.Invite
   alias Ecto.Multi
 
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
@@ -12,6 +13,7 @@ defmodule Ksomnia.Team do
   schema "teams" do
     field :name, :string
     has_many :team_users, TeamUser
+    has_many :invites, Invite
     timestamps()
   end
 
@@ -31,7 +33,7 @@ defmodule Ksomnia.Team do
     Multi.new()
     |> Multi.insert(:team, new(attrs))
     |> Ecto.Multi.insert(:team_user, fn %{team: team} ->
-      TeamUser.new(team.id, user.id)
+      TeamUser.new(team.id, user.id, %{role: "owner"})
     end)
     |> Repo.transaction()
   end

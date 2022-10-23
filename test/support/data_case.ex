@@ -21,6 +21,7 @@ defmodule Ksomnia.DataCase do
       alias Ksomnia.Repo
       alias Ksomnia.User
       alias Ksomnia.Team
+      alias Ksomnia.Invite
 
       import Ecto
       import Ecto.Changeset

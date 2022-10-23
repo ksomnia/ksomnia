@@ -5,6 +5,7 @@ defmodule Ksomnia.Factory do
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
   alias Ksomnia.App
+  alias Ksomnia.Invite
 
   def user_factory do
     %User{
@@ -30,6 +31,14 @@ defmodule Ksomnia.Factory do
     %App{
       name: "app",
       team: build(:team)
+    }
+  end
+
+  def invite_factory do
+    %Invite{
+      email: "test@test.test",
+      team: build(:team),
+      inviter: build(:user)
     }
   end
 end

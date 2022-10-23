@@ -74,7 +74,7 @@ defmodule Ksomnia.App do
 
     grouped_teams
     |> Enum.map(fn {_, [team]} ->
-      Map.put(team, :apps, grouped_apps[team.id])
+      Map.put(team, :apps, grouped_apps[team.id] || [])
     end)
   end
 end
