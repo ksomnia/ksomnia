@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "fastify": "^4.4.0",
+    "fastify": "^4.8.1",
     "source-map": "^0.7.4"
   },
   "type": "module"
