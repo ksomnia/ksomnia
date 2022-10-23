@@ -49,7 +49,7 @@
                 <span class="text-sm font-medium text-red-900 p-2 bg-slate-100 hover:bg-slate-200 rounded-md">Reject</span>
               </button>
               <button type="button" class="inline-flex items-center rounded-full border border-transparent px-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <span class="text-sm font-medium text-gray-900 p-2 bg-indigo-200 hover:bg-indigo-300 rounded-md">Accept</span>
+                <span phx-click="accept-invite" phx-value-invite-id={"#{invite.id}"} class="text-sm font-medium text-gray-900 p-2 bg-indigo-200 hover:bg-indigo-300 rounded-md">Accept</span>
               </button>
             </div>
           </div>
@@ -66,7 +66,7 @@
         <%= live_redirect [to: Routes.team_settings_path(@socket, :settings, team), class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
           <div class="flex min-w-0 flex-1 items-center space-x-3">
             <div class="flex-shrink-0">
-              <div class=" inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">
+              <div class="inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">
                 <%= String.first(team.name) |> String.capitalize() %>
               </div>
             </div>

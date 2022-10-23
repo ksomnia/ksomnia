@@ -17,7 +17,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
   @impl true
   def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    invites = Invite.for_team(team)
+    invites = Invite.pending_for_team(team)
 
     socket =
       socket

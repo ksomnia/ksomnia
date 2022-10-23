@@ -22,7 +22,7 @@ defmodule KsomniaWeb.AppLiveTest do
       assert html =~ app.name
     end
 
-    test "displays the user's invites", %{conn: conn, user: user, team: team} do
+    test "displays the user's invites", %{conn: conn, user: user} do
       invitee = insert(:user, email: "invitee@test.test")
       insert(:invite, email: invitee.email, inviter: user)
 

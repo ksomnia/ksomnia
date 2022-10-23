@@ -48,6 +48,22 @@ defmodule KsomniaWeb.TeamLive.Index do
     end
   end
 
+  def handle_event("accept-invite", %{"invite-id" => invite_id}, socket) do
+    user = socket.assigns.current_user
+
+    case Invite.accept(invite_id, user) do
+      {:ok, _} ->
+        socket =
+          socket
+          |> assign(:teams, Team.for_user(user))
+          |> assign(:invites, Invite.for_user_email(user.email))
+
+        {:noreply, socket}
+
+      {:error, _} ->
+        {:noreply, socket}
+    end
+  end
 
   defp apply_action(socket, :index, _params) do
     socket

@@ -36,18 +36,27 @@ defmodule Ksomnia.Invite do
     |> Repo.insert()
   end
 
-  def for_team(team) do
-    team = Repo.preload(team, :invites)
-    team.invites
+  def pending_for_team(team) do
+    from(i in Invite, where: i.team_id == ^team.id and is_nil(i.accepted_at))
+    |> Repo.all()
   end
 
   def for_user_email(email) do
-    from(i in Invite, where: i.email == ^email, preload: [:team])
+    from(i in Invite, where: i.email == ^email and is_nil(i.accepted_at), preload: [:team])
     |> Repo.all()
   end
 
   def revoke(invite) do
     Repo.delete(invite)
+  end
+
+  def reject(invite) do
+    Repo.delete(invite)
+  end
+
+  def accept(invite_id, invitee) when is_binary(invite_id) do
+    invite = Repo.get(Invite, invite_id)
+    accept(invite, invitee)
   end
 
   def accept(invite, invitee) do
