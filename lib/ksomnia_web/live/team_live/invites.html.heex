@@ -24,9 +24,11 @@
             <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
               <%= invite.email %>
             </td>
-            <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <button class="btn-primary" phx-click="revoke_invite" phx-value-invite-id="#{invite.id}">Revoke</button>
-            </td>
+            <%= if can_revoke_invite(@team, @current_user, invite) do %>
+              <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+                <button class="btn-primary" phx-click="revoke-invite" phx-value-invite-id={"#{invite.id}"}>Revoke</button>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>
