@@ -19,10 +19,13 @@
   <div class="px-7 mt-5 overflow-hidden">
     <table class="min-w-full divide-y divide-gray-300">
       <tbody class="divide-y divide-gray-200 bg-slate-50">
-        <%= for user <- @users do %>
+        <%= for team_member <- @team_members do %>
           <tr>
             <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= user.username %>
+              <%= team_member.username %>
+            </td>
+            <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+              <%= team_member.role %>
             </td>
           </tr>
         <% end %>

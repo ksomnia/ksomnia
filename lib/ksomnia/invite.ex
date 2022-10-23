@@ -24,7 +24,7 @@ defmodule Ksomnia.Invite do
     invite
     |> cast(attrs, [:email])
     |> validate_required([:email])
-    |> unique_constraint([:email, :team_id])
+    |> unique_constraint([:email, :team_id], message: "has already been invited")
   end
 
   def new(team_id, attrs) do
@@ -33,17 +33,18 @@ defmodule Ksomnia.Invite do
     |> ensure_not_member
   end
 
-  def ensure_not_member(changeset) do
-    email = changeset.changes.email
+  def ensure_not_member(%{changes: %{email: email}} = changeset) do
     team_id = changeset.data.team_id
 
     if TeamUser.is_member(team_id, email) do
       changeset
-      |> add_error(team_id, "the user is already a team member")
+      |> add_error(:email, "the user is already a team member")
     else
       changeset
     end
   end
+
+  def ensure_not_member(changeset), do: changeset
 
   def create(team_id, attrs) do
     new(team_id, attrs)

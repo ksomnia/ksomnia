@@ -55,7 +55,7 @@ defmodule Ksomnia.InviteTest do
         inviter_id: inviter.id
       })
 
-      assert [email: {"has already been taken", _}] = changset.errors
+      assert [email: {"has already been invited", _}] = changset.errors
     end
   end
 end

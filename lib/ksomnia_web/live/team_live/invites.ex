@@ -4,7 +4,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
   alias Ksomnia.Repo
   alias Ksomnia.Invite
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
+  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :invites}}
 
   @impl true
   def mount(_params, _session, socket) do

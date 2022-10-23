@@ -15,6 +15,7 @@ defmodule Ksomnia.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :current_password, :string, virtual: true
+    field :role, :string, virtual: true
     has_many :team_users, TeamUser
 
     timestamps()
@@ -87,7 +88,10 @@ defmodule Ksomnia.User do
   def for_team(team) do
     from(u in User,
       join: tu in assoc(u, :team_users),
-      where: tu.team_id == ^team.id
+      where: tu.team_id == ^team.id,
+      select: %{
+        u | role: tu.role
+      }
     )
     |> Repo.all()
   end
