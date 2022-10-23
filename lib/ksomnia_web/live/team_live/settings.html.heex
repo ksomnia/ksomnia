@@ -5,10 +5,12 @@
       <span class="text-6xl font-extrabold text-white"><%= String.capitalize(String.first(@team.name)) %></span>
     </div>
   </div>
-  <.live_component
-    id={:team_settings}
-    module={KsomniaWeb.AppLive.TeamSettingsFormComponent}
-    team={@team}
-    action={:edit_team}
-  />
+  <%= if Ksomnia.TeamUser.is_owner(@current_user, @team) do %>
+    <.live_component
+      id={:team_settings}
+      module={KsomniaWeb.AppLive.TeamSettingsFormComponent}
+      team={@team}
+      action={:edit_team}
+    />
+  <% end %>
 </div>

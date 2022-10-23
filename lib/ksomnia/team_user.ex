@@ -34,4 +34,9 @@ defmodule Ksomnia.TeamUser do
       Repo.get_by(TeamUser, team_id: team_id, user_id: user.id)
     end
   end
+
+  def is_owner(user, team) do
+    team_user = Repo.get_by(TeamUser, team_id: team.id, user_id: user.id)
+    team_user && team_user.role == "owner"
+  end
 end

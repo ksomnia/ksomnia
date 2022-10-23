@@ -97,6 +97,12 @@ defmodule Ksomnia.User do
     |> Repo.all()
   end
 
+  @doc """
+  > User.get("id")
+  > User.get(email: "email")
+  """
+  def get(id) when is_binary(id), do: Repo.get(User, id)
+
   def get(fields) do
     Repo.get_by(User, fields)
   end

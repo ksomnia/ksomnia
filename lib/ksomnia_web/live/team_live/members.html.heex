@@ -21,7 +21,12 @@
       <tbody class="divide-y divide-gray-200 bg-slate-50">
         <%= for team_member <- @team_members do %>
           <tr>
-            <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+            <td class="w-10">
+              <div class={"select-none bg-gradient-to-r #{generate_gradient(team_member.username)} ml-2 w-8 h-8 flex justify-center items-center rounded-md"}>
+                <span class="text-sm font-extrabold text-white"><%= String.capitalize(String.first(team_member.username)) %></span>
+              </div>
+            </td>
+            <td class="text-left w-full max-w-0 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
               <%= team_member.username %>
             </td>
             <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">

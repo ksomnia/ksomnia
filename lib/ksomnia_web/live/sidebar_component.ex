@@ -36,7 +36,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
         ] do %>
           <div class="flex items-center">
             <div>
-              <div class="relative inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300 text-white flex justify-center items-center font-bold">
+              <div class={"relative inline-block h-9 w-9 rounded-full bg-gradient-to-r #{generate_gradient(@current_user.username)} text-white flex justify-center items-center font-bold"}>
                 <%= user_avatar(@current_user) %>
               </div>
             </div>

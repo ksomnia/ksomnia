@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.Team
+  alias Ksomnia.TeamUser
 
   @impl true
   def update(%{team: team} = assigns, socket) do
@@ -28,8 +29,9 @@ defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
 
   defp save_app(socket, :edit_team, params) do
     team = socket.assigns.team
+    user = socket.assigns.current_user
 
-    case Team.update(team, params) do
+    case TeamUser.is_owner(team, user) && Team.update(team, params) do
       {:ok, _app} ->
         {:noreply,
          socket
