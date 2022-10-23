@@ -17,7 +17,9 @@ defmodule KsomniaWeb.ErrorHelpers do
         )
       end)
 
-    content_tag(:div, errors, class: "absolute bg-red-100 text-red-700 px-1 text-xs rounded-md opacity-75")
+    content_tag(:div, errors,
+      class: "absolute bg-red-100 text-red-700 px-1 text-xs rounded-md opacity-75"
+    )
   end
 
   @doc """

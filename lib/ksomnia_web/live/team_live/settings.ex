@@ -8,9 +8,10 @@ defmodule KsomniaWeb.TeamLive.Settings do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, %{
-      team: nil
-    })}
+    {:ok,
+     assign(socket, %{
+       team: nil
+     })}
   end
 
   @impl true

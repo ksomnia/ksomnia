@@ -80,7 +80,10 @@ defmodule Ksomnia.Invite do
 
   def accept(invite, invitee) do
     Ecto.Multi.new()
-    |> Ecto.Multi.update(:invite, change(invite, accepted_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)))
+    |> Ecto.Multi.update(
+      :invite,
+      change(invite, accepted_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
+    )
     |> Ecto.Multi.insert(:team_user, fn %{} ->
       TeamUser.new(invite.team_id, invitee.id, %{role: "member"})
     end)

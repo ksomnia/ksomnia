@@ -64,8 +64,7 @@ defmodule Ksomnia.App do
       )
       |> Repo.all()
 
-    grouped_teams =
-      Enum.group_by(teams, & &1.id)
+    grouped_teams = Enum.group_by(teams, & &1.id)
 
     grouped_apps =
       from(a in App, where: a.team_id in ^Enum.map(teams, & &1.id))

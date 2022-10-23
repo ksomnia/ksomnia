@@ -29,8 +29,8 @@ defmodule KsomniaWeb.TeamLive.Default do
       app = hd(apps)
 
       {:noreply,
-        socket
-        |> push_redirect(to: Routes.app_show_path(socket, :show, app))}
+       socket
+       |> push_redirect(to: Routes.app_show_path(socket, :show, app))}
     end
   end
 

@@ -40,7 +40,7 @@ defmodule Ksomnia.User do
       changeset =
         user
         |> new_password_changeset(params)
-        |> add_error(:current_password, "invalid", [validation: :required])
+        |> add_error(:current_password, "invalid", validation: :required)
 
       {:error, changeset}
     end
@@ -90,7 +90,8 @@ defmodule Ksomnia.User do
       join: tu in assoc(u, :team_users),
       where: tu.team_id == ^team.id,
       select: %{
-        u | role: tu.role
+        u
+        | role: tu.role
       }
     )
     |> Repo.all()

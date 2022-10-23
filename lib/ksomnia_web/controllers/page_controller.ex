@@ -22,7 +22,6 @@ defmodule KsomniaWeb.PageController do
           conn
           |> put_session(:user_id, user.id)
           |> redirect(to: url)
-
         else
           redirect(conn, to: "/")
         end

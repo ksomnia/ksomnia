@@ -20,11 +20,12 @@ defmodule Ksomnia.InviteTest do
       team = insert(:team, name: "team")
       insert(:team_user, team: team, user: inviter)
 
-      assert {:ok, %Invite{}} = Invite.create(team.id, %{
-        email: "invitee@test.test",
-        team_id: team.id,
-        inviter_id: inviter.id
-      })
+      assert {:ok, %Invite{}} =
+               Invite.create(team.id, %{
+                 email: "invitee@test.test",
+                 team_id: team.id,
+                 inviter_id: inviter.id
+               })
     end
 
     test "invitee is already a team member" do
@@ -34,11 +35,12 @@ defmodule Ksomnia.InviteTest do
       invitee = insert(:user, email: "invitee@test.test")
       insert(:team_user, team: team, user: invitee)
 
-      assert {:error, changset} = Invite.create(team.id, %{
-        email: "invitee@test.test",
-        team_id: team.id,
-        inviter_id: inviter.id
-      })
+      assert {:error, changset} =
+               Invite.create(team.id, %{
+                 email: "invitee@test.test",
+                 team_id: team.id,
+                 inviter_id: inviter.id
+               })
 
       [{_, {"the user is already a team member", []}}] = changset.errors
     end
@@ -49,11 +51,12 @@ defmodule Ksomnia.InviteTest do
       insert(:team_user, team: team, user: inviter)
       insert(:invite, email: "invitee@test.test", inviter: inviter, team: team)
 
-      assert {:error, changset} = Invite.create(team.id, %{
-        email: "invitee@test.test",
-        team_id: team.id,
-        inviter_id: inviter.id
-      })
+      assert {:error, changset} =
+               Invite.create(team.id, %{
+                 email: "invitee@test.test",
+                 team_id: team.id,
+                 inviter_id: inviter.id
+               })
 
       assert [email: {"has already been invited", _}] = changset.errors
     end
