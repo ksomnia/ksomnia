@@ -5,6 +5,7 @@ defmodule Ksomnia.TeamUser do
   alias Ksomnia.Team
   alias Ksomnia.User
   alias Ksomnia.Repo
+  use Ksomnia.DataHelper, [:get, TeamUser]
 
   schema "team_users" do
     belongs_to :team, Team, type: Ksomnia.ShortUUID6
@@ -35,8 +36,11 @@ defmodule Ksomnia.TeamUser do
     end
   end
 
-  def is_owner(user, team) do
-    team_user = Repo.get_by(TeamUser, team_id: team.id, user_id: user.id)
-    team_user && team_user.role == "owner"
+  def is_owner(%Team{} = team, %User{} = user) do
+    with {:ok, team_user} <- TeamUser.safe_get(team_id: team.id, user_id: user.id) do
+      team_user.role == "owner"
+    else
+      _ -> false
+    end
   end
 end

@@ -2,6 +2,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
   use KsomniaWeb, :live_app_view
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
+  alias Ksomnia.User
   alias Ksomnia.Repo
   alias Ksomnia.Invite
 
@@ -50,7 +51,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
     end
   end
 
-  def can_revoke_invite(team, user, invite) do
-    TeamUser.is_owner(user, team) || invite.inviter_id == user.id
+  def can_revoke_invite(%Team{} = team, %User{} = user, %Invite{} = invite) do
+    TeamUser.is_owner(team, user) || invite.inviter_id == user.id
   end
 end
