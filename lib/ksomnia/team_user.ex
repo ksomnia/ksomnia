@@ -1,10 +1,12 @@
 defmodule Ksomnia.TeamUser do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
   alias Ksomnia.TeamUser
   alias Ksomnia.Team
   alias Ksomnia.User
   alias Ksomnia.Repo
+  alias Ksomnia.Invite
   use Ksomnia.DataHelper, [:get, TeamUser]
 
   schema "team_users" do
@@ -37,10 +39,26 @@ defmodule Ksomnia.TeamUser do
   end
 
   def is_owner(%Team{} = team, %User{} = user) do
-    with {:ok, team_user} <- TeamUser.safe_get(team_id: team.id, user_id: user.id) do
+    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: user.id) do
       team_user.role == "owner"
     else
       _ -> false
+    end
+  end
+
+  def single_owner(%Team{} = team) do
+    Repo.one(
+      from(tu in TeamUser,
+        where: tu.team_id == ^team.id and tu.role == ^"owner",
+        select: count(tu.id)
+      )
+    ) == 1
+  end
+
+  def remove_user(%Team{} = team, %User{} = target_user) do
+    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id) do
+      Invite.delete_if_exists(email: target_user.email, team_id: team.id)
+      Repo.delete(team_user)
     end
   end
 end

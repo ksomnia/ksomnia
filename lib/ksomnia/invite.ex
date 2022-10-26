@@ -7,6 +7,7 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.TeamUser
   alias Ksomnia.User
   alias Ksomnia.Repo
+  use Ksomnia.DataHelper, [:get, Invite]
 
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
@@ -88,5 +89,11 @@ defmodule Ksomnia.Invite do
       TeamUser.new(invite.team_id, invitee.id, %{role: "member"})
     end)
     |> Repo.transaction()
+  end
+
+  def delete_if_exists(fields) do
+    with %Invite{} = invite <- get(fields) do
+      Repo.delete(invite)
+    end
   end
 end

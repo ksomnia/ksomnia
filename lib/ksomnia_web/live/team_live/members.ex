@@ -42,13 +42,13 @@ defmodule KsomniaWeb.TeamLive.Members do
     current_user = socket.assigns.current_user
     team = socket.assigns.team
 
-    if Permissions.can_remove_user_from_team(team, current_user, target_user) do
-      team_user = TeamUser.get(team_id: team.id, user_id: target_user.id)
-      Repo.delete(team_user)
+    with true <- Permissions.can_remove_user_from_team(team, current_user, target_user),
+         %TeamUser{} <- TeamUser.remove_user(team, target_user) do
       socket = assign(socket, :team_members, User.for_team(team))
       {:noreply, socket}
     else
-      {:noreply, socket}
+      _ ->
+        {:noreply, socket}
     end
   end
 end
