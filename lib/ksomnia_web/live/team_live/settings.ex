@@ -3,6 +3,7 @@ defmodule KsomniaWeb.TeamLive.Settings do
   alias Ksomnia.Team
   alias Ksomnia.Repo
   alias Ksomnia.App
+  alias Ksomnia.Permissions
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 

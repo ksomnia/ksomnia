@@ -5,6 +5,7 @@ defmodule Ksomnia.User do
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.TeamUser
+  use Ksomnia.DataHelper, [:get, User]
 
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
@@ -95,15 +96,5 @@ defmodule Ksomnia.User do
       }
     )
     |> Repo.all()
-  end
-
-  @doc """
-  > User.get("id")
-  > User.get(email: "email")
-  """
-  def get(id) when is_binary(id), do: Repo.get(User, id)
-
-  def get(fields) do
-    Repo.get_by(User, fields)
   end
 end

@@ -32,6 +32,18 @@
             <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
               <%= team_member.role %>
             </td>
+            <td class="text-right w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
+              <%= if Permissions.can_remove_user_from_team(@team, @current_user, team_member) do %>
+                <button
+                  class="btn-primary bg-slate-200 text-red-600 hover:bg-slate-300"
+                  data-confirm={"Are you sure you want to remove #{team_member.username} from #{@team.name}?"}
+                  phx-click="remove-team-member"
+                  phx-value-team-member-id={"#{team_member.id}"}
+                >
+                  Remove from the team
+                </button>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>

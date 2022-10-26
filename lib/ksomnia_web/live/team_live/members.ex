@@ -3,6 +3,8 @@ defmodule KsomniaWeb.TeamLive.Members do
   alias Ksomnia.Team
   alias Ksomnia.Repo
   alias Ksomnia.User
+  alias Ksomnia.TeamUser
+  alias Ksomnia.Permissions
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
@@ -32,5 +34,21 @@ defmodule KsomniaWeb.TeamLive.Members do
   defp apply_action(socket, _, _params) do
     socket
     |> assign(:page_title, socket.assigns.team.name)
+  end
+
+  @impl true
+  def handle_event("remove-team-member", %{"team-member-id" => team_member_id}, socket) do
+    target_user = User.get(team_member_id)
+    current_user = socket.assigns.current_user
+    team = socket.assigns.team
+
+    if Permissions.can_remove_user_from_team(team, current_user, target_user) do
+      team_user = TeamUser.get(team_id: team.id, user_id: target_user.id)
+      Repo.delete(team_user)
+      socket = assign(socket, :team_members, User.for_team(team))
+      {:noreply, socket}
+    else
+      {:noreply, socket}
+    end
   end
 end

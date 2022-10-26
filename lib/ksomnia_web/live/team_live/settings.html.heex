@@ -5,7 +5,7 @@
       <span class="text-6xl font-extrabold text-white"><%= String.capitalize(String.first(@team.name)) %></span>
     </div>
   </div>
-  <%= if Ksomnia.TeamUser.is_owner(@team, @current_user) do %>
+  <%= if Permissions.can_update_team(@team, @current_user) do %>
     <.live_component
       id={:team_settings}
       module={KsomniaWeb.AppLive.TeamSettingsFormComponent}
