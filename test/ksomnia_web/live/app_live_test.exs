@@ -4,7 +4,7 @@ defmodule KsomniaWeb.AppLiveTest do
   import Phoenix.LiveViewTest
 
   def create_app(_opts) do
-    user = insert(:user, email: "for_team@test.test")
+    user = insert(:user, email: "user@test.test")
     team = insert(:team)
     app = insert(:app, team: team)
     insert(:team_user, user: user, team: team)
@@ -17,7 +17,7 @@ defmodule KsomniaWeb.AppLiveTest do
 
     test "displays the user's apps", %{conn: conn, app: app, user: user} do
       url = Routes.dashboard_index_path(conn, :index)
-      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+      conn = login_as(conn, user)
       {:ok, _index_live, html} = live(conn, url)
       assert html =~ app.name
     end
@@ -27,7 +27,7 @@ defmodule KsomniaWeb.AppLiveTest do
       insert(:invite, email: invitee.email, inviter: user)
 
       url = Routes.team_index_path(conn, :index)
-      conn = Plug.Test.init_test_session(conn, user_id: invitee.id)
+      conn = login_as(conn, invitee)
       {:ok, _index_live, html} = live(conn, url)
       assert html =~ "Pending invites"
     end
@@ -37,11 +37,23 @@ defmodule KsomniaWeb.AppLiveTest do
       invite = insert(:invite, email: invitee.email, inviter: user, team: team)
 
       url = Routes.team_index_path(conn, :index)
-      conn = Plug.Test.init_test_session(conn, user_id: invitee.id)
+      conn = login_as(conn, invitee)
       {:ok, index_live, _html} = live(conn, url)
 
       assert render_click(index_live, "accept-invite", %{"invite-id" => invite.id})
       assert Team.for_user(invitee) == [team]
+    end
+
+    test "the user rejects an invite", %{conn: conn, user: user, team: team} do
+      invitee = insert(:user, email: "invitee@test.test")
+      invite = insert(:invite, email: invitee.email, inviter: user, team: team)
+
+      url = Routes.team_index_path(conn, :index)
+      conn = login_as(conn, invitee)
+      {:ok, index_live, _html} = live(conn, url)
+
+      assert render_click(index_live, "reject-invite", %{"invite-id" => invite.id})
+      assert Team.for_user(invitee) == []
     end
   end
 end

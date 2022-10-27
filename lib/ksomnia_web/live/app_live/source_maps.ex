@@ -29,6 +29,7 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
       |> assign(:app, app)
       |> assign(:team, team)
       |> assign(:source_maps, source_maps)
+      |> assign(:__current_app__, app.id)
 
     {:noreply, socket}
   end

@@ -1,8 +1,10 @@
 defmodule KsomniaWeb.TeamLive.Settings do
   use KsomniaWeb, :live_app_view
   alias Ksomnia.Team
+  alias Ksomnia.TeamUser
   alias Ksomnia.Repo
   alias Ksomnia.App
+  alias Ksomnia.Permissions
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
@@ -35,5 +37,19 @@ defmodule KsomniaWeb.TeamLive.Settings do
   defp apply_action(socket, _, _params) do
     socket
     |> assign(:page_title, socket.assigns.team.name)
+  end
+
+  @impl true
+  def handle_event("leave-team", %{}, socket) do
+    current_user = socket.assigns.current_user
+    team = socket.assigns.team
+
+    with true <- Permissions.can_leave_team(team, current_user),
+         {:ok, _} <- TeamUser.remove_user(team, current_user) do
+      {:noreply, push_redirect(socket, to: "/")}
+    else
+      _ ->
+        {:noreply, socket}
+    end
   end
 end

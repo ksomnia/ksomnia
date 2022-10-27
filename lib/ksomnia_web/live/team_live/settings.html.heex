@@ -5,12 +5,24 @@
       <span class="text-6xl font-extrabold text-white"><%= String.capitalize(String.first(@team.name)) %></span>
     </div>
   </div>
-  <%= if Ksomnia.TeamUser.is_owner(@current_user, @team) do %>
+  <%= if Permissions.can_update_team(@team, @current_user) do %>
     <.live_component
       id={:team_settings}
       module={KsomniaWeb.AppLive.TeamSettingsFormComponent}
       team={@team}
+      current_user={@current_user}
       action={:edit_team}
     />
+  <% end %>
+  <%= if Permissions.can_leave_team(@team, @current_user) do %>
+    <div class="border border-red-200 px-4 py-4 ml-8 mt-5 rounded-md text-left">
+        <button
+          data-confirm={"Are you sure you want to leave #{@team.name}?"}
+          class="btn-primary bg-slate-100 text-red-600 hover:bg-slate-200"
+          phx-click="leave-team"
+        >
+          Leave this team.
+        </button>
+    </div>
   <% end %>
 </div>

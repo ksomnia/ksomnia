@@ -16,11 +16,4 @@ defmodule Ksomnia.Repo do
       {:ok, config}
     end
   end
-
-  def safe_get(mod, id) do
-    case get(mod, id) do
-      nil -> :error
-      record -> {:ok, record}
-    end
-  end
 end

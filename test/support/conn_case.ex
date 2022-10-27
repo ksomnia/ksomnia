@@ -34,6 +34,10 @@ defmodule KsomniaWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint KsomniaWeb.Endpoint
+
+      def login_as(conn, %User{} = user) do
+        Plug.Test.init_test_session(conn, user_id: user.id)
+      end
     end
   end
 

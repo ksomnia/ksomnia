@@ -1,9 +1,9 @@
 defmodule KsomniaWeb.TeamLive.Invites do
   use KsomniaWeb, :live_app_view
   alias Ksomnia.Team
-  alias Ksomnia.TeamUser
   alias Ksomnia.Repo
   alias Ksomnia.Invite
+  alias Ksomnia.Permissions
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :invites}}
 
@@ -41,16 +41,12 @@ defmodule KsomniaWeb.TeamLive.Invites do
     user = socket.assigns.current_user
     team = socket.assigns.team
 
-    if can_revoke_invite(team, user, invite) do
+    if Permissions.can_revoke_user_invite(team, user, invite) do
       Invite.revoke(invite)
 
       {:noreply, assign(socket, :invites, Invite.pending_for_team(team))}
     else
       {:noreply, socket}
     end
-  end
-
-  def can_revoke_invite(team, user, invite) do
-    TeamUser.is_owner(user, team) || invite.inviter_id == user.id
   end
 end

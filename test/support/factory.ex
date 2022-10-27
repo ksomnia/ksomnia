@@ -9,7 +9,7 @@ defmodule Ksomnia.Factory do
 
   def user_factory do
     %User{
-      email: "test@user",
+      email: sequence(:email, &"email-#{&1}@test.user"),
       username: "testuser"
     }
   end

@@ -9,5 +9,7 @@ defmodule Ksomnia.Repo.Migrations.CreateTeamUsers do
 
       timestamps()
     end
+
+    create index(:team_users, [:user_id, :team_id], unique: true)
   end
 end

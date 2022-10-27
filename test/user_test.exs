@@ -2,7 +2,7 @@ defmodule Ksomnia.UserTest do
   use Ksomnia.DataCase
 
   test "for_team/1" do
-    user = insert(:user, email: "for_team@test.test")
+    user = insert(:user)
     team = insert(:team)
     insert(:team_user, user: user, team: team)
 
