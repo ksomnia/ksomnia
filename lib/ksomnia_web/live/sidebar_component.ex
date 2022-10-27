@@ -13,8 +13,8 @@ defmodule KsomniaWeb.Live.SidebarComponent do
         </a>
         <nav class="flex-1 space-y-1 mt-5" aria-label="Sidebar">
           <%= for team <- @user_apps_grouped do %>
-            <div class="flex justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-400">
-              <%= live_redirect "#{team.name}", [to: Routes.team_settings_path(@socket, :settings, team), class: "hover:text-indigo-500"] %>
+            <div class="flex w-full justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-400">
+              <%= live_redirect "#{team.name}", [to: Routes.team_settings_path(@socket, :settings, team), class: "#{if @team && team.id == @team.id, do: "text-indigo-400", else: ""} hover:text-indigo-500"] %>
               <svg phx-click={"open-modal"} phx-target="#modal-wrap-component" class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
