@@ -46,7 +46,7 @@ defmodule Ksomnia.TeamUser do
     end
   end
 
-  def single_owner(%Team{} = team) do
+  def is_single_owner(%Team{} = team) do
     Repo.one(
       from(tu in TeamUser,
         where: tu.team_id == ^team.id and tu.role == ^"owner",

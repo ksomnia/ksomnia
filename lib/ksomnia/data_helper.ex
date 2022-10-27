@@ -8,13 +8,6 @@ defmodule Ksomnia.DataHelper do
       def get(fields) do
         Repo.get_by(unquote(module), fields)
       end
-
-      def safe_get(args) do
-        case get(args) do
-          nil -> :error
-          result -> {:ok, result}
-        end
-      end
     end
   end
 

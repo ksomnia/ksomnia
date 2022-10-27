@@ -31,7 +31,7 @@ defmodule KsomniaWeb.MembersLiveTest do
       assert length(User.for_team(team)) == 1
     end
 
-    test "non-owner cannot remove a user from the team", %{conn: conn, team: team} do
+    test "a non-owner cannot remove a user from the team", %{conn: conn, team: team} do
       user2 = insert(:user)
       insert(:team_user, user: user2, team: team)
       user3 = insert(:user)

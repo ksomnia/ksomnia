@@ -17,6 +17,6 @@ defmodule Ksomnia.Permissions do
   end
 
   def can_leave_team(%Team{} = team, %User{} = current_user) do
-    !(TeamUser.is_owner(team, current_user) && TeamUser.single_owner(team))
+    !(TeamUser.is_owner(team, current_user) && TeamUser.is_single_owner(team))
   end
 end
