@@ -6,7 +6,7 @@ defmodule Ksomnia.SourceMap do
   alias Ksomnia.SourceMap
   alias Ksomnia.Repo
 
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
+  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "source_maps" do
     field :commit_hash, :string
@@ -14,7 +14,7 @@ defmodule Ksomnia.SourceMap do
     field :target_file_hash, :string
     field :source_map, :map, virtual: true
     field :target_file, :map, virtual: true
-    belongs_to :app, App, type: Ksomnia.ShortUUID6
+    belongs_to :app, App, type: Ecto.ShortUUID
 
     timestamps()
   end

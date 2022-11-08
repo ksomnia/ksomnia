@@ -10,8 +10,8 @@ defmodule Ksomnia.TeamUser do
   use Ksomnia.DataHelper, [:get, TeamUser]
 
   schema "team_users" do
-    belongs_to :team, Team, type: Ksomnia.ShortUUID6
-    belongs_to :user, User, type: Ksomnia.ShortUUID6
+    belongs_to :team, Team, type: Ecto.ShortUUID
+    belongs_to :user, User, type: Ecto.ShortUUID
     field :role, :string
 
     timestamps()

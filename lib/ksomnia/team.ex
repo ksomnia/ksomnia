@@ -8,7 +8,7 @@ defmodule Ksomnia.Team do
   alias Ksomnia.Invite
   alias Ecto.Multi
 
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
+  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "teams" do
     field :name, :string

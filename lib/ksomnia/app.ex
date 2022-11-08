@@ -6,12 +6,12 @@ defmodule Ksomnia.App do
   alias Ksomnia.Team
   alias Ksomnia.Repo
 
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
+  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "apps" do
     field :name, :string
     field :token, :string
-    belongs_to :team, Team, type: Ksomnia.ShortUUID6
+    belongs_to :team, Team, type: Ecto.ShortUUID
 
     timestamps()
   end

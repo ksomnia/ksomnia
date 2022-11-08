@@ -9,13 +9,13 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.Repo
   use Ksomnia.DataHelper, [:get, Invite]
 
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
+  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "invites" do
     field :email, :string
     field :accepted_at, :naive_datetime
-    belongs_to :team, Team, type: Ksomnia.ShortUUID6
-    belongs_to :inviter, User, type: Ksomnia.ShortUUID6
+    belongs_to :team, Team, type: Ecto.ShortUUID
+    belongs_to :inviter, User, type: Ecto.ShortUUID
 
     timestamps()
   end

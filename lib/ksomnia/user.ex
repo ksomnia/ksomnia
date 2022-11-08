@@ -7,7 +7,7 @@ defmodule Ksomnia.User do
   alias Ksomnia.TeamUser
   use Ksomnia.DataHelper, [:get, User]
 
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
+  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "users" do
     field :email, :string

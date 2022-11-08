@@ -18,7 +18,7 @@ defmodule Ksomnia.ErrorIdentity do
     field :commit_hash, :string
     field :track_count, :integer, default: 1
     field :last_error_at, :naive_datetime
-    belongs_to :app, App, type: Ksomnia.ShortUUID6
+    belongs_to :app, App, type: Ecto.ShortUUID
 
     timestamps()
   end
