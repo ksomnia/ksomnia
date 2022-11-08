@@ -10,6 +10,7 @@ defmodule Ksomnia.Repo.Migrations.CreateErrorIdentities do
       add :line_number, :string
       add :column_number, :string
       add :commit_hash, :string
+      add :error_identity_hash, :string
       add :track_count, :bigint, default: 1
       add :last_error_at, :naive_datetime
       add :app_id, references(:apps, type: :uuid)
@@ -17,18 +18,6 @@ defmodule Ksomnia.Repo.Migrations.CreateErrorIdentities do
       timestamps()
     end
 
-    create index(
-             "error_identities",
-             [
-               :app_id,
-               :source,
-               :line_number,
-               :column_number,
-               :commit_hash,
-               :message,
-               :stacktrace
-             ],
-             unique: true
-           )
+    create index("error_identities", [:error_identity_hash], unique: true)
   end
 end

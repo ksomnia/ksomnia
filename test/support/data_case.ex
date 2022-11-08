@@ -18,17 +18,54 @@ defmodule Ksomnia.DataCase do
 
   using do
     quote do
+      alias Ksomnia.App
       alias Ksomnia.Repo
       alias Ksomnia.User
       alias Ksomnia.Team
       alias Ksomnia.TeamUser
       alias Ksomnia.Invite
+      alias Ksomnia.ErrorIdentity
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
       import Ksomnia.DataCase
       import Ksomnia.Factory
+
+      def create_user() do
+        User.create(%{
+          "email" => Faker.Internet.email(),
+          "username" => Faker.Internet.user_name(),
+          "password" => "password"
+        })
+      end
+
+      def create_user!() do
+        {:ok, user} = create_user()
+        user
+      end
+
+      def create_team(user) do
+        Team.create(user, %{
+          "name" => Faker.Company.name()
+        })
+      end
+
+      def create_team!(user) do
+        {:ok, %{team: team}} = create_team(user)
+        team
+      end
+
+      def create_app(team) do
+        App.create(team.id, %{
+          name: Faker.App.name()
+        })
+      end
+
+      def create_app!(team) do
+        {:ok, app} = create_app(team)
+        app
+      end
     end
   end
 

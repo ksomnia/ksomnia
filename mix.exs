@@ -61,7 +61,9 @@ defmodule Ksomnia.MixProject do
       {:timex, "~> 3.7"},
       {:tesla, "~> 1.4"},
       {:cors_plug, "~> 3.0"},
-      {:ex_machina, "~> 2.7.0", only: :test}
+      {:ex_machina, "~> 2.7.0", only: :test},
+      {:benchee, "~> 1.0", only: :dev},
+      {:faker, "~> 0.17", only: :test}
     ]
   end
 
