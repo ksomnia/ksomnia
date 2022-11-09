@@ -6,14 +6,13 @@ defmodule KsomniaWeb.Live.ModalWrapComponent do
     ~H"""
       <div id="modal-wrap-component">
         <%= if @open_modal do %>
-          <.modal return_to={nil}>
+          <.modal>
             <.live_component
               module={KsomniaWeb.TeamLive.AppFormComponent}
               id={:new}
               action={:new_app}
               team_id={@team.id}
               app={%Ksomnia.App{}}
-              return_to={nil}
             />
           </.modal>
         <% end %>

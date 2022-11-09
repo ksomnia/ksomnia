@@ -11,7 +11,7 @@ defmodule KsomniaWeb.PageController do
       |> redirect(to: "/teams")
     else
       conn
-      |> render("index.html", user: user)
+      |> render(:index, user: user)
     end
   end
 

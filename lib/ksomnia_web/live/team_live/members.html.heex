@@ -52,7 +52,7 @@
 </div>
 
 <%= if @live_action in [:invite] do %>
-  <.modal return_to={"/"}>
+  <.modal id="invite_member">
     <.live_component
       module={KsomniaWeb.TeamLive.InviteModalComponent}
       id={:invite_member}

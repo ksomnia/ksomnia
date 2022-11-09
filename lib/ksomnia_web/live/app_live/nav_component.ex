@@ -1,5 +1,6 @@
 defmodule KsomniaWeb.AppLive.NavComponent do
   use KsomniaWeb, :live_component
+  use Phoenix.LiveComponent
 
   def render(assigns) do
     ~H"""

@@ -1,5 +1,5 @@
 <div class="px-8">
-  <.form
+  <.simple_form
     let={f}
     for={@changeset}
     id="team-settings-form"
@@ -8,16 +8,9 @@
     phx-submit="save">
     <div>
       <div class="mt-5 text-left">
-        <%= label f, :team_name, class: "block text-slate-700 text-sm font-medium" %>
-        <%= text_input f, :name, class: "mt-1 border border-slate-300 rounded-md shadow-sm px-2 py-2 placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
-        <%= error_tag f, :name %>
+        <.input field={{f, :name}} type="text" label="Team name" />
       </div>
-      <div class="mt-5 text-left">
-        <%= submit "Save",
-          phx_disable_with: "Saving...",
-          class: "btn-primary"
-        %>
-      </div>
+      <.button phx-disable-with="Saving...">Save</.button>
     </div>
-  </.form>
+  </.simple_form>
 </div>

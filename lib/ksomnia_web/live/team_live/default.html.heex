@@ -19,7 +19,7 @@
 </div>
 
 <%= if @live_action in [:new_app, :edit_app] do %>
-  <.modal return_to={"/"}>
+  <.modal>
     <.live_component
       module={KsomniaWeb.TeamLive.AppFormComponent}
       id={@app.id || :new}

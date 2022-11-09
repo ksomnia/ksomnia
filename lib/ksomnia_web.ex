@@ -41,10 +41,6 @@ defmodule KsomniaWeb do
 
       # Include general helpers for rendering HTML
       unquote(html_helpers())
-
-      def render_shared(template, assigns \\ []) do
-        render(KsomniaWeb.SharedView, template, assigns)
-      end
     end
   end
 
@@ -67,9 +63,9 @@ defmodule KsomniaWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {KsomniaWeb.LayoutView, "live.html"}
+        layout: {KsomniaWeb.LayoutView, :app}
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 
@@ -86,10 +82,9 @@ defmodule KsomniaWeb do
 
   def live_component do
     quote do
-      use Phoenix.Component
-      import Phoenix.Flash
+      use Phoenix.LiveComponent
 
-      unquote(view_helpers())
+      unquote(html_helpers())
     end
   end
 

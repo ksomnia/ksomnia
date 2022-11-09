@@ -1,0 +1,38 @@
+<div class="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="mx-auto w-full text-center py-1">
+    <h2 class="mt-1 text-center text-2xl font-semibold text-indigo-500">Ksomnia</h2>
+  </div>
+  <div class="mx-auto w-full text-center pb-5">
+    <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700">Sign in to your account</h2>
+  </div>
+  <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
+    <div class="flex justify-center">
+      <.simple_form :let={f} for={@changeset} method="post" action={~p"/signin"}>
+        <.error :if={assigns[:error]}>
+          Oops, something went wrong! Please check the errors below.
+        </.error>
+        <.input field={{f, :email}} type="text" label="email" />
+        <.input field={{f, :password}} type="password" label="password" />
+        <:actions>
+          <.button>Save Cat</.button>
+        </:actions>
+
+        <div class="flex items-center justify-between">
+          <div></div>
+          <div class="text-sm">
+            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+              Forgot your password?
+            </a>
+          </div>
+        </div>
+      </.simple_form>
+    </div>
+  </div>
+  <div class="flex items-center justify-between mt-5 text-slate-800">
+    <div></div>
+    <div class="text-medium">
+      Don't have an account?
+      <.link navigate={~p"/signup"} class="font-medium text-indigo-600 hover:text-indigo-500">Sign Up</.link>
+    </div>
+  </div>
+</div>
