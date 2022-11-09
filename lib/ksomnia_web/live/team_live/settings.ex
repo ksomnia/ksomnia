@@ -46,7 +46,7 @@ defmodule KsomniaWeb.TeamLive.Settings do
 
     with true <- Permissions.can_leave_team(team, current_user),
          {:ok, _} <- TeamUser.remove_user(team, current_user) do
-      {:noreply, push_redirect(socket, to: "/")}
+      {:noreply, push_navigate(socket, to: "/")}
     else
       _ ->
         {:noreply, socket}

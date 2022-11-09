@@ -1,3 +1,3 @@
 defmodule KsomniaWeb.RegistrationView do
-  use KsomniaWeb, :view
+  use KsomniaWeb, :html
 end

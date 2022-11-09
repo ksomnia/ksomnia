@@ -35,6 +35,8 @@ defmodule KsomniaWeb.ConnCase do
       # The default endpoint for testing
       @endpoint KsomniaWeb.Endpoint
 
+      use KsomniaWeb, :verified_routes
+
       def login_as(conn, %User{} = user) do
         Plug.Test.init_test_session(conn, user_id: user.id)
       end

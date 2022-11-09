@@ -31,8 +31,10 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
       {:ok, _app} ->
         {:noreply,
          socket
-         |> put_flash(:info, "App updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> Phoenix.Flash.put_flash(:info, "App updated successfully")
+         |> push_navigate(to: socket.assigns.return_to)}
+
+         #  |> put_flash(:info, "App updated successfully")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
@@ -44,8 +46,8 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
       {:ok, _app} ->
         {:noreply,
          socket
-         |> put_flash(:info, "App created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> Phoenix.Flash.put_flash(:info, "App created successfully")
+         |> push_navigate(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

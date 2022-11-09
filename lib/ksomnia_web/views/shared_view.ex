@@ -1,3 +1,3 @@
 defmodule KsomniaWeb.SharedView do
-  use KsomniaWeb, :view
+  use KsomniaWeb, :html
 end

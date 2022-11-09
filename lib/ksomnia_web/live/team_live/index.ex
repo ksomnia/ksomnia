@@ -40,8 +40,8 @@ defmodule KsomniaWeb.TeamLive.Index do
       {:ok, %{team: team}} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Team created successfully")
-         |> push_redirect(to: "/t/#{team.id}")}
+         |> Phoenix.Flash.put_flash(:info, "Team created successfully")
+         |> push_navigate(to: "/t/#{team.id}")}
 
       {:error, %{team: %Ecto.Changeset{} = changeset}} ->
         {:noreply, assign(socket, changeset: changeset)}

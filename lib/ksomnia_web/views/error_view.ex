@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.ErrorView do
-  use KsomniaWeb, :view
+  use KsomniaWeb, :html
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

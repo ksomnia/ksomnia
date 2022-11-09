@@ -26,8 +26,8 @@ defmodule KsomniaWeb.TeamLive.InviteModalComponent do
       {:ok, _invite} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Invite created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> Phoenix.Flash.put_flash(:info, "Invite created successfully")
+         |> push_navigate(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

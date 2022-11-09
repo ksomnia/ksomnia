@@ -35,8 +35,8 @@ defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
       {:ok, _app} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Team updated successfully")
-         |> push_redirect(to: Routes.team_settings_path(socket, :settings, team))}
+         |> Phoenix.Flash.put_flash(:info, "Team updated successfully")
+         |> push_navigate(to: Routes.team_settings_path(socket, :settings, team))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

@@ -17,6 +17,8 @@ defmodule KsomniaWeb do
   and import those modules here.
   """
 
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
+
   def controller do
     quote do
       use Phoenix.Controller, namespace: KsomniaWeb
@@ -24,25 +26,41 @@ defmodule KsomniaWeb do
       import Plug.Conn
       import KsomniaWeb.Gettext
       alias KsomniaWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
     end
   end
 
-  def view do
+  def html do
     quote do
-      use Phoenix.View,
-        root: "lib/ksomnia_web/templates",
-        namespace: KsomniaWeb
+      use Phoenix.Component
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
-        only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
+        only: [get_csrf_token: 0, view_module: 1, view_template: 1]
 
-      # Include shared imports and aliases for views
-      unquote(view_helpers())
+      # Include general helpers for rendering HTML
+      unquote(html_helpers())
 
       def render_shared(template, assigns \\ []) do
         render(KsomniaWeb.SharedView, template, assigns)
       end
+    end
+  end
+
+  defp html_helpers do
+    quote do
+      # HTML escaping functionality
+      import Phoenix.HTML
+      # Core UI components and translation
+      import KsomniaWeb.CoreComponents
+      import KsomniaWeb.Gettext
+
+      # Shortcut for generating JS commands
+      alias Phoenix.LiveView.JS
+
+      # Routes generation with the ~p sigil
+      unquote(verified_routes())
     end
   end
 
@@ -68,16 +86,8 @@ defmodule KsomniaWeb do
 
   def live_component do
     quote do
-      use Phoenix.LiveComponent
-      alias KsomniaWeb.Router.Helpers, as: Routes
-
-      unquote(view_helpers())
-    end
-  end
-
-  def component do
-    quote do
       use Phoenix.Component
+      import Phoenix.Flash
 
       unquote(view_helpers())
     end
@@ -106,15 +116,29 @@ defmodule KsomniaWeb do
       use Phoenix.HTML
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-      import Phoenix.LiveView.Helpers
-      import KsomniaWeb.LiveHelpers
+      # import Phoenix.LiveView.Helpers
+      # import KsomniaWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
-      import Phoenix.View
+      # import Phoenix.View
+      import KsomniaWeb.CoreComponents
+      alias Phoenix.LiveView.JS
+      import KsomniaWeb.LiveHelpers
 
       import KsomniaWeb.ErrorHelpers
       import KsomniaWeb.Gettext
       alias KsomniaWeb.Router.Helpers, as: Routes
+
+      unquote(verified_routes())
+    end
+  end
+
+  def verified_routes do
+    quote do
+      use Phoenix.VerifiedRoutes,
+        endpoint: KsomniaWeb.Endpoint,
+        router: KsomniaWeb.Router,
+        statics: KsomniaWeb.static_paths()
     end
   end
 

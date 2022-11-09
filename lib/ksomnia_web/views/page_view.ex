@@ -1,3 +1,3 @@
 defmodule KsomniaWeb.PageView do
-  use KsomniaWeb, :view
+  use KsomniaWeb, :html
 end

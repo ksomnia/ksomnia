@@ -1,3 +1,3 @@
 defmodule KsomniaWeb.SessionView do
-  use KsomniaWeb, :view
+  use KsomniaWeb, :html
 end
