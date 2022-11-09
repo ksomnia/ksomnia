@@ -1,5 +1,6 @@
 defmodule Ksomnia.InviteTest do
   use Ksomnia.DataCase
+  import Swoosh.TestAssertions
 
   test "accept/2" do
     inviter = insert(:user, email: "inviter@test.test")
@@ -59,6 +60,20 @@ defmodule Ksomnia.InviteTest do
                })
 
       assert [email: {"has already been invited", _}] = changset.errors
+    end
+
+    test "send invite link" do
+      inviter = create_user!()
+      team = create_team!(inviter)
+
+      assert {:ok, %Invite{} = invite} =
+               Invite.create(team.id, %{
+                 email: "invitee@test.test",
+                 team_id: team.id,
+                 inviter_id: inviter.id
+               })
+
+      assert_email_sent(Ksomnia.UserInviteEmail.pending_invite_notification(invite))
     end
   end
 end

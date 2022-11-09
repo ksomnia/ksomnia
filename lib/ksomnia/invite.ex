@@ -48,8 +48,11 @@ defmodule Ksomnia.Invite do
   def ensure_not_member(changeset), do: changeset
 
   def create(team_id, attrs) do
-    new(team_id, attrs)
-    |> Repo.insert()
+    with {:ok, invite} <- Repo.insert(new(team_id, attrs)),
+         %Swoosh.Email{} = email <- Ksomnia.UserInviteEmail.pending_invite_notification(invite) do
+      Ksomnia.Mailer.deliver(email)
+      {:ok, invite}
+    end
   end
 
   def pending_for_team(team) do
