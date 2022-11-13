@@ -29,8 +29,8 @@ defmodule KsomniaWeb.AppLive.ProfileFormComponent do
       {:ok, _user} ->
         {:noreply,
          socket
-         |> Phoenix.Flash.put_flash(:info, "User updated successfully")
-         |> push_navigate(to: Routes.account_profile_path(socket, :profile))}
+         |> push_navigate(to: ~p"/account/profile/")}
+        #  |> Phoenix.Flash.put_flash(:info, "User updated successfully")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

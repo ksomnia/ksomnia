@@ -1,13 +1,13 @@
 defmodule KsomniaWeb.AppLive.NavComponent do
   use KsomniaWeb, :live_component
-  use Phoenix.LiveComponent
 
   def render(assigns) do
     ~H"""
     <div>
       <nav class="px-7 py-4 isolate flex divide-x divide-gray-200 rounded-lg">
         <%= live_redirect [
-          to: Routes.app_show_path(@socket, :show, @app),
+          to: ~p"/apps/#{@app.id}",
+          # to: Routes.app_show_path(@socket, :show, @app),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -18,7 +18,8 @@ defmodule KsomniaWeb.AppLive.NavComponent do
         <% end %>
 
         <%= live_redirect [
-          to: Routes.app_settings_path(@socket, :settings, @app),
+          to: ~p"/apps/#{@app.id}/settings",
+          # to: Routes.app_settings_path(@socket, :settings, @app),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -30,7 +31,8 @@ defmodule KsomniaWeb.AppLive.NavComponent do
         <% end %>
 
         <%= live_redirect [
-          to: Routes.app_source_maps_path(@socket, :source_maps, @app),
+          to: ~p"/apps/#{@app.id}/source_maps",
+          # to: Routes.app_source_maps_path(@socket, :source_maps, @app),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -45,6 +47,6 @@ defmodule KsomniaWeb.AppLive.NavComponent do
   end
 
   def on_mount([set_section: section_name], _params, _session, socket) do
-    {:cont, Phoenix.LiveView.assign(socket, :__nav_section__, section_name)}
+    {:cont, assign(socket, :__nav_section__, section_name)}
   end
 end

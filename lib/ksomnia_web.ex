@@ -72,7 +72,7 @@ defmodule KsomniaWeb do
   def live_app_view do
     quote do
       use Phoenix.LiveView,
-        layout: {KsomniaWeb.LayoutView, "app_live.html"}
+        layout: {KsomniaWeb.LayoutView, :app_layout}
 
       unquote(view_helpers())
 

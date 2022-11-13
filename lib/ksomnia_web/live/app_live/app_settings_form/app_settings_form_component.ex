@@ -33,8 +33,10 @@ defmodule KsomniaWeb.AppLive.AppSettingsFormComponent do
       {:ok, _app} ->
         {:noreply,
          socket
-         |> Phoenix.Flash.put_flash(:info, "App updated successfully")
-         |> push_navigate(to: Routes.app_settings_path(socket, :settings, app))}
+         |> push_navigate(to: ~p"/t/#{app.id}/settings")}
+
+        #  |> Phoenix.Flash.put_flash(:info, "App updated successfully")
+        #  |> push_navigate(to: Routes.app_settings_path(socket, :settings, app))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

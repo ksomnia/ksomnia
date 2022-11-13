@@ -6,7 +6,7 @@
   <p class="mt-1 text-sm text-gray-500">Get started by creating a new app.</p>
   <div class="mt-6">
     <%= live_patch [
-      to: Routes.team_default_path(@socket, :new_app, @team),
+      to: ~p"/t/#{@team.id}/new_app",
       class: "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       ] do %>
       <!-- Heroicon name: mini/plus -->
@@ -19,7 +19,7 @@
 </div>
 
 <%= if @live_action in [:new_app, :edit_app] do %>
-  <.modal>
+  <.modal id={@app.id}>
     <.live_component
       module={KsomniaWeb.TeamLive.AppFormComponent}
       id={@app.id || :new}

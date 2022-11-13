@@ -3,7 +3,7 @@ defmodule KsomniaWeb.SessionController do
   alias Ksomnia.Auth
 
   def new(conn, _params) do
-    render(conn, "new.html")
+    render(conn, :new)
   end
 
   def create(conn, params) do
@@ -13,7 +13,7 @@ defmodule KsomniaWeb.SessionController do
       |> redirect(to: "/")
     else
       _ ->
-        render(conn, "new.html", error: "Invalid email or password")
+        render(conn, :new, error: "Invalid email or password")
     end
   end
 
