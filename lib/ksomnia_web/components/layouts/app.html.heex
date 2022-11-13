@@ -1,0 +1,49 @@
+<main class="">
+  <p class="fixed top-1 left-64 alert alert-info bg-slate-200 text-slate-700 font-thin text-xs opacity-50 rounded-md" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+
+  <p class="fixed top-1 left-64 alert alert-danger bg-slate-200 text-slate-700 font-thin text-xs opacity-50 rounded-md" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+
+  <div class="hidden md:flex md:w-48 md:flex-col md:fixed md:inset-y-0">
+    <.live_component
+      module={KsomniaWeb.Live.SidebarComponent}
+      id={:sidebar}
+      team={@team}
+      user_apps_grouped={@user_apps_grouped}
+      __current_app__={@__current_app__}
+      current_user={@current_user}
+      __section__={@__section__}
+    />
+  </div>
+  <div class="md:pl-48 flex flex-col flex-1">
+    <div class="sticky top-0 z-10 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100">
+      <button type="button" class="-ml-0.5 -mt-0.5 h-12 w-12 inline-flex items-center justify-center rounded-md text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+        <span class="sr-only">Open sidebar</span>
+        <!-- Heroicon name: outline/menu -->
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <main class="flex-1">
+      <%= @inner_content %>
+      <.live_component module={KsomniaWeb.Live.ModalWrapComponent} id={:wrap} team={@team} />
+
+      <%= if @open_modal do %>
+        <.modal id="new">
+          <.live_component
+            module={KsomniaWeb.TeamLive.AppFormComponent}
+            team_id={@team.id}
+            title={@page_title}
+            action={@live_action}
+            app={@app}
+            return_to={~p"/t/:#{@team.id}"}
+          />
+        </.modal>
+      <% end %>
+    </main>
+  </div>
+</main>

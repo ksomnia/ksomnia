@@ -21,7 +21,9 @@ defmodule KsomniaWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: KsomniaWeb
+      use Phoenix.Controller, namespace: KsomniaWeb,
+        formats: [:html, :json],
+        layouts: [html: KsomniaWeb.Layouts]
 
       import Plug.Conn
       import KsomniaWeb.Gettext
@@ -63,7 +65,7 @@ defmodule KsomniaWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {KsomniaWeb.LayoutView, :app}
+        layout: {KsomniaWeb.Layouts, :app}
 
       unquote(html_helpers())
     end
@@ -72,7 +74,7 @@ defmodule KsomniaWeb do
   def live_app_view do
     quote do
       use Phoenix.LiveView,
-        layout: {KsomniaWeb.LayoutView, :app_layout}
+        layout: {KsomniaWeb.Layouts, :app}
 
       unquote(view_helpers())
 
