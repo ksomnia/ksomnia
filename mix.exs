@@ -4,6 +4,7 @@ defmodule Ksomnia.MixProject do
   def project do
     [
       app: :ksomnia,
+      compilers: Mix.compilers(),
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -40,6 +41,7 @@ defmodule Ksomnia.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.0"},
+      {:phoenix_view, "~> 2.0.2"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.3"},
       {:floki, ">= 0.30.0", only: :test},
