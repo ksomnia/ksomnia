@@ -16,13 +16,13 @@
   <% end %>
   <%= if Permissions.can_leave_team(@team, @current_user) do %>
     <div class="border border-red-200 px-4 py-4 ml-8 mt-5 rounded-md text-left">
-        <button
-          data-confirm={"Are you sure you want to leave #{@team.name}?"}
-          class="btn-primary bg-slate-100 text-red-600 hover:bg-slate-200"
-          phx-click="leave-team"
-        >
-          Leave this team.
-        </button>
+      <button
+        data-confirm={"Are you sure you want to leave #{@team.name}?"}
+        class="bg-slate-100 text-red-600 hover:bg-slate-200"
+        phx-click="leave-team"
+      >
+        Leave this team.
+      </button>
     </div>
   <% end %>
 </div>

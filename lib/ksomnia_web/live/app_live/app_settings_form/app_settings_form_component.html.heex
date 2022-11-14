@@ -8,10 +8,19 @@
     phx-submit="save">
     <div class="">
       <div class="mt-5 text-left">
-        <.input field={{f, :name}} type="text" label="App name" />
+        <.input
+          field={{f, :name}}
+          type="text"
+          label="App name"
+        />
       </div>
       <div class="mt-5">
-        <.button phx-disable-with="Saving...">Save</.button>
+        <.button
+          phx-disable-with="Saving..."
+          class="btn-primary"
+        >
+          Save
+        </.button>
       </div>
     </div>
   </.simple_form>

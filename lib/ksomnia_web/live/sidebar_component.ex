@@ -15,7 +15,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
           <%= for team <- @user_apps_grouped do %>
             <div class="flex w-full justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-400">
               <.link
-                navigate={~p"/t/#{team.id}/"}
+                navigate={~p"/t/#{team.id}/apps"}
                 class={"#{if @team && team.id == @team.id, do: "text-indigo-400", else: ""} hover:text-indigo-500"}>
                 <%= team.name %>
               </.link>
