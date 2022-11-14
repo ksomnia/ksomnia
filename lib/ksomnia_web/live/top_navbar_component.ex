@@ -1,12 +1,9 @@
 defmodule KsomniaWeb.Live.TopNavbarComponent do
   use KsomniaWeb, :live_component
 
-  def get_rest([]), do: []
-  def get_rest([_]), do: []
-  def get_rest([_, rest]), do: rest
-
   def render(assigns) do
     ~H"""
+    <% [root | rest] = @links %>
     <div class="px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
       <div class="flex-1 min-w-0">
         <div class="max-w-7xl">
@@ -14,12 +11,12 @@ defmodule KsomniaWeb.Live.TopNavbarComponent do
             <ol role="list" class="flex items-center space-x-4">
               <li>
                 <div>
-                  <%= live_redirect [to: hd(@link).url, class: "text-sm font-medium text-gray-500 hover:text-gray-700"] do %>
-                    <%= hd(@link).title %>
+                  <%= live_redirect [to: root.url, class: "text-sm font-medium text-gray-500 hover:text-gray-700"] do %>
+                    <%= root.title %>
                   <% end %>
                 </div>
               </li>
-              <%= for link <- get_rest(@links) do %>
+              <%= for link <- rest do %>
                 <li>
                   <div class="flex items-center">
                     <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
