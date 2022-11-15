@@ -18,7 +18,5 @@ defmodule KsomniaWeb.LiveCurrentUser do
     end
   end
 
-  def render(a) do
-    a
-  end
+  def render(id), do: id
 end

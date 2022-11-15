@@ -4,11 +4,11 @@ defmodule KsomniaWeb.SessionController do
 
   def new(conn, _params) do
     conn
-    |> put_root_layout(:root)
+    |> put_layout({KsomniaWeb.Layouts, :unauthenticated})
     |> render(:new)
   end
 
-  def create(conn, params) do
+  def create(conn, %{"user" => params}) do
     with {:ok, user} <- Auth.verify_user(params) do
       conn
       |> put_session(:user_id, user.id)

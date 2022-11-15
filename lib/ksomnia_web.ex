@@ -99,29 +99,6 @@ defmodule KsomniaWeb do
     end
   end
 
-  # defp view_helpers do
-  #   quote do
-  #     # Use all HTML functionality (forms, tags, etc)
-  #     use Phoenix.HTML
-
-  #     # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-  #     # import Phoenix.LiveView.Helpers
-  #     # import KsomniaWeb.LiveHelpers
-
-  #     # Import basic rendering functionality (render, render_layout, etc)
-  #     # import Phoenix.View
-  #     import KsomniaWeb.CoreComponents
-  #     alias Phoenix.LiveView.JS
-  #     import KsomniaWeb.LiveHelpers
-
-  #     import KsomniaWeb.ErrorHelpers
-  #     import KsomniaWeb.Gettext
-  #     alias KsomniaWeb.Router.Helpers, as: Routes
-
-  #     unquote(verified_routes())
-  #   end
-  # end
-
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,

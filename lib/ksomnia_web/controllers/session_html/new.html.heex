@@ -7,7 +7,7 @@
   </div>
   <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
     <div class="flex justify-center">
-      <.simple_form :let={f} for={@changeset} method="post" action={~p"/signin"}>
+      <.simple_form :let={f} for={:user} method="post" action={~p"/signin"}>
         <.error :if={assigns[:error]}>
           Oops, something went wrong! Please check the errors below.
         </.error>

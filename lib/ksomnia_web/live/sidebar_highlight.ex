@@ -8,7 +8,5 @@ defmodule KsomniaWeb.Live.SidebarHighlight do
      |> assign(:__current_app__, opts[:current_app_id])}
   end
 
-  def render(a) do
-    a
-  end
+  def render(id), do: id
 end
