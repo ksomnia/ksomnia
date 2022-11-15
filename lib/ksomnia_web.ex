@@ -19,17 +19,52 @@ defmodule KsomniaWeb do
 
   def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
 
+  def router do
+    quote do
+      use Phoenix.Router, helpers: false
+
+      import Plug.Conn
+      import Phoenix.Controller
+      import Phoenix.LiveView.Router
+    end
+  end
+
+  def channel do
+    quote do
+      use Phoenix.Channel
+    end
+  end
+
   def controller do
     quote do
-      use Phoenix.Controller, namespace: KsomniaWeb,
+      use Phoenix.Controller,
+        namespace: KsomniaWeb,
         formats: [:html, :json],
         layouts: [html: KsomniaWeb.Layouts]
 
       import Plug.Conn
       import KsomniaWeb.Gettext
-      alias KsomniaWeb.Router.Helpers, as: Routes
 
       unquote(verified_routes())
+    end
+  end
+
+  def live_app_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {KsomniaWeb.Layouts, :app}
+
+      unquote(html_helpers())
+
+      on_mount {KsomniaWeb.LiveCurrentUser, :current_user}
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
+      unquote(html_helpers())
     end
   end
 
@@ -57,78 +92,35 @@ defmodule KsomniaWeb do
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
 
+      import KsomniaWeb.LiveHelpers
+
       # Routes generation with the ~p sigil
       unquote(verified_routes())
     end
   end
 
-  def live_view do
-    quote do
-      use Phoenix.LiveView,
-        layout: {KsomniaWeb.Layouts, :app}
+  # defp view_helpers do
+  #   quote do
+  #     # Use all HTML functionality (forms, tags, etc)
+  #     use Phoenix.HTML
 
-      unquote(html_helpers())
-    end
-  end
+  #     # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
+  #     # import Phoenix.LiveView.Helpers
+  #     # import KsomniaWeb.LiveHelpers
 
-  def live_app_view do
-    quote do
-      use Phoenix.LiveView,
-        layout: {KsomniaWeb.Layouts, :app}
+  #     # Import basic rendering functionality (render, render_layout, etc)
+  #     # import Phoenix.View
+  #     import KsomniaWeb.CoreComponents
+  #     alias Phoenix.LiveView.JS
+  #     import KsomniaWeb.LiveHelpers
 
-      unquote(view_helpers())
+  #     import KsomniaWeb.ErrorHelpers
+  #     import KsomniaWeb.Gettext
+  #     alias KsomniaWeb.Router.Helpers, as: Routes
 
-      on_mount {KsomniaWeb.LiveCurrentUser, :current_user}
-    end
-  end
-
-  def live_component do
-    quote do
-      use Phoenix.LiveComponent
-
-      unquote(html_helpers())
-    end
-  end
-
-  def router do
-    quote do
-      use Phoenix.Router
-
-      import Plug.Conn
-      import Phoenix.Controller
-      import Phoenix.LiveView.Router
-    end
-  end
-
-  def channel do
-    quote do
-      use Phoenix.Channel
-      import KsomniaWeb.Gettext
-    end
-  end
-
-  defp view_helpers do
-    quote do
-      # Use all HTML functionality (forms, tags, etc)
-      use Phoenix.HTML
-
-      # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
-      # import Phoenix.LiveView.Helpers
-      # import KsomniaWeb.LiveHelpers
-
-      # Import basic rendering functionality (render, render_layout, etc)
-      # import Phoenix.View
-      import KsomniaWeb.CoreComponents
-      alias Phoenix.LiveView.JS
-      import KsomniaWeb.LiveHelpers
-
-      import KsomniaWeb.ErrorHelpers
-      import KsomniaWeb.Gettext
-      alias KsomniaWeb.Router.Helpers, as: Routes
-
-      unquote(verified_routes())
-    end
-  end
+  #     unquote(verified_routes())
+  #   end
+  # end
 
   def verified_routes do
     quote do

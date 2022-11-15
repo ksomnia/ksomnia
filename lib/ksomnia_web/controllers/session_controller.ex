@@ -3,7 +3,9 @@ defmodule KsomniaWeb.SessionController do
   alias Ksomnia.Auth
 
   def new(conn, _params) do
-    render(conn, :new)
+    conn
+    |> put_root_layout(:root)
+    |> render(:new)
   end
 
   def create(conn, params) do

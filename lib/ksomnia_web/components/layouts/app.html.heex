@@ -44,6 +44,12 @@
           />
         </.modal>
       <% end %>
+
+      <.modal id="confirm-modal" show={true}>
+        Are you sure?
+        <:confirm>OK</:confirm>
+        <:cancel>Cancel</:cancel>
+      </.modal>
     </main>
   </div>
 </main>
