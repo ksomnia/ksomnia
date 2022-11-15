@@ -23,7 +23,7 @@
           <tr>
             <td class="w-full max-w-0 py-3.5 pr-3 sm:w-auto sm:max-w-none sm:pl-6">
               <%= live_redirect [
-                to: Routes.error_identity_show_path(@socket, :show, error_identity),
+                to: ~p"/error_identities/#{error_identity.id}",
                 class: "link"
               ] do %>
                 <%= error_identity.message %> <span class="link-secondary">at <%= error_identity.source %></span>
@@ -47,4 +47,3 @@
     </table>
   </div>
 </main>
-

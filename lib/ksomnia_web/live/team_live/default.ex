@@ -30,7 +30,7 @@ defmodule KsomniaWeb.TeamLive.Default do
 
       {:noreply,
        socket
-       |> push_navigate(to: Routes.app_show_path(socket, :show, app))}
+       |> push_navigate(to: ~p"/apps/#{app.id}")}
     end
   end
 

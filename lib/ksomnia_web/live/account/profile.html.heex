@@ -1,6 +1,6 @@
 <%= live_component KsomniaWeb.Live.TopNavbarComponent, links: [
-  %{title: "Accounts", url: Routes.account_profile_path(@socket, :profile)},
-  %{title: "Profile", url: Routes.account_profile_path(@socket, :profile)},
+  %{title: "Accounts", url: ~p"/account/profile"},
+  %{title: "Profile", url: ~p"/account/profile"},
 ] %>
 
 <div class="flex flex-row px-8">

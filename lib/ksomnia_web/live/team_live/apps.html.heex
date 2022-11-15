@@ -9,7 +9,7 @@
     <p class="mt-1 text-sm text-gray-500">Get started by creating a new app.</p>
     <div class="mt-6">
       <%= live_patch [
-        to: Routes.team_default_path(@socket, :new_app, @team),
+        to: ~p"/t/#{@team.id}/new_app",
         class: "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         ] do %>
         <!-- Heroicon name: mini/plus -->
@@ -41,7 +41,7 @@
             <tr>
               <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
                 <%= live_redirect app.name, [
-                  to: Routes.app_show_path(@socket, :show, app),
+                  to: ~p"/apps/#{app.id}",
                   class: "text-slate-600 font-medium text-sm hover:text-indigo-500 cursor-pointer"
                 ] %>
               </td>

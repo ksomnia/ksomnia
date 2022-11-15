@@ -72,7 +72,7 @@
       </h3>
       <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
         <%= for team <- @teams do %>
-          <%= live_redirect [to: Routes.team_settings_path(@socket, :settings, team), class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
+          <%= live_redirect [to: ~p"/t/#{team.id}/settings", class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
             <div class="flex min-w-0 flex-1 items-center space-x-3">
               <div class="flex-shrink-0">
                 <div class="inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">

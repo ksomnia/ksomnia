@@ -3,7 +3,7 @@
 
   <div class="pl-8 text-left">
     <%= live_patch [
-      to: Routes.team_members_path(@socket, :invite, @team),
+      to: ~p"/t/#{@team.id}/members/invite",
       class: "inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       ] do %>
       <!-- Heroicon name: mini/plus -->

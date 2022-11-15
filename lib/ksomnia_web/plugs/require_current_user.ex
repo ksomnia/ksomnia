@@ -10,6 +10,6 @@ defmodule KsomniaWeb.RequireCurrentUser do
 
   def call(conn, _) do
     conn
-    |> redirect(to: Routes.session_path(conn, :new))
+    |> redirect(to: ~p"/signin")
   end
 end

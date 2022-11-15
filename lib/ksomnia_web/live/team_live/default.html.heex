@@ -27,7 +27,7 @@
       title={@page_title}
       action={@live_action}
       app={@app}
-      return_to={Routes.team_default_path(@socket, :default, @team)}
+      return_to={~p"/t/#{@team.id}"}
     />
   </.modal>
 <% end %>
