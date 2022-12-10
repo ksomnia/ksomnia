@@ -3,7 +3,9 @@ defmodule KsomniaWeb.RegistrationController do
   alias Ksomnia.User
 
   def new(conn, _params) do
-    render(conn, :new, changeset: User.new(%{}))
+    conn
+    |> put_layout({KsomniaWeb.Layouts, :unauthenticated})
+    |> render(:new, changeset: User.new(%{}))
   end
 
   def create(conn, params) do

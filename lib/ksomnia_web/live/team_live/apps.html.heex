@@ -21,6 +21,15 @@
     </div>
   <% else %>
     <div class="text-left ml-7">
+
+    <button
+      phx-click={show_modal(%JS{}, "confirm-modal")}
+      type="button"
+      class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
+    >
+      CLICK
+    </button>
+
       <a phx-click={"open-modal"} phx-target="#modal-wrap-component" class="cursor-pointer inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
         <!-- Heroicon name: mini/plus -->
         <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

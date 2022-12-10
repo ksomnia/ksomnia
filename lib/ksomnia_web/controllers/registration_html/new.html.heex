@@ -11,6 +11,20 @@
   </div>
   <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
     <div class="flex justify-center">
+      <.simple_form :let={f} for={:user} method="post" action={~p"/signup"}>
+        <.error :if={assigns[:error]}>
+          <%= @error %>
+        </.error>
+        <.input field={{f, :email}} type="email" label="email" />
+        <.input field={{f, :username}} type="text" label="username" />
+        <.input field={{f, :password}} type="password" label="password" />
+        <:actions>
+          <.button class="w-full">Sign Up</.button>
+        </:actions>
+        <div class="flex items-center justify-between">
+          <div></div>
+        </div>
+      </.simple_form>
     </div>
   </div>
   <div class="flex items-center justify-between mt-5 text-slate-800">
