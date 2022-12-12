@@ -30,20 +30,6 @@
     </div>
     <main class="flex-1">
       <%= @inner_content %>
-      <.live_component module={KsomniaWeb.Live.ModalWrapComponent} id={:wrap} team={@team} />
-
-      <%= if @open_modal do %>
-        <.modal id="new">
-          <.live_component
-            module={KsomniaWeb.TeamLive.AppFormComponent}
-            team_id={@team.id}
-            title={@page_title}
-            action={@live_action}
-            app={@app}
-            return_to={~p"/t/:#{@team.id}"}
-          />
-        </.modal>
-      <% end %>
     </main>
   </div>
 </main>

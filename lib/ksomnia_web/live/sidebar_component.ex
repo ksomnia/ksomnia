@@ -4,7 +4,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex-1 flex flex-col min-h-0 border-r border-gray-200 shadow-md bg-gray-50">
+    <div id="sidebar-component" class="flex-1 flex flex-col min-h-0 border-r border-gray-200 shadow-md bg-gray-50">
       <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <a href="/">
           <div class="flex items-center flex-shrink-0 px-4">
@@ -19,7 +19,23 @@ defmodule KsomniaWeb.Live.SidebarComponent do
                 class={"#{if @team && team.id == @team.id, do: "text-indigo-400", else: ""} hover:text-indigo-500"}>
                 <%= team.name %>
               </.link>
-              <svg phx-click={"open-modal"} phx-target="#modal-wrap-component" class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <%!-- <svg phx-click={show_modal(%JS{}, {"confirm-modal", team.id})} --%>
+              <svg
+                phx-target="#sidebar-component"
+                phx-click={
+                  JS.push("open-new-app-modal", [
+                    value: %{team_id: team.id},
+                    target: "#sidebar-component"
+                  ])
+                  |> show_modal("confirm-modal")
+                }
+                class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+              >
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
@@ -51,12 +67,20 @@ defmodule KsomniaWeb.Live.SidebarComponent do
           </div>
         </.link>
       </div>
+      <.live_component
+        module={KsomniaWeb.TeamLive.AppFormComponent}
+        app={%Ksomnia.App{}}
+        return_to={"/"}
+        id={:wrap}
+        new_app_team_id={assigns[:new_app_team_id]}
+        team={%{}}
+      />
     </div>
     """
   end
 
   @impl true
-  def handle_event("open-modal", _opts, socket) do
-    {:noreply, assign(socket, :open_modal, true)}
+  def handle_event("open-new-app-modal", %{"team_id" => team_id}, socket) do
+    {:noreply, assign(socket, :new_app_team_id, team_id)}
   end
 end

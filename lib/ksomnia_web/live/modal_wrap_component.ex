@@ -13,6 +13,7 @@ defmodule KsomniaWeb.Live.ModalWrapComponent do
               action={:new_app}
               team_id={@team.id}
               app={%Ksomnia.App{}}
+              return_to={"/"}
             />
           </.modal>
         <% end %>
