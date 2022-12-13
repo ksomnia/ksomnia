@@ -71,6 +71,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
         module={KsomniaWeb.TeamLive.AppFormComponent}
         app={%Ksomnia.App{}}
         return_to={"/"}
+        action={:new_app}
         id={:wrap}
         new_app_team_id={assigns[:new_app_team_id]}
         team={%{}}
