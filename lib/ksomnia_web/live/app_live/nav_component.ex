@@ -7,7 +7,6 @@ defmodule KsomniaWeb.AppLive.NavComponent do
       <nav class="px-7 py-4 isolate flex divide-x divide-gray-200 rounded-lg">
         <%= live_redirect [
           to: ~p"/apps/#{@app.id}",
-          # to: Routes.app_show_path(@socket, :show, @app),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -19,7 +18,6 @@ defmodule KsomniaWeb.AppLive.NavComponent do
 
         <%= live_redirect [
           to: ~p"/apps/#{@app.id}/settings",
-          # to: Routes.app_settings_path(@socket, :settings, @app),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">
@@ -32,7 +30,6 @@ defmodule KsomniaWeb.AppLive.NavComponent do
 
         <%= live_redirect [
           to: ~p"/apps/#{@app.id}/source_maps",
-          # to: Routes.app_source_maps_path(@socket, :source_maps, @app),
           class: "text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
         ] do %>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 inline-block">

@@ -19,7 +19,6 @@ defmodule KsomniaWeb.Live.SidebarComponent do
                 class={"#{if @team && team.id == @team.id, do: "text-indigo-400", else: ""} hover:text-indigo-500"}>
                 <%= team.name %>
               </.link>
-              <%!-- <svg phx-click={show_modal(%JS{}, {"confirm-modal", team.id})} --%>
               <svg
                 phx-target="#sidebar-component"
                 phx-click={
@@ -27,7 +26,7 @@ defmodule KsomniaWeb.Live.SidebarComponent do
                     value: %{team_id: team.id},
                     target: "#sidebar-component"
                   ])
-                  |> show_modal("confirm-modal")
+                  |> show_modal("new-app-modal")
                 }
                 class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer"
                 xmlns="http://www.w3.org/2000/svg"

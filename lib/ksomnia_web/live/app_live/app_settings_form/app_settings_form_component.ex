@@ -30,11 +30,11 @@ defmodule KsomniaWeb.AppLive.AppSettingsFormComponent do
     app = socket.assigns.app
 
     case App.update(app, app_params) do
-      {:ok, _app} ->
+      {:ok, app} ->
         {:noreply,
          socket
+         |> put_flash(:info, "App updated successfully")
          |> push_navigate(to: ~p"/apps/#{app.id}/settings")}
-         # |> Phoenix.Flash.put_flash(:info, "App updated successfully")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

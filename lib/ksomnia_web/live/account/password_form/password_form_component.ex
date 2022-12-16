@@ -29,10 +29,8 @@ defmodule KsomniaWeb.AppLive.PasswordFormComponent do
       {:ok, _user} ->
         {:noreply,
          socket
+         |> put_flash(:info, "Password updated successfully")
          |> push_navigate(to: ~p"/account/profile/")}
-
-         #  |> Phoenix.Flash.put_flash(:info, "Password updated successfully")
-         #  |> push_navigate(to: Routes.account_profile_path(socket, :profile))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         changeset = Map.put(changeset, :action, :validate)
