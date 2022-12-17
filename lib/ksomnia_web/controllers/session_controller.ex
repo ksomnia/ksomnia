@@ -1,10 +1,10 @@
 defmodule KsomniaWeb.SessionController do
   use KsomniaWeb, :controller
   alias Ksomnia.Auth
+  plug :put_layout, {KsomniaWeb.Layouts, :unauthenticated}
 
   def new(conn, _params) do
     conn
-    |> put_layout({KsomniaWeb.Layouts, :unauthenticated})
     |> render(:new)
   end
 
@@ -15,7 +15,8 @@ defmodule KsomniaWeb.SessionController do
       |> redirect(to: "/")
     else
       _ ->
-        render(conn, :new, error: "Invalid email or password")
+        conn
+        |> render(:new, error: "Invalid email or password")
     end
   end
 

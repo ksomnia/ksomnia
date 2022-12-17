@@ -9,7 +9,7 @@
     <div class="flex justify-center">
       <.simple_form :let={f} for={:user} method="post" action={~p"/signin"}>
         <.error :if={assigns[:error]}>
-          Oops, something went wrong! Please check the errors below.
+          <%= @error %>
         </.error>
         <.input field={{f, :email}} type="text" label="email" />
         <.input field={{f, :password}} type="password" label="password" />
@@ -27,9 +27,7 @@
               </div>
             </div>
           </div>
-
         </:actions>
-
       </.simple_form>
     </div>
   </div>

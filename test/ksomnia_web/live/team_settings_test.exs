@@ -19,7 +19,7 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
       insert(:team_user, user: user2, team: team)
 
       conn = login_as(conn, user2)
-      url = Routes.team_settings_path(conn, :settings, team.id)
+      url = ~p"/t/#{team.id}/settings"
       {:ok, index_live, _html} = live(conn, url)
 
       assert length(User.for_team(team)) == 2
@@ -34,7 +34,7 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
 
       # The second owner leaves the team
       user2_conn = login_as(conn, user2)
-      url = Routes.team_settings_path(user2_conn, :settings, team.id)
+      url = ~p"/t/#{team.id}/settings"
       {:ok, index_live, _html} = live(user2_conn, url)
 
       assert length(User.for_team(team)) == 2
@@ -43,7 +43,7 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
 
       # The last owner cannot leave the team
       user1_conn = login_as(conn, user)
-      url = Routes.team_settings_path(user1_conn, :settings, team.id)
+      url = ~p"/t/#{team.id}/settings"
       {:ok, index_live, _html} = live(user1_conn, url)
 
       assert length(User.for_team(team)) == 1

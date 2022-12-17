@@ -23,7 +23,7 @@ defmodule KsomniaWeb.MembersLiveTest do
       insert(:team_user, user: user2, team: team)
 
       conn = login_as(conn, user)
-      url = Routes.team_members_path(conn, :members, team.id)
+      url = ~p"/t/#{team.id}/members"
       {:ok, index_live, _html} = live(conn, url)
 
       assert length(User.for_team(team)) == 2
@@ -38,7 +38,7 @@ defmodule KsomniaWeb.MembersLiveTest do
       insert(:team_user, user: user3, team: team)
 
       conn = login_as(conn, user3)
-      url = Routes.team_members_path(conn, :members, team.id)
+      url = ~p"/t/#{team.id}/members"
       {:ok, index_live, _html} = live(conn, url)
 
       assert length(User.for_team(team)) == 3

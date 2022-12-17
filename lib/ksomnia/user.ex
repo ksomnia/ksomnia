@@ -33,24 +33,24 @@ defmodule Ksomnia.User do
   end
 
   def change_password(user, params) do
-    if Argon2.verify_pass(params["current_password"], user.encrypted_password) do
-      user
-      |> new_password_changeset(params)
-      |> Repo.update()
-    else
-      changeset =
-        user
-        |> new_password_changeset(params)
-        |> add_error(:current_password, "invalid", validation: :required)
-
-      {:error, changeset}
-    end
+    user
+    |> new_password_changeset(params)
+    |> validate_change(:current_password, fn :current_password, current_password ->
+      unless Argon2.verify_pass(current_password, user.encrypted_password) do
+        [current_password: "Invalid current password"]
+      else
+        []
+      end
+    end)
+    |> encrypt_password()
+    |> Repo.update()
   end
 
   def new_password_changeset(user, attrs) do
     user
     |> cast(attrs, [:current_password, :password, :password_confirmation])
     |> validate_required([:current_password, :password, :password_confirmation])
+    |> validate_confirmation(:password)
   end
 
   def profile_changeset(user, attrs) do

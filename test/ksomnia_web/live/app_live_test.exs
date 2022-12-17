@@ -16,7 +16,7 @@ defmodule KsomniaWeb.AppLiveTest do
     setup [:create_app]
 
     test "displays the user's apps", %{conn: conn, app: app, user: user} do
-      url = Routes.dashboard_index_path(conn, :index)
+      url = ~p"/dashboard"
       conn = login_as(conn, user)
       {:ok, _index_live, html} = live(conn, url)
       assert html =~ app.name
@@ -26,7 +26,7 @@ defmodule KsomniaWeb.AppLiveTest do
       invitee = insert(:user, email: "invitee@test.test")
       insert(:invite, email: invitee.email, inviter: user)
 
-      url = Routes.team_index_path(conn, :index)
+      url = ~p"/teams"
       conn = login_as(conn, invitee)
       {:ok, _index_live, html} = live(conn, url)
       assert html =~ "Pending invites"
@@ -36,7 +36,7 @@ defmodule KsomniaWeb.AppLiveTest do
       invitee = insert(:user, email: "invitee@test.test")
       invite = insert(:invite, email: invitee.email, inviter: user, team: team)
 
-      url = Routes.team_index_path(conn, :index)
+      url = ~p"/teams"
       conn = login_as(conn, invitee)
       {:ok, index_live, _html} = live(conn, url)
 
@@ -48,7 +48,7 @@ defmodule KsomniaWeb.AppLiveTest do
       invitee = insert(:user, email: "invitee@test.test")
       invite = insert(:invite, email: invitee.email, inviter: user, team: team)
 
-      url = Routes.team_index_path(conn, :index)
+      url = ~p"/t/#{team.id}/apps"
       conn = login_as(conn, invitee)
       {:ok, index_live, _html} = live(conn, url)
 
