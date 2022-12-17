@@ -1,9 +1,9 @@
-defmodule KsomniaWeb.TeamLive.Members do
-  use KsomniaWeb, :live_app_view
+defmodule KsomniaWeb.TeamLive.Settings do
+  use KsomniaWeb, :live_view
   alias Ksomnia.Team
-  alias Ksomnia.Repo
-  alias Ksomnia.User
   alias Ksomnia.TeamUser
+  alias Ksomnia.Repo
+  alias Ksomnia.App
   alias Ksomnia.Permissions
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
@@ -12,23 +12,26 @@ defmodule KsomniaWeb.TeamLive.Members do
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket, %{
-       team: nil,
-       members: []
+       team: nil
      })}
   end
 
   @impl true
   def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    team_members = User.for_team(team)
 
     socket =
       socket
       |> assign(:team, team)
-      |> assign(:team_members, team_members)
       |> assign(:page_title, "#{team.name}")
 
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, :new_app, _params) do
+    socket
+    |> assign(:page_title, "New App")
+    |> assign(:app, %App{team_id: socket.assigns.team.id})
   end
 
   defp apply_action(socket, _, _params) do
@@ -37,15 +40,13 @@ defmodule KsomniaWeb.TeamLive.Members do
   end
 
   @impl true
-  def handle_event("remove-team-member", %{"team-member-id" => team_member_id}, socket) do
-    target_user = User.get(team_member_id)
+  def handle_event("leave-team", %{}, socket) do
     current_user = socket.assigns.current_user
     team = socket.assigns.team
 
-    with true <- Permissions.can_remove_user_from_team(team, current_user, target_user),
-         %TeamUser{} <- TeamUser.remove_user(team, target_user) do
-      socket = assign(socket, :team_members, User.for_team(team))
-      {:noreply, socket}
+    with true <- Permissions.can_leave_team(team, current_user),
+         {:ok, _} <- TeamUser.remove_user(team, current_user) do
+      {:noreply, push_navigate(socket, to: "/")}
     else
       _ ->
         {:noreply, socket}

@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.TeamLive.Invites do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
   alias Ksomnia.Team
   alias Ksomnia.Repo
   alias Ksomnia.Invite

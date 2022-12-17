@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.DashboardLive.Index do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
 
   alias Ksomnia.App
 

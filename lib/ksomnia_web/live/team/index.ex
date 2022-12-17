@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.TeamLive.Index do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
   alias Ksomnia.Team
   alias Ksomnia.Invite
 

@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.ErrorIdentityLive.Show do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
   import Phoenix.HTML.Tag
 
   alias Ksomnia.Repo

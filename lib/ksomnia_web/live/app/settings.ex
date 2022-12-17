@@ -1,12 +1,13 @@
-defmodule KsomniaWeb.AppLive.SourceMaps do
-  use KsomniaWeb, :live_app_view
+defmodule KsomniaWeb.AppLive.Settings do
+  use KsomniaWeb, :live_view
 
   alias Ksomnia.App
   alias Ksomnia.Repo
+  alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMap
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
-  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :source_maps]}
+  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :settings]}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -21,14 +22,17 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   def handle_params(%{"id" => id}, _, socket) do
     app = Repo.get(App, id)
     team = Repo.get(Ksomnia.Team, app.team_id)
-    source_maps = SourceMap.for_app(app)
+    error_identities = ErrorIdentity.for_app(app)
+    latest_source_map = SourceMap.latest_for_app(app)
 
     socket =
       socket
       |> assign(:page_title, page_title(socket.assigns.live_action))
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:source_maps, source_maps)
+      |> assign(:error_identities, error_identities)
+      |> assign(:latest_source_map, latest_source_map)
+      |> assign(:app_changeset, App.changeset(app, %{}))
       |> assign(:__current_app__, app.id)
 
     {:noreply, socket}
@@ -43,5 +47,4 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   defp page_title(:show), do: "Show App"
   defp page_title(:edit), do: "Edit App"
   defp page_title(:settings), do: "Settings"
-  defp page_title(:source_maps), do: "Source maps"
 end

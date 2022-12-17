@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.AccountLive.Profile do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
   alias Ksomnia.User
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :account}}

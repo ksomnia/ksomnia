@@ -1,5 +1,5 @@
 defmodule KsomniaWeb.AccountLive.Password do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
 
   on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :account}}
 

@@ -49,7 +49,7 @@ defmodule KsomniaWeb do
     end
   end
 
-  def live_app_view do
+  def live_view do
     quote do
       use Phoenix.LiveView,
         layout: {KsomniaWeb.Layouts, :app}
