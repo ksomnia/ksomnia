@@ -25,7 +25,7 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
 
     socket =
       socket
-      |> assign(:page_title, page_title(socket.assigns.live_action))
+      |> assign(:page_title, "#{app.name} · Source maps")
       |> assign(:app, app)
       |> assign(:team, team)
       |> assign(:source_maps, source_maps)
@@ -39,9 +39,4 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
     display_token = if socket.assigns.display_token, do: nil, else: socket.assigns.app.token
     {:noreply, assign(socket, :display_token, display_token)}
   end
-
-  defp page_title(:show), do: "Show App"
-  defp page_title(:edit), do: "Edit App"
-  defp page_title(:settings), do: "Settings"
-  defp page_title(:source_maps), do: "Source maps"
 end

@@ -21,8 +21,12 @@ defmodule KsomniaWeb.TeamLive.Index do
   end
 
   @impl true
-  def handle_params(params, _url, socket) do
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  def handle_params(_params, _url, socket) do
+    socket =
+      socket
+      |> assign(:page_title, "Teams")
+
+    {:noreply, socket}
   end
 
   @impl true
@@ -79,10 +83,5 @@ defmodule KsomniaWeb.TeamLive.Index do
       {:error, _} ->
         {:noreply, socket}
     end
-  end
-
-  defp apply_action(socket, :index, _params) do
-    socket
-    |> assign(:page_title, "Teams")
   end
 end

@@ -18,22 +18,17 @@ defmodule KsomniaWeb.TeamLive.Members do
   end
 
   @impl true
-  def handle_params(%{"team_id" => id} = params, _, socket) do
+  def handle_params(%{"team_id" => id} = _params, _, socket) do
     team = Repo.get(Team, id)
     team_members = User.for_team(team)
 
     socket =
       socket
+      |> assign(:page_title, "#{team.name} · Members")
       |> assign(:team, team)
       |> assign(:team_members, team_members)
-      |> assign(:page_title, "#{team.name}")
 
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, _, _params) do
-    socket
-    |> assign(:page_title, socket.assigns.team.name)
+    {:noreply, socket}
   end
 
   @impl true

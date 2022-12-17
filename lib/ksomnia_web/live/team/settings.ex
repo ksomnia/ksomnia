@@ -22,8 +22,8 @@ defmodule KsomniaWeb.TeamLive.Settings do
 
     socket =
       socket
-      |> assign(:team, team)
       |> assign(:page_title, "#{team.name}")
+      |> assign(:team, team)
 
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
