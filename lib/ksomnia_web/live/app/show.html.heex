@@ -22,12 +22,12 @@
         <%= for error_identity <- @error_identities do %>
           <tr>
             <td class="w-full max-w-0 py-3.5 pr-3 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= live_redirect [
-                to: ~p"/error_identities/#{error_identity.id}",
-                class: "link"
-              ] do %>
+              <.link
+                navigate={~p"/error_identities/#{error_identity.id}"}
+                class="link"
+              >
                 <%= error_identity.message %> <span class="link-secondary">at <%= error_identity.source %></span>
-              <% end %>
+              </.link>
             </td>
             <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
               <span class="commit-badge">

@@ -28,7 +28,7 @@ defmodule KsomniaWeb.AppLive.Show do
 
     socket =
       socket
-      |> assign(:page_title, app.name)
+      |> assign(:page_title, "#{app.name} · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
       |> assign(:error_identities, error_identities)

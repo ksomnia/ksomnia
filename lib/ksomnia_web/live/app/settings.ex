@@ -27,7 +27,7 @@ defmodule KsomniaWeb.AppLive.Settings do
 
     socket =
       socket
-      |> assign(:page_title, "#{app.name} · Settings")
+      |> assign(:page_title, "#{app.name} · Settings · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
       |> assign(:error_identities, error_identities)

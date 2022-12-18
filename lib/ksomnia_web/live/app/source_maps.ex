@@ -25,7 +25,7 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
 
     socket =
       socket
-      |> assign(:page_title, "#{app.name} · Source maps")
+      |> assign(:page_title, "#{app.name} · Source maps · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
       |> assign(:source_maps, source_maps)

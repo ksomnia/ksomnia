@@ -6,7 +6,7 @@ defmodule KsomniaWeb.TeamLive.MembersNavComponent do
     <div>
       <div class="pl-8 text-left">
         <a
-          class="cursor-pointer inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          class="btn-primary inline-flex items-center"
           phx-click={
             %JS{}
             |> show_modal("new-invite-modal")

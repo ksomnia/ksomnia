@@ -2,9 +2,7 @@
   <%= live_component KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :apps %>
 
   <%= if Enum.empty?(@apps) do %>
-    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-      <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-    </svg>
+    <Heroicons.folder_plus class="mx-auto h-12 w-12 text-gray-400" />
     <h3 class="mt-2 text-sm font-medium text-gray-900">No apps</h3>
     <p class="mt-1 text-sm text-gray-500">Get started by creating a new app.</p>
     <div class="mt-6">
@@ -18,17 +16,14 @@
           ])
           |> show_modal("new-app-modal")
         }>
-        <!-- Heroicon name: mini/plus -->
-        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-        </svg>
+        <Heroicons.plus class="h-5 w-5 mr-2" />
         New App
       </a>
     </div>
   <% else %>
     <div class="text-left ml-7">
       <a
-        class="cursor-pointer inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        class="btn-primary inline-flex items-center"
         phx-target="#sidebar-component"
         phx-click={
           JS.push("open-new-app-modal", [
@@ -37,33 +32,20 @@
           ])
           |> show_modal("new-app-modal")
         }>
-        <!-- Heroicon name: mini/plus -->
-        <svg class="-ml-1 mr-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-        </svg>
+        <Heroicons.plus class="h-5 w-5 mr-2" />
         New App
       </a>
     </div>
     <div class="px-7 mt-8 overflow-hidden">
-      <table class="min-w-full divide-y divide-gray-300">
-        <thead class="bg-gray-50">
-          <tr>
-            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 sm:pl-6">App</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200 bg-white">
-          <%= for app <- @apps do %>
-            <tr>
-              <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                <%= live_redirect app.name, [
-                  to: ~p"/apps/#{app.id}",
-                  class: "text-slate-600 font-medium text-sm hover:text-indigo-500 cursor-pointer"
-                ] %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <.table id="apps" rows={@apps}>
+        <:col :let={app} label="app">
+          <.link
+            navigate={~p"/apps/#{app.id}"}
+            class="text-slate-600 font-medium text-sm hover:text-indigo-500 cursor-pointer">
+            <%= app.name %>
+          </.link>
+        </:col>
+      </.table>
     </div>
   <% end %>
 </div>
