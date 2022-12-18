@@ -58,7 +58,7 @@ window.liveSocket = liveSocket
 
 window.KsomniaHelpers = {
   copyTokenHandle: (e) => {
-    const token = e.target.closest('span').innerText
+    const token = document.getElementById('token').innerText
     navigator.clipboard.writeText(token)
   },
 
