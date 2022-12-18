@@ -15,12 +15,6 @@ defmodule KsomniaWeb.AppLiveTest do
   describe "the user's home page" do
     setup [:create_app]
 
-    test "displays the user's apps", %{conn: conn, app: app, user: user} do
-      conn = login_as(conn, user)
-      {:ok, _index_live, html} = live(conn, ~p"/dashboard")
-      assert html =~ app.name
-    end
-
     test "displays the user's invites", %{conn: conn, user: user} do
       invitee = insert(:user, email: "invitee@test.test")
       insert(:invite, email: invitee.email, inviter: user)

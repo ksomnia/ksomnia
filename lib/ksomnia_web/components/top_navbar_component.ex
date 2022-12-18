@@ -1,4 +1,4 @@
-defmodule KsomniaWeb.Live.TopNavbarComponent do
+defmodule KsomniaWeb.TopNavbarComponent do
   use KsomniaWeb, :live_component
 
   def render(assigns) do

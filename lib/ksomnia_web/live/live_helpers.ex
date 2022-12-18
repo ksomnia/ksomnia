@@ -1,9 +1,4 @@
 defmodule KsomniaWeb.LiveHelpers do
-  # import Phoenix.LiveView
-  # import Phoenix.LiveView.Helpers
-  # alias Phoenix.LiveView.JS
-  # use Phoenix.Component
-
   def user_avatar(user) do
     user.username
     |> String.first()

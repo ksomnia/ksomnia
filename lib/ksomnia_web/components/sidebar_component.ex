@@ -1,4 +1,4 @@
-defmodule KsomniaWeb.Live.SidebarComponent do
+defmodule KsomniaWeb.SidebarComponent do
   use KsomniaWeb, :live_component
 
   @impl true
@@ -19,7 +19,8 @@ defmodule KsomniaWeb.Live.SidebarComponent do
                 class={"#{if @team && team.id == @team.id, do: "text-indigo-400", else: ""} hover:text-indigo-500"}>
                 <%= team.name %>
               </.link>
-              <svg
+              <Heroicons.plus_circle
+                class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer"
                 phx-target="#sidebar-component"
                 phx-click={
                   JS.push("open-new-app-modal", [
@@ -28,17 +29,8 @@ defmodule KsomniaWeb.Live.SidebarComponent do
                   ])
                   |> show_modal("new-app-modal")
                 }
-                class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              />
             </div>
-
             <%= for app <- team.apps do %>
               <.link
                 navigate={~p"/apps/#{app.id}/"}
