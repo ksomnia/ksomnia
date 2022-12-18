@@ -22,12 +22,14 @@ defmodule KsomniaWeb.TeamLive.InviteModalComponent do
   end
 
   def handle_event("save", %{"invite" => params}, socket) do
-    case Invite.create(socket.assigns.team.id, params) do
+    team = socket.assigns.team
+
+    case Invite.create(team.id, params) do
       {:ok, _invite} ->
         {:noreply,
          socket
          |> put_flash(:info, "Invite created successfully")
-         |> push_navigate(to: socket.assigns.return_to)}
+         |> push_navigate(to: ~p"/t/#{team.id}/members/invites")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
