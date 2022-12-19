@@ -7,8 +7,6 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMapper
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
-
   @stacktrace_types ["source_map", "generated_source"]
 
   @impl true

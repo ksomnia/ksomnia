@@ -3,8 +3,6 @@ defmodule KsomniaWeb.TeamLive.Index do
   alias Ksomnia.Team
   alias Ksomnia.Invite
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
-
   @impl true
   def mount(_params, _session, socket) do
     %{current_user: user} = socket.assigns

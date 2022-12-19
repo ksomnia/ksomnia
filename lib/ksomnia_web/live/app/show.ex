@@ -6,7 +6,6 @@ defmodule KsomniaWeb.AppLive.Show do
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMap
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :show]}
 
   @impl true

@@ -4,8 +4,6 @@ defmodule KsomniaWeb.TeamLive.Apps do
   alias Ksomnia.Repo
   alias Ksomnia.App
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, :apps, [])}

@@ -6,8 +6,6 @@ defmodule KsomniaWeb.TeamLive.Settings do
   alias Ksomnia.App
   alias Ksomnia.Permissions
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
-
   @impl true
   def mount(_params, _session, socket) do
     {:ok,

@@ -5,7 +5,6 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   alias Ksomnia.Repo
   alias Ksomnia.SourceMap
 
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :source_maps]}
 
   @impl true
