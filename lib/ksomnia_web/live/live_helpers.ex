@@ -1,10 +1,4 @@
 defmodule KsomniaWeb.LiveHelpers do
-  def user_avatar(user) do
-    user.username
-    |> String.first()
-    |> String.capitalize()
-  end
-
   @bg_gradients [
     "from-indigo-200 to-blue-200",
     "from-orange-200 to-red-200",
@@ -12,7 +6,7 @@ defmodule KsomniaWeb.LiveHelpers do
     "from-pink-200 to-rose-200"
   ]
 
-  def generate_gradient(string) do
+  def generate_gradient(string, reverse \\ false) do
     len = length(@bg_gradients)
 
     sum =
@@ -21,6 +15,12 @@ defmodule KsomniaWeb.LiveHelpers do
       |> Enum.take(8)
       |> Enum.sum()
 
-    Enum.at(@bg_gradients, rem(sum, len))
+    gradient = Enum.at(@bg_gradients, rem(sum, len))
+
+    if reverse do
+      gradient |> String.split() |> Enum.reverse() |> Enum.join("")
+    else
+      gradient
+    end
   end
 end

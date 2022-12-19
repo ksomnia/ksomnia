@@ -565,6 +565,36 @@ defmodule KsomniaWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Renders an avatar.
+
+  ## Examples
+
+      <.avatar_lg name={team.name} class="h-9 w-9" />
+  """
+  attr :name, :string, required: true
+  attr :class, :string, default: ""
+  attr :round, :boolean, default: true
+
+  def avatar_lg(assigns) do
+    ~H"""
+    <div class={[
+      "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
+      "select-none ml-7 w-52 h-52 flex justify-center items-center rounded-md"
+    ]}>
+      <div class={[
+        "#{LiveHelpers.generate_gradient(@name, true)}",
+        "border-4 border-white rounded-full p-1 w-32 h-32 flex",
+        "justify-center items-center bg-gradient-to-r"
+      ]}>
+        <span class="text-6xl font-extrabold text-white">
+          <%= @name |> String.first() |> String.capitalize() %>
+        </span>
+      </div>
+    </div>
+    """
+  end
+
   ## JS Commands
 
   def show(js \\ %JS{}, selector) do

@@ -23,6 +23,10 @@
     @apply cursor-pointer rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
   }
 
+  .btn-danger {
+    @apply cursor-pointer bg-red-500 hover:bg-red-600 text-white focus:ring-red-500 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
+  }
+
   .btn-secondary-danger {
     @apply cursor-pointer bg-slate-100 hover:bg-slate-200 text-red-600 focus:ring-red-500 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
   }
@@ -41,6 +45,10 @@
 
   .commit-badge {
     @apply px-2 py-1 bg-blue-50 text-slate-600 font-semibold text-sm rounded-md font-mono;
+  }
+
+  .badge {
+    @apply px-2 py-1 bg-blue-50 text-slate-600 font-medium text-sm rounded-md;
   }
 
   .inline-code {

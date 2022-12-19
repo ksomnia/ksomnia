@@ -1,12 +1,6 @@
 <div class="text-center mt-1">
   <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :settings) %>
-  <div class="select-none bg-gradient-to-r from-indigo-200 to-blue-200 ml-7 w-52 h-52 flex justify-center items-center rounded-md">
-    <div class="border-4 border-white rounded-full p-1 w-32 h-32 flex justify-center items-center bg-gradient-to-r from-blue-200 to-indigo-200">
-      <span class="text-6xl font-extrabold text-white">
-        <%= String.capitalize(String.first(@team.name)) %>
-      </span>
-    </div>
-  </div>
+  <.avatar_lg name={@team.name} />
   <%= if Permissions.can_update_team(@team, @current_user) do %>
     <.live_component
       id={:team_settings}
@@ -18,13 +12,13 @@
   <% end %>
   <%= if Permissions.can_leave_team(@team, @current_user) do %>
     <div class="border border-red-200 px-4 py-4 ml-8 mt-5 rounded-md text-left">
-      <button
-        data-confirm={"Are you sure you want to leave #{@team.name}?"}
-        class="bg-slate-100 text-red-600 hover:bg-slate-200"
+      <.button
+        class="btn-danger"
         phx-click="leave-team"
+        data-confirm={"Are you sure you want to leave #{@team.name}?"}
       >
-        Leave this team.
-      </button>
+        Leave this team
+      </.button>
     </div>
   <% end %>
 </div>
