@@ -83,7 +83,10 @@
       </h3>
       <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
         <%= for team <- @teams do %>
-          <%= live_redirect [to: ~p"/t/#{team.id}/settings", class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
+          <.link
+            navigate={~p"/t/#{team.id}/apps"}
+            class="flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"
+          >
             <div class="flex min-w-0 flex-1 items-center space-x-3">
               <.avatar name={team.name} class="h-9 w-9" />
               <div class="min-w-0 flex-1">
@@ -94,7 +97,7 @@
             <div class="flex-shrink-0">
               <span class="label">Open</span>
             </div>
-          <% end %>
+          </.link>
         <% end %>
       </ul>
     <% end %>

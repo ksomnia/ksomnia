@@ -517,25 +517,6 @@ defmodule KsomniaWeb.CoreComponents do
   end
 
   @doc """
-  Renders an avatar.
-  """
-  attr :name, :string, required: true
-  attr :class, :string, default: ""
-
-  def avatar(assigns) do
-    ~H"""
-    <div class="flex-shrink-0 select-none">
-      <div class={[
-        "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
-        "inline-block rounded-full text-white flex justify-center items-center font-bold"
-      ]}>
-        <%= @name |> String.first() |> String.capitalize() %>
-      </div>
-    </div>
-    """
-  end
-
-  @doc """
   Renders a back navigation link.
 
   ## Examples
@@ -555,6 +536,29 @@ defmodule KsomniaWeb.CoreComponents do
         <Heroicons.arrow_left solid class="w-3 h-3 stroke-current inline" />
         <%= render_slot(@inner_block) %>
       </.link>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders an avatar.
+
+  ## Examples
+
+      <.avatar name={team.name} class="h-9 w-9" />
+  """
+  attr :name, :string, required: true
+  attr :class, :string, default: ""
+
+  def avatar(assigns) do
+    ~H"""
+    <div class="flex-shrink-0 select-none">
+      <div class={[
+        "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
+        "inline-block rounded-full text-white flex justify-center items-center font-bold"
+      ]}>
+        <%= @name |> String.first() |> String.capitalize() %>
+      </div>
     </div>
     """
   end
