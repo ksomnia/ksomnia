@@ -549,13 +549,15 @@ defmodule KsomniaWeb.CoreComponents do
   """
   attr :name, :string, required: true
   attr :class, :string, default: ""
+  attr :round, :boolean, default: true
 
   def avatar(assigns) do
     ~H"""
     <div class="flex-shrink-0 select-none">
       <div class={[
         "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
-        "inline-block rounded-full text-white flex justify-center items-center font-bold"
+        "#{if @round, do: "rounded-full", else: "rounded-md"}",
+        "inline-block text-white flex justify-center items-center font-bold"
       ]}>
         <%= @name |> String.first() |> String.capitalize() %>
       </div>

@@ -54,9 +54,7 @@ defmodule KsomniaWeb.SidebarComponent do
         <.link navigate={~p"/account/profile"} class="flex-shrink-0 w-full group block">
           <div class="flex items-center">
             <div>
-              <div class={"relative inline-block h-9 w-9 rounded-full bg-gradient-to-r #{KsomniaWeb.LiveHelpers.generate_gradient(@current_user.username)} text-white flex justify-center items-center font-bold"}>
-                <%= KsomniaWeb.LiveHelpers.user_avatar(@current_user) %>
-              </div>
+              <.avatar name={@current_user.username} class="h-9 w-9" />
             </div>
             <div class="ml-3">
               <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
