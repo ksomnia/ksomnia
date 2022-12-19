@@ -9,8 +9,7 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)
-    }
+     |> assign(:changeset, changeset)}
   end
 
   @impl true

@@ -6,12 +6,14 @@ defmodule KsomniaWeb.AccountLive.AccountNavComponent do
     <div class="w-36 text-gray-600 mr-4">
       <.link
         navigate={~p"/account/profile"}
-        class={"#{if @current_section == :profile, do: "border-indigo-600 text-indigo-600 border-l-2", else: "bg-transparent"} block hover:bg-slate-50 cursor-pointer px-2 py-2 text-sm font-medium text-slate-500"}>
+        class={"#{if @current_section == :profile, do: "border-indigo-600 text-indigo-600 border-l-2", else: "bg-transparent"} block hover:bg-slate-50 cursor-pointer px-2 py-2 text-sm font-medium text-slate-500"}
+      >
         Profile
       </.link>
       <.link
         navigate={~p"/account/password"}
-        class={"#{if @current_section == :password, do: "border-indigo-600 text-indigo-600 border-l-2", else: "bg-transparent"} block hover:bg-slate-50 cursor-pointer px-2 py-2 text-sm font-medium text-slate-500"}>
+        class={"#{if @current_section == :password, do: "border-indigo-600 text-indigo-600 border-l-2", else: "bg-transparent"} block hover:bg-slate-50 cursor-pointer px-2 py-2 text-sm font-medium text-slate-500"}
+      >
         Password
       </.link>
       <div

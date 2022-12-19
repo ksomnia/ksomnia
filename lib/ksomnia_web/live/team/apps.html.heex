@@ -1,5 +1,5 @@
 <div class="text-center mt-1">
-  <%= live_component KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :apps %>
+  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :apps) %>
 
   <%= if Enum.empty?(@apps) do %>
     <Heroicons.folder_plus class="mx-auto h-12 w-12 text-gray-400" />
@@ -7,17 +7,17 @@
     <p class="mt-1 text-sm text-gray-500">Get started by creating a new app.</p>
     <div class="mt-6">
       <a
-        class="cursor-pointer inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        class="btn-primary inline-flex items-center"
         phx-target="#sidebar-component"
         phx-click={
-          JS.push("open-new-app-modal", [
+          JS.push("open-new-app-modal",
             value: %{team_id: @team.id},
             target: "#sidebar-component"
-          ])
+          )
           |> show_modal("new-app-modal")
-        }>
-        <Heroicons.plus class="h-5 w-5 mr-2" />
-        New App
+        }
+      >
+        <Heroicons.plus class="h-5 w-5 mr-2" /> New App
       </a>
     </div>
   <% else %>
@@ -26,14 +26,14 @@
         class="btn-primary inline-flex items-center"
         phx-target="#sidebar-component"
         phx-click={
-          JS.push("open-new-app-modal", [
+          JS.push("open-new-app-modal",
             value: %{team_id: @team.id},
             target: "#sidebar-component"
-          ])
+          )
           |> show_modal("new-app-modal")
-        }>
-        <Heroicons.plus class="h-5 w-5 mr-2" />
-        New App
+        }
+      >
+        <Heroicons.plus class="h-5 w-5 mr-2" /> New App
       </a>
     </div>
     <div class="px-7 mt-8 overflow-hidden">
@@ -41,7 +41,8 @@
         <:col :let={app} label="app">
           <.link
             navigate={~p"/apps/#{app.id}"}
-            class="text-slate-600 font-medium text-sm hover:text-indigo-500 cursor-pointer">
+            class="text-slate-600 font-medium text-sm hover:text-indigo-500 cursor-pointer"
+          >
             <%= app.name %>
           </.link>
         </:col>

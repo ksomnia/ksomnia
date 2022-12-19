@@ -18,7 +18,7 @@ defmodule KsomniaWeb.LiveHelpers do
     sum =
       string
       |> String.to_charlist()
-      |> Enum.take(4)
+      |> Enum.take(8)
       |> Enum.sum()
 
     Enum.at(@bg_gradients, rem(sum, len))

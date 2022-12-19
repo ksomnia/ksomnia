@@ -3,31 +3,33 @@
     <div class="text-center">
       <Heroicons.user_group class="mx-auto h-12 w-12 text-gray-400" />
       <%= if Enum.empty?(@teams) do %>
-        <div class="text-sm font-medium text-gray-500 mt-5">
+        <div class="mt-5 label-secondary">
           You aren't a member of any team.
         </div>
-        <h2 class="mt-2 text-lg font-medium text-slate-500">
+        <h2 class="mt-2 label-secondary text-lg">
           Get started by creating a new team.
         </h2>
       <% else %>
-        <h2 class="mt-2 text-lg font-medium text-slate-500">
+        <h2 class="mt-2 label-secondary text-lg">
           Create team
         </h2>
       <% end %>
     </div>
     <.simple_form
-      let={f}
+      :let={f}
       for={@changeset}
       id="team-form"
       class="mt-6"
       phx-change="validate"
-      phx-submit="save">
+      phx-submit="save"
+    >
       <.input
         field={{f, :name}}
         type="text"
         label="Name"
         placeholder="Team name"
-        class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+        class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      />
       <.button type="submit" class="btn-primary">
         Create
       </.button>
@@ -35,7 +37,7 @@
   </div>
   <div class="mt-10">
     <%= unless Enum.empty?(@invites) do %>
-      <h3 class="text-sm font-medium text-gray-500">
+      <h3 class="label-secondary">
         Pending invites
       </h3>
       <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
@@ -43,25 +45,31 @@
           <% team = invite.team %>
           <div class="flex items-center justify-between space-x-3 py-4 px-4">
             <div class="flex min-w-0 flex-1 items-center space-x-3">
-              <div class="flex-shrink-0 select-none">
-                <div class=" inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">
-                  <%= String.first(team.name) |> String.capitalize() %>
-                </div>
-              </div>
+              <.avatar name={team.name} class="h-9 w-9" />
               <div class="min-w-0 flex-1">
-                <p class="truncate text-sm font-medium text-gray-900"><%= team.name %></p>
-                <%= if false do %>
-                  <p class="truncate text-sm font-medium text-gray-500">team.description</p>
-                <% end %>
+                <p class="truncate label">
+                  <%= team.name %>
+                </p>
+                <!-- <p class="truncate text-sm font-medium text-gray-500">team.description</p> -->
               </div>
             </div>
             <div class="flex-shrink-0">
-              <button type="button" class="inline-flex items-center rounded-full border border-transparent px-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <span phx-click="reject-invite" phx-value-invite-id={"#{invite.id}"} class="text-sm font-medium text-red-900 p-2 bg-slate-100 hover:bg-slate-200 rounded-md">Reject</span>
-              </button>
-              <button type="button" class="inline-flex items-center rounded-full border border-transparent px-1 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <span phx-click="accept-invite" phx-value-invite-id={"#{invite.id}"} class="text-sm font-medium text-gray-900 p-2 bg-indigo-200 hover:bg-indigo-300 rounded-md">Accept</span>
-              </button>
+              <.button
+                type="button"
+                phx-click="reject-invite"
+                phx-value-invite-id={"#{invite.id}"}
+                class="btn-secondary-danger inline-flex items-center"
+              >
+                Reject
+              </.button>
+              <.button
+                type="button"
+                phx-click="accept-invite"
+                phx-value-invite-id={"#{invite.id}"}
+                class="inline-flex items-center"
+              >
+                Accept
+              </.button>
             </div>
           </div>
         <% end %>
@@ -70,29 +78,21 @@
   </div>
   <div class="mt-10">
     <%= unless Enum.empty?(@teams) do %>
-      <h3 class="text-sm font-medium text-gray-500">
+      <h3 class="label-secondary">
         Current teams
       </h3>
       <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
         <%= for team <- @teams do %>
           <%= live_redirect [to: ~p"/t/#{team.id}/settings", class: "flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"] do %>
             <div class="flex min-w-0 flex-1 items-center space-x-3">
-              <div class="flex-shrink-0">
-                <div class="inline-block h-9 w-9 rounded-full bg-gradient-to-r from-indigo-300 to-blue-300  text-white flex justify-center items-center font-bold">
-                  <%= String.first(team.name) |> String.capitalize() %>
-                </div>
-              </div>
+              <.avatar name={team.name} class="h-9 w-9" />
               <div class="min-w-0 flex-1">
-                <p class="truncate text-sm font-medium text-gray-900"><%= team.name %></p>
-                <%= if false do %>
-                  <p class="truncate text-sm font-medium text-gray-500">team.description</p>
-                <% end %>
+                <p class="truncate label"><%= team.name %></p>
+                <!-- <p class="truncate text-sm font-medium text-gray-500">team.description</p> -->
               </div>
             </div>
             <div class="flex-shrink-0">
-              <button type="button" class="inline-flex items-center rounded-full border border-transparent py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                <span class="text-sm font-medium text-gray-900">Open</span>
-              </button>
+              <span class="label">Open</span>
             </div>
           <% end %>
         <% end %>

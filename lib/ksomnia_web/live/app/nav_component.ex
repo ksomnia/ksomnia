@@ -11,7 +11,11 @@ defmodule KsomniaWeb.AppLive.NavComponent do
         >
           <Heroicons.bug_ant class="w-4 h-4 inline-block" />
           <span>Errors</span>
-          <span aria-hidden="true" class={"#{if @nav_section == :show, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}></span>
+          <span
+            aria-hidden="true"
+            class={"#{if @nav_section == :show, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}
+          >
+          </span>
         </.link>
 
         <.link
@@ -20,7 +24,11 @@ defmodule KsomniaWeb.AppLive.NavComponent do
         >
           <Heroicons.cog class="w-4 h-4 inline-block" />
           <span>Settings</span>
-          <span aria-hidden="true" class={"#{if @nav_section == :settings, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}></span>
+          <span
+            aria-hidden="true"
+            class={"#{if @nav_section == :settings, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}
+          >
+          </span>
         </.link>
 
         <.link
@@ -29,7 +37,11 @@ defmodule KsomniaWeb.AppLive.NavComponent do
         >
           <Heroicons.globe_alt class="w-4 h-4 inline-block" />
           <span>Source Maps</span>
-          <span aria-hidden="true" class={"#{if @nav_section == :source_maps, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}></span>
+          <span
+            aria-hidden="true"
+            class={"#{if @nav_section == :source_maps, do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5", else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"}
+          >
+          </span>
         </.link>
       </nav>
     </div>

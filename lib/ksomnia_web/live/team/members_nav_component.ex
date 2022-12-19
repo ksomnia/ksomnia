@@ -5,25 +5,30 @@ defmodule KsomniaWeb.TeamLive.MembersNavComponent do
     ~H"""
     <div>
       <div class="pl-8 text-left">
-        <a class="btn-primary inline-flex items-center" phx-click={show_modal(%JS{}, "new-invite-modal")}>
+        <a
+          class="btn-primary inline-flex items-center"
+          phx-click={show_modal(%JS{}, "new-invite-modal")}
+        >
           <Heroicons.plus class="-ml-1 mr-2 h-5 w-5" /> Invite member
         </a>
       </div>
       <div class="flex ml-8 mt-5">
         <.link
           navigate={~p"/t/#{@team.id}/members"}
-          class={"#{if @nav_section == :members, do: "bg-indigo-200", else: "bg-transparent"} p-2 hover:bg-indigo-200 text-indigo-900 font-medium rounded-md cursor-pointer mr-2"}>
+          class={"#{if @nav_section == :members, do: "bg-indigo-200", else: "bg-transparent"} p-2 hover:bg-indigo-200 text-indigo-900 font-medium rounded-md cursor-pointer mr-2"}
+        >
           Members
         </.link>
         <.link
           navigate={~p"/t/#{@team.id}/members/invites"}
-          class={"#{if @nav_section == :invites, do: "bg-indigo-200", else: "bg-transparent"} p-2 hover:bg-indigo-200 text-indigo-900 font-medium rounded-md cursor-pointer mr-2"}>
+          class={"#{if @nav_section == :invites, do: "bg-indigo-200", else: "bg-transparent"} p-2 hover:bg-indigo-200 text-indigo-900 font-medium rounded-md cursor-pointer mr-2"}
+        >
           Pending invites
         </.link>
         <.live_component
           module={KsomniaWeb.TeamLive.InviteModalComponent}
           team={@team}
-          return_to={"/"}
+          return_to="/"
           id={:new_invite}
         />
       </div>

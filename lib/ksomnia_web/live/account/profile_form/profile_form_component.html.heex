@@ -1,11 +1,12 @@
 <div class="">
   <.simple_form
-    let={f}
+    :let={f}
     for={@changeset}
     id="app-form"
     phx-target={@myself}
     phx-change="validate"
-    phx-submit="save">
+    phx-submit="save"
+  >
     <div>
       <div class="text-left">
         <.input field={{f, :username}} type="text" label="Username" />

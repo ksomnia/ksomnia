@@ -12,6 +12,7 @@ defmodule KsomniaWeb.CoreComponents do
   use Phoenix.Component
 
   alias Phoenix.LiveView.JS
+  alias KsomniaWeb.LiveHelpers
   import KsomniaWeb.Gettext
 
   @doc """
@@ -445,18 +446,17 @@ defmodule KsomniaWeb.CoreComponents do
       <table class="mt-2 w-[40rem] sm:w-full">
         <thead class="bg-gray-50 text-left text-[0.8125rem] leading-6 text-zinc-500">
           <tr>
-            <th :for={col <- @col} class={"py-2 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 #{col[:class]}"}>
+            <th
+              :for={col <- @col}
+              class={"py-2 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 #{col[:class]}"}
+            >
               <%= col[:label] %>
             </th>
             <th class="p-0 pb-4"><span class="sr-only"><%= gettext("Actions") %></span></th>
           </tr>
         </thead>
         <tbody class="divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700">
-          <tr
-            :for={row <- @rows}
-            id={"#{@id}-#{Phoenix.Param.to_param(row)}"}
-            class=""
-          >
+          <tr :for={row <- @rows} id={"#{@id}-#{Phoenix.Param.to_param(row)}"} class="">
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
@@ -512,6 +512,25 @@ defmodule KsomniaWeb.CoreComponents do
           <dd class="text-sm leading-6 text-zinc-700"><%= render_slot(item) %></dd>
         </div>
       </dl>
+    </div>
+    """
+  end
+
+  @doc """
+  Renders an avatar.
+  """
+  attr :name, :string, required: true
+  attr :class, :string, default: ""
+
+  def avatar(assigns) do
+    ~H"""
+    <div class="flex-shrink-0 select-none">
+      <div class={[
+        "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
+        "inline-block rounded-full text-white flex justify-center items-center font-bold"
+      ]}>
+        <%= @name |> String.first() |> String.capitalize() %>
+      </div>
     </div>
     """
   end

@@ -1,6 +1,6 @@
 <div class="text-center mt-1">
-  <%= live_component KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :members %>
-  <%= live_component KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :invites %>
+  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :members) %>
+  <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :invites) %>
 
   <div class="px-7 mt-5 overflow-hidden">
     <table class="min-w-full divide-y divide-gray-300">
@@ -12,7 +12,13 @@
             </td>
             <%= if Permissions.can_revoke_user_invite(@team, @current_user, invite) do %>
               <td class="text-right w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-                <button class="btn-primary" phx-click="revoke-invite" phx-value-invite-id={"#{invite.id}"}>Revoke</button>
+                <button
+                  class="btn-primary"
+                  phx-click="revoke-invite"
+                  phx-value-invite-id={"#{invite.id}"}
+                >
+                  Revoke
+                </button>
               </td>
             <% end %>
           </tr>
@@ -23,7 +29,7 @@
 </div>
 
 <%= if @live_action in [:invite] do %>
-  <.modal id={"invite_member"}>
+  <.modal id="invite_member">
     <.live_component
       module={KsomniaWeb.TeamLive.InviteModalComponent}
       id={:invite_member}

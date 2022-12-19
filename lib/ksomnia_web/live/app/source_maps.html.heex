@@ -1,5 +1,5 @@
 <main class="flex-1">
-  <%= live_component KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__ %>
+  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
 
   <div class="px-7 mt-8 overflow-hidden">
     <.table id="source_maps" rows={@source_maps}>
@@ -8,7 +8,9 @@
       </:col>
       <:col :let={source_map} label="Uploaded at" class="w-60">
         <%= Timex.format!(source_map.inserted_at, "{D} {Mshort} {YYYY}") %>
-        <span class="text-slate-500"><%= Timex.format!(source_map.inserted_at, "{h24}:{m}") %></span>
+        <span class="text-slate-500">
+          <%= Timex.format!(source_map.inserted_at, "{h24}:{m}") %>
+        </span>
       </:col>
     </.table>
   </div>
