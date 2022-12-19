@@ -432,10 +432,12 @@ defmodule KsomniaWeb.CoreComponents do
   attr :id, :string, required: true
   attr :row_click, :any, default: nil
   attr :rows, :list, required: true
+  attr :headers, :boolean, default: true
 
   slot :col, required: true do
     attr :label, :string
-    attr :class, :string
+    attr :th_class, :string
+    attr :td_class, :string
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
@@ -444,11 +446,11 @@ defmodule KsomniaWeb.CoreComponents do
     ~H"""
     <div id={@id} class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
       <table class="mt-2 w-[40rem] sm:w-full">
-        <thead class="bg-gray-50 text-left text-[0.8125rem] leading-6 text-zinc-500">
+        <thead :if={@headers} class="bg-gray-50 text-left text-[0.8125rem] leading-6 text-zinc-500">
           <tr>
             <th
               :for={col <- @col}
-              class={"py-2 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 #{col[:class]}"}
+              class={"py-2 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 #{col[:th_class]}"}
             >
               <%= col[:label] %>
             </th>
@@ -460,13 +462,13 @@ defmodule KsomniaWeb.CoreComponents do
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
-              class={["p-0", @row_click && "hover:cursor-pointer"]}
+              class={["p-0", col[:td_class], @row_click && "hover:cursor-pointer"]}
             >
               <div :if={i == 0}>
                 <span class="h-full w-4 top-0 -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl" />
                 <span class="h-full w-4 top-0 -right-4 group-hover:bg-zinc-50 sm:rounded-r-xl" />
               </div>
-              <div class="block py-4 pr-6 pl-3.5 text-left">
+              <div class="block py-4 pr-6 pl-3.5">
                 <span class={[i == 0 && "font-semibold text-zinc-900"]}>
                   <%= render_slot(col, row) %>
                 </span>
@@ -476,7 +478,7 @@ defmodule KsomniaWeb.CoreComponents do
               <div class="py-4 text-right text-sm font-medium">
                 <span
                   :for={action <- @action}
-                  class=" ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+                  class="ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
                 >
                   <%= render_slot(action, row) %>
                 </span>
@@ -537,6 +539,32 @@ defmodule KsomniaWeb.CoreComponents do
         <%= render_slot(@inner_block) %>
       </.link>
     </div>
+    """
+  end
+
+  attr :id, :string, required: true
+  attr :items, :list
+  attr :link, :any
+
+  slot :item_row, required: true do
+    attr :item, :any
+  end
+
+  # slot :col, required: true do
+  #   attr :label, :string
+  # end
+
+  def item_menu(assigns) do
+    ~H"""
+    <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+      <.link
+        :for={item <- @items}
+        navigate={@link.(item)}
+        class="flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"
+      >
+        <%= render_slot(@item_row, item) %>
+      </.link>
+    </ul>
     """
   end
 

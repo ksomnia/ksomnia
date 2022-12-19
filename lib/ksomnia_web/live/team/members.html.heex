@@ -3,37 +3,31 @@
   <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :members) %>
 
   <div class="px-7 mt-5 overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-300">
-      <tbody class="divide-y divide-gray-200 bg-slate-50">
-        <%= for team_member <- @team_members do %>
-          <tr>
-            <td class="w-10">
-              <.avatar name={team_member.username} round={false} class="h-8 w-8 ml-2" />
-            </td>
-            <td class="text-left w-full max-w-0 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= team_member.username %>
-            </td>
-            <td class="text-left w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <span class="badge">
-                <%= team_member.role %>
-              </span>
-            </td>
-            <td class="text-right w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= if Permissions.can_remove_user_from_team(@team, @current_user, team_member) do %>
-                <button
-                  class="btn-secondary-danger bg-slate-200 hover:bg-slate-300"
-                  phx-click="remove-team-member"
-                  phx-value-team-member-id={"#{team_member.id}"}
-                  data-confirm={"Are you sure you want to remove #{team_member.username} from #{@team.name}?"}
-                >
-                  Remove from the team
-                </button>
-              <% end %>
-            </td>
-          </tr>
+    <.table id="team_members" rows={@team_members} headers={false}>
+      <:col :let={team_member} label="username">
+        <div class="flex items-center">
+          <.avatar name={team_member.username} round={false} class="h-8 w-8 mr-2 block-inline" />
+          <span class="ml-2"><%= team_member.username %></span>
+        </div>
+      </:col>
+      <:col :let={team_member} label="role" td_class="text-left">
+        <span class="badge">
+          <%= team_member.role %>
+        </span>
+      </:col>
+      <:col :let={team_member} label="actions" td_class="text-right">
+        <%= if Permissions.can_remove_user_from_team(@team, @current_user, team_member) do %>
+          <button
+            class="btn-secondary-danger"
+            phx-click="remove-team-member"
+            phx-value-team-member-id={"#{team_member.id}"}
+            data-confirm={"Are you sure you want to remove #{team_member.username} from #{@team.name}?"}
+          >
+            Remove from the team
+          </button>
         <% end %>
-      </tbody>
-    </table>
+      </:col>
+    </.table>
   </div>
 </div>
 

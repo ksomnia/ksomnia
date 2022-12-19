@@ -40,40 +40,34 @@
       <h3 class="label-secondary">
         Pending invites
       </h3>
-      <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
-        <%= for invite <- @invites do %>
-          <% team = invite.team %>
-          <div class="flex items-center justify-between space-x-3 py-4 px-4">
-            <div class="flex min-w-0 flex-1 items-center space-x-3">
-              <.avatar name={team.name} class="h-9 w-9" />
-              <div class="min-w-0 flex-1">
-                <p class="truncate label">
-                  <%= team.name %>
-                </p>
-                <!-- <p class="truncate text-sm font-medium text-gray-500">team.description</p> -->
-              </div>
-            </div>
-            <div class="flex-shrink-0">
-              <.button
-                type="button"
-                phx-click="reject-invite"
-                phx-value-invite-id={"#{invite.id}"}
-                class="btn-secondary-danger inline-flex items-center"
-              >
-                Reject
-              </.button>
-              <.button
-                type="button"
-                phx-click="accept-invite"
-                phx-value-invite-id={"#{invite.id}"}
-                class="inline-flex items-center"
-              >
-                Accept
-              </.button>
+      <.item_menu id="invite-menu" items={@invites} link={&~p"/t/#{&1.id}/apps"}>
+        <:item_row :let={invite}>
+          <div class="flex min-w-0 flex-1 items-center space-x-3">
+            <.avatar name={invite.team.name} class="h-9 w-9" />
+            <div class="min-w-0 flex-1 text-left">
+              <span class="truncate label"><%= invite.team.name %></span>
             </div>
           </div>
-        <% end %>
-      </ul>
+          <div class="flex-shrink-0">
+            <.button
+              type="button"
+              phx-click="reject-invite"
+              phx-value-invite-id={"#{invite.id}"}
+              class="btn-secondary-danger inline-flex items-center"
+            >
+              Reject
+            </.button>
+            <.button
+              type="button"
+              phx-click="accept-invite"
+              phx-value-invite-id={"#{invite.id}"}
+              class="inline-flex items-center"
+            >
+              Accept
+            </.button>
+          </div>
+        </:item_row>
+      </.item_menu>
     <% end %>
   </div>
   <div class="mt-10">
@@ -81,25 +75,19 @@
       <h3 class="label-secondary">
         Current teams
       </h3>
-      <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
-        <%= for team <- @teams do %>
-          <.link
-            navigate={~p"/t/#{team.id}/apps"}
-            class="flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"
-          >
-            <div class="flex min-w-0 flex-1 items-center space-x-3">
-              <.avatar name={team.name} class="h-9 w-9" />
-              <div class="min-w-0 flex-1">
-                <p class="truncate label"><%= team.name %></p>
-                <!-- <p class="truncate text-sm font-medium text-gray-500">team.description</p> -->
-              </div>
+      <.item_menu id="team-menu" items={@teams} link={&~p"/t/#{&1.id}/apps"}>
+        <:item_row :let={team}>
+          <div class="flex min-w-0 flex-1 items-center space-x-3">
+            <.avatar name={team.name} class="h-9 w-9" />
+            <div class="min-w-0 flex-1 text-left">
+              <span class="truncate label"><%= team.name %></span>
             </div>
-            <div class="flex-shrink-0">
-              <span class="label">Open</span>
-            </div>
-          </.link>
-        <% end %>
-      </ul>
+          </div>
+          <div class="flex-shrink-0">
+            <span class="label">Open</span>
+          </div>
+        </:item_row>
+      </.item_menu>
     <% end %>
   </div>
 </div>
