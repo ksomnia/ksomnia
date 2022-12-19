@@ -47,47 +47,19 @@
   </div>
 
   <div class="px-7 mt-8 overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-300">
-      <thead class="bg-gray-50">
-        <tr>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            IP address
-          </th>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            User agent
-          </th>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            Occurred at
-          </th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
-        <%= for error_records <- @error_records do %>
-          <tr>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= error_records.ip_address %>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= error_records.user_agent %>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-700 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= Timex.format!(error_records.inserted_at, "{h24}:{m}:{s}") %>
-              <span class="text-gray-500">
-                <%= Timex.format!(error_records.inserted_at, "{D} {Mshort} {YYYY}") %>
-              </span>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <.table id="error_records" rows={@error_records}>
+      <:col :let={error_record} label="IP address">
+        <%= error_record.ip_address %>
+      </:col>
+      <:col :let={error_record} label="User agent">
+        <%= error_record.user_agent %>
+      </:col>
+      <:col :let={error_record} label="Occurred at">
+        <%= Timex.format!(error_record.inserted_at, "{h24}:{m}:{s}") %>
+        <span class="text-gray-500">
+          <%= Timex.format!(error_record.inserted_at, "{D} {Mshort} {YYYY}") %>
+        </span>
+      </:col>
+    </.table>
   </div>
 </main>

@@ -444,20 +444,20 @@ defmodule KsomniaWeb.CoreComponents do
 
   def table(assigns) do
     ~H"""
-    <div id={@id} class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
+    <div id={@id} class="overflow-y-auto divide-y divide-gray-300 px-4 sm:overflow-visible sm:px-0">
       <table class="mt-2 w-[40rem] sm:w-full">
         <thead :if={@headers} class="bg-gray-50 text-left text-[0.8125rem] leading-6 text-zinc-500">
           <tr>
             <th
               :for={col <- @col}
-              class={"py-2 pl-4 pr-3 text-left text-sm font-semibold text-slate-500 #{col[:th_class]}"}
+              class={"py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 #{col[:th_class]}"}
             >
               <%= col[:label] %>
             </th>
             <th class="p-0 pb-4"><span class="sr-only"><%= gettext("Actions") %></span></th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700">
+        <tbody class="divide-y divide-gray-200 bg-white font-medium text-sm leading-6 text-zinc-700">
           <tr :for={row <- @rows} id={"#{@id}-#{Phoenix.Param.to_param(row)}"} class="">
             <td
               :for={{col, i} <- Enum.with_index(@col)}

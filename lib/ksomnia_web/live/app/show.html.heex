@@ -8,7 +8,7 @@
   <%= if @latest_source_map do %>
     <div class="px-7 py-2 text-slate-600 text-sm">
       Latest source map for the release
-      <span class="commit-badge bg-slate-100">
+      <span class="commit-badge">
         <%= Ksomnia.SourceMap.commit_hash_abbriv(@latest_source_map) %>
       </span>
       uploaded <%= Timex.from_now(@latest_source_map.inserted_at) %>.
@@ -16,61 +16,27 @@
   <% end %>
 
   <div class="px-7 mt-3 overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-300">
-      <thead class="bg-gray-50">
-        <tr>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            Error
-          </th>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            Commit
-          </th>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            Occurrences
-          </th>
-          <th
-            scope="col"
-            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6"
-          >
-            Last occurred at
-          </th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
-        <%= for error_identity <- @error_identities do %>
-          <tr>
-            <td class="w-full max-w-0 py-3.5 pr-3 sm:w-auto sm:max-w-none sm:pl-6">
-              <.link navigate={~p"/error_identities/#{error_identity.id}"} class="link">
-                <%= error_identity.message %>
-                <span class="link-secondary">at <%= error_identity.source %></span>
-              </.link>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <span class="commit-badge">
-                <%= Ksomnia.SourceMap.commit_hash_abbriv(error_identity) %>
-              </span>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= error_identity.track_count %>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-700 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= Timex.format!(error_identity.last_error_at, "{h24}:{m}:{s}") %>
-              <span class="text-gray-500">
-                <%= Timex.format!(error_identity.last_error_at, "{D} {Mshort} {YYYY}") %>
-              </span>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <.table id="error_identities" rows={@error_identities}>
+      <:col :let={error_identity} label="Error">
+        <.link navigate={~p"/error_identities/#{error_identity.id}"} class="link">
+          <%= error_identity.message %>
+          <span class="link-secondary">at <%= error_identity.source %></span>
+        </.link>
+      </:col>
+      <:col :let={error_identity} label="Commit">
+        <span class="commit-badge">
+          <%= Ksomnia.SourceMap.commit_hash_abbriv(error_identity) %>
+        </span>
+      </:col>
+      <:col :let={error_identity} label="Occurrences">
+        <%= error_identity.track_count %>
+      </:col>
+      <:col :let={error_identity} label="Last occurred at">
+        <%= Timex.format!(error_identity.last_error_at, "{h24}:{m}:{s}") %>
+        <span class="text-gray-500">
+          <%= Timex.format!(error_identity.last_error_at, "{D} {Mshort} {YYYY}") %>
+        </span>
+      </:col>
+    </.table>
   </div>
 </main>
