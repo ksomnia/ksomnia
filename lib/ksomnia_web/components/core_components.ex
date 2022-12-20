@@ -458,7 +458,7 @@ defmodule KsomniaWeb.CoreComponents do
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 bg-white font-medium text-sm leading-6 text-zinc-700">
-          <tr :for={row <- @rows} id={"#{@id}-#{Phoenix.Param.to_param(row)}"} class="">
+          <tr :for={row <- @rows} id={"#{@id}-#{Phoenix.Param.to_param(row)}"}>
             <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
@@ -542,6 +542,17 @@ defmodule KsomniaWeb.CoreComponents do
     """
   end
 
+  @doc """
+  Render an item menu
+
+  ## Examples
+
+      <.item_menu id="team-menu" items={@items} link={fn item -> ~p"/items/{item.id}" end}>
+        <:item_row :let={item}>
+          <%= item.title %>
+        </:item_row>
+      </.item_menu>
+  """
   attr :id, :string, required: true
   attr :items, :list
   attr :link, :any
@@ -549,10 +560,6 @@ defmodule KsomniaWeb.CoreComponents do
   slot :item_row, required: true do
     attr :item, :any
   end
-
-  # slot :col, required: true do
-  #   attr :label, :string
-  # end
 
   def item_menu(assigns) do
     ~H"""
@@ -565,6 +572,51 @@ defmodule KsomniaWeb.CoreComponents do
         <%= render_slot(@item_row, item) %>
       </.link>
     </ul>
+    """
+  end
+
+  @doc """
+  Render a top navigation menu
+
+  ## Examples
+
+      <.top_nav_menu id="top_nav_menu">
+        <:item link={~p"/settings"} label="Settings" active={true}>
+          <Heroicons.cog class="w-4 h-4 inline-block" />
+        </:item>
+      </.top_nav_menu>
+  """
+  attr :id, :string, required: true
+
+  slot :item, required: true do
+    attr :link, :any
+    attr :active, :boolean
+    attr :label, :string
+  end
+
+  def top_nav_menu(assigns) do
+    ~H"""
+    <div>
+      <nav class="px-7 py-4 isolate flex divide-x divide-gray-200 rounded-lg">
+        <.link
+          :for={item <- @item}
+          navigate={item[:link]}
+          class="text-slate-500 hover:text-slate-700 group relative min-w-0 flex-1 overflow-hidden bg-slate-50 py-4 px-4 text-sm font-medium text-center hover:bg-gray-50 focus:z-10"
+        >
+          <%= render_slot(item) %>
+          <span><%= item[:label] %></span>
+          <span
+            aria-hidden="true"
+            class={[
+              "#{if item[:active],
+                do: "bg-indigo-500 absolute inset-x-0 bottom-0 h-0.5",
+                else: "bg-transparent absolute inset-x-0 bottom-0 h-0.5"}"
+            ]}
+          >
+          </span>
+        </.link>
+      </nav>
+    </div>
     """
   end
 

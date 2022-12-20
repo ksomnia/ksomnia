@@ -10,7 +10,7 @@ defmodule KsomniaWeb.LiveCurrentUser do
        socket
        |> assign(:current_user, user)
        |> assign(:user_apps_grouped, Ksomnia.App.for_user(user.id))
-       |> assign(:open_modal, false)
+       |> assign(:__current_app__, nil)
        |> assign(:team, nil)}
     else
       _ ->
