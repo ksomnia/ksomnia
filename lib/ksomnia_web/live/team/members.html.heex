@@ -16,16 +16,15 @@
         </span>
       </:col>
       <:col :let={team_member} label="actions" td_class="text-right">
-        <%= if Permissions.can_remove_user_from_team(@team, @current_user, team_member) do %>
-          <button
-            class="btn-secondary-danger"
-            phx-click="remove-team-member"
-            phx-value-team-member-id={"#{team_member.id}"}
-            data-confirm={"Are you sure you want to remove #{team_member.username} from #{@team.name}?"}
-          >
-            Remove from the team
-          </button>
-        <% end %>
+        <button
+          :if={Permissions.can_remove_user_from_team(@team, @current_user, team_member)}
+          class="btn-secondary-danger"
+          phx-click="remove-team-member"
+          phx-value-team-member-id={"#{team_member.id}"}
+          data-confirm={"Are you sure you want to remove #{team_member.username} from #{@team.name}?"}
+        >
+          Remove from the team
+        </button>
       </:col>
     </.table>
   </div>

@@ -566,11 +566,19 @@ defmodule KsomniaWeb.CoreComponents do
     <ul role="list" class="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
       <.link
         :for={item <- @items}
+        :if={assigns[:link]}
         navigate={@link.(item)}
         class="flex items-center justify-between space-x-3 py-4 px-4 hover:bg-gray-50 cursor-pointer"
       >
         <%= render_slot(@item_row, item) %>
       </.link>
+      <div
+        :for={item <- @items}
+        :if={!assigns[:link]}
+        class="flex items-center justify-between space-x-3 py-4 px-4"
+      >
+        <%= render_slot(@item_row, item) %>
+      </div>
     </ul>
     """
   end

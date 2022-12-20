@@ -40,7 +40,7 @@
       <h3 class="label-secondary">
         Pending invites
       </h3>
-      <.item_menu id="invite-menu" items={@invites} link={&~p"/t/#{&1.id}/apps"}>
+      <.item_menu id="invite-menu" items={@invites}>
         <:item_row :let={invite}>
           <div class="flex min-w-0 flex-1 items-center space-x-3">
             <.avatar name={invite.team.name} class="h-9 w-9" />

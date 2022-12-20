@@ -35,18 +35,17 @@ defmodule KsomniaWeb.SidebarComponent do
                 }
               />
             </div>
-            <%= for app <- team.apps do %>
-              <.link
-                navigate={~p"/apps/#{app.id}/"}
-                class={"#{
-                  if @__current_app__ == app.id,
-                    do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4",
-                    else: "border-l-4 border-slate-50"
-                  } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
-              >
-                <%= app.name %>
-              </.link>
-            <% end %>
+            <.link
+              :for={app <- team.apps}
+              navigate={~p"/apps/#{app.id}/"}
+              class={"#{
+                if @__current_app__ == app.id,
+                  do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4",
+                  else: "border-l-4 border-slate-50"
+                } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
+            >
+              <%= app.name %>
+            </.link>
           <% end %>
         </nav>
       </div>
