@@ -1,0 +1,42 @@
+<main class="flex-1">
+  <%= live_component(KsomniaWeb.AppLive.NavComponent,
+    app: @app,
+    team: @team,
+    nav_section: @__nav_section__
+  ) %>
+
+  <%= if @latest_source_map do %>
+    <div class="px-7 py-2 text-slate-600 text-sm">
+      Latest source map for the release
+      <span class="commit-badge">
+        <%= Ksomnia.SourceMap.commit_hash_abbriv(@latest_source_map) %>
+      </span>
+      uploaded <%= Timex.from_now(@latest_source_map.inserted_at) %>.
+    </div>
+  <% end %>
+
+  <div class="px-7 mt-3 overflow-hidden">
+    <.table id="error_identities" rows={@error_identities}>
+      <:col :let={error_identity} label="Error">
+        <.link navigate={~p"/error_identities/#{error_identity.id}"} class="link">
+          <%= error_identity.message %>
+          <span class="link-secondary">at <%= error_identity.source %></span>
+        </.link>
+      </:col>
+      <:col :let={error_identity} label="Commit">
+        <span class="commit-badge">
+          <%= Ksomnia.SourceMap.commit_hash_abbriv(error_identity) %>
+        </span>
+      </:col>
+      <:col :let={error_identity} label="Occurrences">
+        <%= error_identity.track_count %>
+      </:col>
+      <:col :let={error_identity} label="Last occurred at">
+        <%= Timex.format!(error_identity.last_error_at, "{h24}:{m}:{s}") %>
+        <span class="text-gray-500">
+          <%= Timex.format!(error_identity.last_error_at, "{D} {Mshort} {YYYY}") %>
+        </span>
+      </:col>
+    </.table>
+  </div>
+</main>

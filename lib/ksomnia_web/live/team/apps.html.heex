@@ -1,0 +1,52 @@
+<div class="text-center mt-1">
+  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :apps) %>
+
+  <%= if Enum.empty?(@apps) do %>
+    <Heroicons.folder_plus class="mx-auto h-12 w-12 text-gray-400" />
+    <h3 class="mt-2 text-sm font-medium text-gray-900">No apps</h3>
+    <p class="mt-1 text-sm text-gray-500">Get started by creating a new app.</p>
+    <div class="mt-6">
+      <a
+        class="btn-primary inline-flex items-center"
+        phx-target="#sidebar-component"
+        phx-click={
+          JS.push("open-new-app-modal",
+            value: %{team_id: @team.id},
+            target: "#sidebar-component"
+          )
+          |> show_modal("new-app-modal")
+        }
+      >
+        <Heroicons.plus class="h-5 w-5 mr-2" /> New App
+      </a>
+    </div>
+  <% else %>
+    <div class="text-left ml-7">
+      <a
+        class="btn-primary inline-flex items-center"
+        phx-target="#sidebar-component"
+        phx-click={
+          JS.push("open-new-app-modal",
+            value: %{team_id: @team.id},
+            target: "#sidebar-component"
+          )
+          |> show_modal("new-app-modal")
+        }
+      >
+        <Heroicons.plus class="h-5 w-5 mr-2" /> New App
+      </a>
+    </div>
+    <div class="px-7 mt-8 overflow-hidden">
+      <.item_menu id="apps-menu" items={@apps} link={&~p"/apps/#{&1.id}"}>
+        <:item_row :let={app}>
+          <div class="flex min-w-0 flex-1 items-center space-x-3">
+            <.avatar name={app.name} class="h-9 w-9" />
+            <div class="min-w-0 flex-1 text-left">
+              <span class="truncate label"><%= app.name %></span>
+            </div>
+          </div>
+        </:item_row>
+      </.item_menu>
+    </div>
+  <% end %>
+</div>

@@ -11,7 +11,8 @@ defmodule KsomniaWeb.PageController do
       |> redirect(to: "/teams")
     else
       conn
-      |> render("index.html", user: user)
+      |> put_layout({KsomniaWeb.Layouts, :unauthenticated})
+      |> render(:index, user: user)
     end
   end
 

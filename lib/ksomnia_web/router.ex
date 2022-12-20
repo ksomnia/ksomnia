@@ -5,7 +5,7 @@ defmodule KsomniaWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {KsomniaWeb.LayoutView, :root}
+    plug :put_root_layout, {KsomniaWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug KsomniaWeb.SessionPlug
@@ -15,7 +15,7 @@ defmodule KsomniaWeb.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {KsomniaWeb.LayoutView, :root}
+    plug :put_root_layout, {KsomniaWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug KsomniaWeb.SessionPlug
@@ -54,9 +54,6 @@ defmodule KsomniaWeb.Router do
     live "/t/:team_id/members/invites", TeamLive.Invites, :invites
     live "/t/:team_id/members/invite", TeamLive.Members, :invite
     live "/t/:team_id/members", TeamLive.Members, :members
-    live "/t/:team_id/", TeamLive.Default, :default
-    live "/t/:team_id/new_app", TeamLive.Default, :new_app
-    live "/dashboard", DashboardLive.Index, :index
     live "/apps/:id/settings", AppLive.Settings, :settings
     live "/apps/:id/source_maps", AppLive.SourceMaps, :source_maps
     live "/apps/:id", AppLive.Show, :show

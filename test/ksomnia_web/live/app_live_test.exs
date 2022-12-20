@@ -15,20 +15,12 @@ defmodule KsomniaWeb.AppLiveTest do
   describe "the user's home page" do
     setup [:create_app]
 
-    test "displays the user's apps", %{conn: conn, app: app, user: user} do
-      url = Routes.dashboard_index_path(conn, :index)
-      conn = login_as(conn, user)
-      {:ok, _index_live, html} = live(conn, url)
-      assert html =~ app.name
-    end
-
     test "displays the user's invites", %{conn: conn, user: user} do
       invitee = insert(:user, email: "invitee@test.test")
       insert(:invite, email: invitee.email, inviter: user)
 
-      url = Routes.team_index_path(conn, :index)
       conn = login_as(conn, invitee)
-      {:ok, _index_live, html} = live(conn, url)
+      {:ok, _index_live, html} = live(conn, ~p"/teams")
       assert html =~ "Pending invites"
     end
 
@@ -36,9 +28,8 @@ defmodule KsomniaWeb.AppLiveTest do
       invitee = insert(:user, email: "invitee@test.test")
       invite = insert(:invite, email: invitee.email, inviter: user, team: team)
 
-      url = Routes.team_index_path(conn, :index)
       conn = login_as(conn, invitee)
-      {:ok, index_live, _html} = live(conn, url)
+      {:ok, index_live, _html} = live(conn, ~p"/teams")
 
       assert render_click(index_live, "accept-invite", %{"invite-id" => invite.id})
       assert Team.for_user(invitee) == [team]
@@ -48,9 +39,8 @@ defmodule KsomniaWeb.AppLiveTest do
       invitee = insert(:user, email: "invitee@test.test")
       invite = insert(:invite, email: invitee.email, inviter: user, team: team)
 
-      url = Routes.team_index_path(conn, :index)
       conn = login_as(conn, invitee)
-      {:ok, index_live, _html} = live(conn, url)
+      {:ok, index_live, _html} = live(conn, ~p"/teams")
 
       assert render_click(index_live, "reject-invite", %{"invite-id" => invite.id})
       assert Team.for_user(invitee) == []

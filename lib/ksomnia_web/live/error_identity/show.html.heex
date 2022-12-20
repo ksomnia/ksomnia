@@ -3,13 +3,24 @@
     <div class="py-2 text-indigo-600 font-medium mb-3">
       <%= @error_identity.message %>
     </div>
-    <span class="bg-slate-100 text-slate-500 commit-badge py-1 mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
-      <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(@error_identity) %></span>
+    <span class="commit-badge mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
+      <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(
+        @error_identity
+      ) %>
+    </span>
     <div class="mt-2 mb-4 border-box">
-      <span phx-click="set_stacktrace_type" phx-value-type="source_map" class={"#{if @stacktrace_type == "source_map", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}>
+      <span
+        phx-click="set_stacktrace_type"
+        phx-value-type="source_map"
+        class={"#{if @stacktrace_type == "source_map", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}
+      >
         Source map
       </span>
-      <span phx-click="set_stacktrace_type" phx-value-type="generated_source" class={"#{if @stacktrace_type == "generated_source", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}>
+      <span
+        phx-click="set_stacktrace_type"
+        phx-value-type="generated_source"
+        class={"#{if @stacktrace_type == "generated_source", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}
+      >
         Generated source
       </span>
     </div>
@@ -18,7 +29,12 @@
     <% else %>
       <div>
         <div class="overflow-x-auto">
-          <%= render_line_source_context(@mappings, @current_line, @error_identity.message, @sources) %>
+          <%= render_line_source_context(
+            @mappings,
+            @current_line,
+            @error_identity.message,
+            @sources
+          ) %>
         </div>
         <div class="overflow-x-auto mt-2">
           <%= render_stacktrace_navigation(@mappings, @current_line, @error_identity.message) %>
@@ -28,30 +44,19 @@
   </div>
 
   <div class="px-7 mt-8 overflow-hidden">
-    <table class="min-w-full divide-y divide-gray-300">
-      <thead class="bg-gray-50">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6">IP address</th>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6">User agent</th>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-600 sm:pl-6">Occurred at</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
-        <%= for error_records <- @error_records do %>
-          <tr>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= error_records.ip_address %>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= error_records.user_agent %>
-            </td>
-            <td class="w-full max-w-0 py-4 pl-4 pr-3 text-sm font-medium text-gray-700 sm:w-auto sm:max-w-none sm:pl-6">
-              <%= Timex.format!(error_records.inserted_at, "{h24}:{m}:{s}") %>
-              <span class="text-gray-500"><%= Timex.format!(error_records.inserted_at, "{D} {Mshort} {YYYY}") %></span>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <.table id="error_records" rows={@error_records}>
+      <:col :let={error_record} label="IP address">
+        <%= error_record.ip_address %>
+      </:col>
+      <:col :let={error_record} label="User agent">
+        <%= error_record.user_agent %>
+      </:col>
+      <:col :let={error_record} label="Occurred at">
+        <%= Timex.format!(error_record.inserted_at, "{h24}:{m}:{s}") %>
+        <span class="text-gray-500">
+          <%= Timex.format!(error_record.inserted_at, "{D} {Mshort} {YYYY}") %>
+        </span>
+      </:col>
+    </.table>
   </div>
 </main>

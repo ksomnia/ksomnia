@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title suffix=" · Ksomnia">
+      <%= assigns[:page_title] || "Ksomnia" %>
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
+    </script>
+  </head>
+  <body class={"#{if assigns[:user], do: "bg-whtie", else: "bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50"} h-full"}>
+    <%= unless assigns[:current_user] do %>
+      <header class="mx-auto px-20">
+        <div class="p-4 flex justify-between">
+          <div class="text-indigo-500">
+            <a href="/" class="font-bold text-lg">Ksomnia</a>
+          </div>
+          <div class="">
+            <.link
+              navigate={~p"/signin"}
+              class="font-bold text-indigo-500 hover:bg-indigo-100 p-2 px-5 border-2 border-indigo-500 rounded-full mr-2"
+            >
+              Sign in
+            </.link>
+            <.link
+              navigate={~p"/signup"}
+              class="font-bold bg-indigo-500 text-white hover:bg-indigo-600 p-2 px-5 border-2 border-indigo-500 hover:border-indigo-600 rounded-full"
+            >
+              Create an account
+            </.link>
+          </div>
+        </div>
+      </header>
+    <% end %>
+    <div>
+      <%= @inner_content %>
+    </div>
+  </body>
+</html>

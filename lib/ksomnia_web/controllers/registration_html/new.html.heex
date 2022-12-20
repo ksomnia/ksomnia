@@ -1,0 +1,39 @@
+<div class="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
+  <div class="mx-auto w-full text-center py-1">
+    <h2 class="mt-1 text-center text-2xl font-semibold text-indigo-500">
+      Ksomnia
+    </h2>
+  </div>
+  <div class="mx-auto w-full text-center pb-5">
+    <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700">
+      Sign up for an account
+    </h2>
+  </div>
+  <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
+    <div class="flex justify-center">
+      <.simple_form :let={f} for={:user} method="post" action={~p"/signup"}>
+        <.error :if={assigns[:error]}>
+          <%= @error %>
+        </.error>
+        <.input field={{f, :email}} type="email" label="email" />
+        <.input field={{f, :username}} type="text" label="username" />
+        <.input field={{f, :password}} type="password" label="password" />
+        <:actions>
+          <.button class="w-full">Sign Up</.button>
+        </:actions>
+        <div class="flex items-center justify-between">
+          <div></div>
+        </div>
+      </.simple_form>
+    </div>
+  </div>
+  <div class="flex items-center justify-between mt-5 text-slate-800">
+    <div></div>
+    <div class="text-medium">
+      Have an account?
+      <.link navigate={~p"/signin"} class="font-medium text-indigo-600 hover:text-indigo-500">
+        Sign in
+      </.link>
+    </div>
+  </div>
+</div>

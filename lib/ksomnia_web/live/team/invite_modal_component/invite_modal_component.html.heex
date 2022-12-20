@@ -1,0 +1,36 @@
+<div>
+  <.modal id="new-invite-modal">
+    <.simple_form
+      :let={f}
+      for={@changeset}
+      id="app-form"
+      phx-target={@myself}
+      phx-change="validate"
+      phx-submit="save"
+    >
+      <div class="sm:flex sm:items-start">
+        <div class="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
+          <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+            Invite member
+          </h3>
+          <div class="mt-10 mb-5">
+            <.input field={{f, :email}} type="text" label="Email" />
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 text-center sm:mt-0 sm:ml-0 sm:text-left">
+        <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+          <.button
+            phx-click={hide_modal(%JS{}, "new-invite-modal")}
+            class="btn-default text-gray-900"
+          >
+            Cancel
+          </.button>
+          <.button phx-disable-with="Inviting...">
+            Invite member
+          </.button>
+        </div>
+      </div>
+    </.simple_form>
+  </.modal>
+</div>

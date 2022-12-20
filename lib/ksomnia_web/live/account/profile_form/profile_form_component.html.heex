@@ -1,28 +1,22 @@
 <div class="">
-  <.form
-    let={f}
+  <.simple_form
+    :let={f}
     for={@changeset}
     id="app-form"
     phx-target={@myself}
     phx-change="validate"
-    phx-submit="save">
+    phx-submit="save"
+  >
     <div>
       <div class="text-left">
-        <%= label f, :username, class: "block text-slate-600 text-sm font-medium" %>
-        <%= text_input f, :username, class: "mt-1 border border-slate-300 rounded-md shadow-sm px-2 py-2 placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
-        <%= error_tag f, :username %>
+        <.input field={{f, :username}} type="text" label="Username" />
       </div>
       <div class="mt-5 text-left">
-        <%= label f, :email, class: "block text-slate-600 text-sm font-medium" %>
-        <%= text_input f, :email, class: "mt-1 border border-slate-300 rounded-md shadow-sm px-2 py-2 placeholder-slate-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" %>
-        <%= error_tag f, :email %>
+        <.input field={{f, :email}} type="email" label="Email" />
       </div>
       <div class="mt-5">
-        <%= submit "Save",
-          phx_disable_with: "Saving...",
-          class: "btn-primary"
-        %>
+        <.button phx-disable-with="Saving...">Save</.button>
       </div>
     </div>
-  </.form>
+  </.simple_form>
 </div>

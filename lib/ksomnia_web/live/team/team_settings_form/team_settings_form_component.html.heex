@@ -1,0 +1,19 @@
+<div class="px-8">
+  <.simple_form
+    :let={f}
+    for={@changeset}
+    id="team-settings-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save"
+  >
+    <div>
+      <div class="mt-5 text-left">
+        <.input field={{f, :name}} type="text" label="Team name" />
+      </div>
+      <div class="mt-5 text-left">
+        <.button phx-disable-with="Saving...">Save</.button>
+      </div>
+    </div>
+  </.simple_form>
+</div>

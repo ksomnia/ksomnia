@@ -1,12 +1,11 @@
 defmodule KsomniaWeb.ErrorIdentityLive.Show do
-  use KsomniaWeb, :live_app_view
+  use KsomniaWeb, :live_view
+  import Phoenix.HTML.Tag
 
   alias Ksomnia.Repo
   alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMapper
-
-  on_mount {KsomniaWeb.Live.SidebarHighlight, %{section: :projects}}
 
   @stacktrace_types ["source_map", "generated_source"]
 

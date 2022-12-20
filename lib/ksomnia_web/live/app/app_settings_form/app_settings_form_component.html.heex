@@ -1,0 +1,21 @@
+<div class="px-8">
+  <.simple_form
+    :let={f}
+    for={@changeset}
+    id="app-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save"
+  >
+    <div class="">
+      <div class="mt-5 text-left">
+        <.input field={{f, :name}} type="text" label="App name" />
+      </div>
+      <div class="mt-5">
+        <.button phx-disable-with="Saving..." class="btn-primary">
+          Save
+        </.button>
+      </div>
+    </div>
+  </.simple_form>
+</div>

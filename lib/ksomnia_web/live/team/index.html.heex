@@ -1,0 +1,93 @@
+<div class="mx-auto max-w-lg mt-10">
+  <div>
+    <div class="text-center">
+      <Heroicons.user_group class="mx-auto h-12 w-12 text-gray-400" />
+      <%= if Enum.empty?(@teams) do %>
+        <div class="mt-5 label-secondary">
+          You aren't a member of any team.
+        </div>
+        <h2 class="mt-2 label-secondary text-lg">
+          Get started by creating a new team.
+        </h2>
+      <% else %>
+        <h2 class="mt-2 label-secondary text-lg">
+          Create team
+        </h2>
+      <% end %>
+    </div>
+    <.simple_form
+      :let={f}
+      for={@changeset}
+      id="team-form"
+      class="mt-6"
+      phx-change="validate"
+      phx-submit="save"
+    >
+      <.input
+        field={{f, :name}}
+        type="text"
+        label="Name"
+        placeholder="Team name"
+        class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      />
+      <.button type="submit" class="btn-primary">
+        Create
+      </.button>
+    </.simple_form>
+  </div>
+  <div class="mt-10">
+    <%= unless Enum.empty?(@invites) do %>
+      <h3 class="label-secondary">
+        Pending invites
+      </h3>
+      <.item_menu id="invite-menu" items={@invites}>
+        <:item_row :let={invite}>
+          <div class="flex min-w-0 flex-1 items-center space-x-3">
+            <.avatar name={invite.team.name} class="h-9 w-9" />
+            <div class="min-w-0 flex-1 text-left">
+              <span class="truncate label"><%= invite.team.name %></span>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <.button
+              type="button"
+              phx-click="reject-invite"
+              phx-value-invite-id={"#{invite.id}"}
+              class="btn-secondary-danger inline-flex items-center"
+            >
+              Reject
+            </.button>
+            <.button
+              type="button"
+              phx-click="accept-invite"
+              phx-value-invite-id={"#{invite.id}"}
+              class="inline-flex items-center"
+            >
+              Accept
+            </.button>
+          </div>
+        </:item_row>
+      </.item_menu>
+    <% end %>
+  </div>
+  <div class="mt-10">
+    <%= unless Enum.empty?(@teams) do %>
+      <h3 class="label-secondary">
+        Current teams
+      </h3>
+      <.item_menu id="team-menu" items={@teams} link={&~p"/t/#{&1.id}/apps"}>
+        <:item_row :let={team}>
+          <div class="flex min-w-0 flex-1 items-center space-x-3">
+            <.avatar name={team.name} class="h-9 w-9" />
+            <div class="min-w-0 flex-1 text-left">
+              <span class="truncate label"><%= team.name %></span>
+            </div>
+          </div>
+          <div class="flex-shrink-0">
+            <span class="label">Open</span>
+          </div>
+        </:item_row>
+      </.item_menu>
+    <% end %>
+  </div>
+</div>
