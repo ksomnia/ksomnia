@@ -1,8 +1,8 @@
 <main class="flex-1">
   <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
 
-  <div class="px-7 mt-8 overflow-hidden">
-    <.table id="source_maps" rows={@source_maps}>
+  <div class="px-7 mt-8 mb-24 overflow-hidden">
+    <.table id="source_maps" rows={@pagination.entries}>
       <:col :let={source_map} label="Commit">
         <span class="commit-badge"><%= SourceMap.commit_hash_abbriv(source_map) %></span>
       </:col>
@@ -13,5 +13,15 @@
         </span>
       </:col>
     </.table>
+
+    <.pagination
+      current_page={@pagination.current_page}
+      current_page_size={@pagination.current_page_size}
+      page_size={@pagination.page_size}
+      entry_count={@pagination.entry_count}
+      surrounding_size={@pagination.surrounding_size}
+      total_pages={@pagination.total_pages}
+      link={&~p"/apps/#{@app.id}?page=#{&1}"}
+    />
   </div>
 </main>

@@ -90,6 +90,5 @@ defmodule Ksomnia.SourceMap do
       where: s.app_id == ^app.id,
       order_by: [desc: :inserted_at]
     )
-    |> Repo.all()
   end
 end

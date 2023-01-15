@@ -41,7 +41,6 @@ defmodule Ksomnia.ErrorRecord do
       where: er.error_identity_id == ^error_identity.id,
       order_by: [desc: er.inserted_at]
     )
-    |> Repo.all()
   end
 
   def for_app(app) do

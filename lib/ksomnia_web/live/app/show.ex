@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.Show do
   use KsomniaWeb, :live_view
 
+  alias Ksomnia.Pagination
   alias Ksomnia.App
   alias Ksomnia.Repo
   alias Ksomnia.ErrorIdentity
@@ -19,10 +20,16 @@ defmodule KsomniaWeb.AppLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     app = Repo.get(App, id)
     team = Repo.preload(app, :team).team
-    error_identities = ErrorIdentity.for_app(app)
+    current_page = Map.get(params, "page", "1") |> String.to_integer()
+
+    paginated =
+      app
+      |> ErrorIdentity.for_app()
+      |> Pagination.paginate(current_page)
+
     latest_source_map = SourceMap.latest_for_app(app)
 
     socket =
@@ -30,7 +37,7 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:page_title, "#{app.name} · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:error_identities, error_identities)
+      |> assign(:pagination, paginated)
       |> assign(:latest_source_map, latest_source_map)
       |> assign(:__current_app__, app.id)
 

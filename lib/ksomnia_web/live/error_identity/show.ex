@@ -6,6 +6,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMapper
+  alias Ksomnia.Pagination
 
   @stacktrace_types ["source_map", "generated_source"]
 
@@ -22,11 +23,16 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     error_identity = Repo.preload(Repo.get(ErrorIdentity, id), app: :team)
     app = error_identity.app
     team = error_identity.app.team
-    error_records = ErrorRecord.for_error_identity(error_identity)
+    current_page = Map.get(params, "page", "1") |> String.to_integer()
+
+    paginated =
+      error_identity
+      |> ErrorRecord.for_error_identity()
+      |> Pagination.paginate(current_page)
 
     socket =
       socket
@@ -34,7 +40,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:error_identity, error_identity)
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:error_records, error_records)
+      |> assign(:pagination, paginated)
       |> assign(:__current_app__, app.id)
 
     view_pid = self()

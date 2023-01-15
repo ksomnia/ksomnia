@@ -26,9 +26,9 @@ defmodule KsomniaWeb.MembersLiveTest do
       url = ~p"/t/#{team.id}/members"
       {:ok, index_live, _html} = live(conn, url)
 
-      assert length(User.for_team(team)) == 2
+      assert Repo.count(User.for_team(team)) == 2
       assert render_click(index_live, "remove-team-member", %{"team-member-id" => user2.id})
-      assert length(User.for_team(team)) == 1
+      assert Repo.count(User.for_team(team)) == 1
     end
 
     test "a non-owner cannot remove a user from the team", %{conn: conn, team: team} do
@@ -41,9 +41,9 @@ defmodule KsomniaWeb.MembersLiveTest do
       url = ~p"/t/#{team.id}/members"
       {:ok, index_live, _html} = live(conn, url)
 
-      assert length(User.for_team(team)) == 3
+      assert Repo.count(User.for_team(team)) == 3
       assert render_click(index_live, "remove-team-member", %{"team-member-id" => user2.id})
-      assert length(User.for_team(team)) == 3
+      assert Repo.count(User.for_team(team)) == 3
     end
   end
 end

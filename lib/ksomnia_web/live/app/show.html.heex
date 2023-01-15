@@ -8,15 +8,13 @@
   <%= if @latest_source_map do %>
     <div class="px-7 py-2 text-slate-600 text-sm">
       Latest source map for the release
-      <span class="commit-badge">
-        <%= Ksomnia.SourceMap.commit_hash_abbriv(@latest_source_map) %>
-      </span>
+      <.commit_badge commit_hash={@latest_source_map.commit_hash} />
       uploaded <%= Timex.from_now(@latest_source_map.inserted_at) %>.
     </div>
   <% end %>
 
-  <div class="px-7 mt-3 overflow-hidden">
-    <.table id="error_identities" rows={@error_identities}>
+  <div class="px-7 mt-3 mb-24 overflow-hidden">
+    <.table id="error_identities" rows={@pagination.entries}>
       <:col :let={error_identity} label="Error">
         <.link navigate={~p"/error_identities/#{error_identity.id}"} class="link">
           <%= error_identity.message %>
@@ -24,9 +22,7 @@
         </.link>
       </:col>
       <:col :let={error_identity} label="Commit">
-        <span class="commit-badge">
-          <%= Ksomnia.SourceMap.commit_hash_abbriv(error_identity) %>
-        </span>
+        <.commit_badge commit_hash={error_identity.commit_hash} />
       </:col>
       <:col :let={error_identity} label="Occurrences">
         <%= error_identity.track_count %>
@@ -38,5 +34,15 @@
         </span>
       </:col>
     </.table>
+
+    <.pagination
+      current_page={@pagination.current_page}
+      current_page_size={@pagination.current_page_size}
+      page_size={@pagination.page_size}
+      entry_count={@pagination.entry_count}
+      surrounding_size={@pagination.surrounding_size}
+      total_pages={@pagination.total_pages}
+      link={&~p"/apps/#{@app.id}?page=#{&1}"}
+    />
   </div>
 </main>

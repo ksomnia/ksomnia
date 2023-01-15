@@ -5,6 +5,7 @@ defmodule KsomniaWeb.TeamLive.Members do
   alias Ksomnia.User
   alias Ksomnia.TeamUser
   alias Ksomnia.Permissions
+  alias Ksomnia.Pagination
 
   @impl true
   def mount(_params, _session, socket) do
@@ -16,15 +17,20 @@ defmodule KsomniaWeb.TeamLive.Members do
   end
 
   @impl true
-  def handle_params(%{"team_id" => id} = _params, _, socket) do
+  def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    team_members = User.for_team(team)
+    current_page = Map.get(params, "page", "1") |> String.to_integer()
+
+    paginated =
+      team
+      |> User.for_team()
+      |> Pagination.paginate(current_page)
 
     socket =
       socket
       |> assign(:page_title, "#{team.name} · Members")
       |> assign(:team, team)
-      |> assign(:team_members, team_members)
+      |> assign(:pagination, paginated)
 
     {:noreply, socket}
   end

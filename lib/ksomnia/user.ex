@@ -95,6 +95,5 @@ defmodule Ksomnia.User do
         | role: tu.role
       }
     )
-    |> Repo.all()
   end
 end
