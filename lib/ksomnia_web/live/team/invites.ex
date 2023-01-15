@@ -4,6 +4,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
   alias Ksomnia.Repo
   alias Ksomnia.Invite
   alias Ksomnia.Permissions
+  alias Ksomnia.Pagination
 
   @impl true
   def mount(_params, _session, socket) do
@@ -15,15 +16,16 @@ defmodule KsomniaWeb.TeamLive.Invites do
   end
 
   @impl true
-  def handle_params(%{"team_id" => id} = _params, _, socket) do
+  def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    invites = Invite.pending_for_team(team)
+    current_page = Map.get(params, "page", "1") |> String.to_integer()
+    pagination = Pagination.paginate(Invite.pending_for_team(team), current_page)
 
     socket =
       socket
       |> assign(:page_title, "#{team.name} · Pending invites")
       |> assign(:team, team)
-      |> assign(:invites, invites)
+      |> assign(:pagination, pagination)
 
     {:noreply, socket}
   end

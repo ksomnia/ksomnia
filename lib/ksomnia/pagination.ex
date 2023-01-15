@@ -10,7 +10,7 @@ defmodule Ksomnia.Pagination do
     :entries,
     :current_page,
     :page_size,
-    :surround_size
+    :surrounding_size
   ]
   defstruct [
     :current_page_size,
@@ -19,10 +19,10 @@ defmodule Ksomnia.Pagination do
     :entries,
     :current_page,
     :page_size,
-    :surround_size
+    :surrounding_size
   ]
 
-  def paginate(query, current_page, page_size, surround_size) do
+  def paginate(query, current_page, page_size \\ 10, surrounding_size \\ 2) do
     offset = (current_page - 1) * page_size
 
     entry_count = Repo.aggregate(query, :count)
@@ -41,7 +41,7 @@ defmodule Ksomnia.Pagination do
       total_pages: total_pages,
       entries: entries,
       page_size: page_size,
-      surround_size: surround_size
+      surrounding_size: surrounding_size
     }
   end
 end

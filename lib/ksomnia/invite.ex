@@ -57,7 +57,6 @@ defmodule Ksomnia.Invite do
 
   def pending_for_team(team) do
     from(i in Invite, where: i.team_id == ^team.id and is_nil(i.accepted_at))
-    |> Repo.all()
   end
 
   def for_user_email(email) do

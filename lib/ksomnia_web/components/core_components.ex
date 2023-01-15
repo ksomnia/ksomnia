@@ -708,7 +708,7 @@ defmodule KsomniaWeb.CoreComponents do
         current_page_size={2}
         page_size={10}
         entry_count={42}
-        surround_size={2}
+        surrounding_size={2}
         total_pages={3}
         link={& ~p"/apps/\#{@app.id}?page=\#{&1}"}
       />
@@ -717,13 +717,13 @@ defmodule KsomniaWeb.CoreComponents do
   attr :current_page_size, :integer, required: true
   attr :page_size, :integer, required: true
   attr :entry_count, :integer, required: true
-  attr :surround_size, :integer, required: true
+  attr :surrounding_size, :integer, required: true
   attr :total_pages, :integer, required: true
   attr :link, :any, required: true
 
   def pagination(assigns) do
     ~H"""
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+    <div :if={@total_pages > 1} class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-700">
           Showing
@@ -755,13 +755,13 @@ defmodule KsomniaWeb.CoreComponents do
             1
           </.link>
           <span
-            :if={@current_page > @surround_size + 2}
+            :if={@current_page > @surrounding_size + 2}
             class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
           >
             ...
           </span>
-          <% page_start = Enum.max([2, @current_page - @surround_size]) %>
-          <% page_end = @current_page + @surround_size %>
+          <% page_start = Enum.max([2, @current_page - @surrounding_size]) %>
+          <% page_end = @current_page + @surrounding_size %>
           <%= for page <- page_start..page_end do %>
             <.link
               :if={page < @total_pages}
@@ -772,7 +772,7 @@ defmodule KsomniaWeb.CoreComponents do
             </.link>
           <% end %>
           <span
-            :if={@current_page < @total_pages - (@surround_size + 1)}
+            :if={@current_page < @total_pages - (@surrounding_size + 1)}
             class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
           >
             ...

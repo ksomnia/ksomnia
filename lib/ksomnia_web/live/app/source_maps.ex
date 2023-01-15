@@ -4,6 +4,7 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   alias Ksomnia.App
   alias Ksomnia.Repo
   alias Ksomnia.SourceMap
+  alias Ksomnia.Pagination
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :source_maps]}
 
@@ -17,17 +18,22 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     app = Repo.get(App, id)
     team = Repo.get(Ksomnia.Team, app.team_id)
-    source_maps = SourceMap.for_app(app)
+    current_page = Map.get(params, "page", "1") |> String.to_integer()
+
+    paginated =
+      app
+      |> SourceMap.for_app()
+      |> Pagination.paginate(current_page)
 
     socket =
       socket
       |> assign(:page_title, "#{app.name} · Source maps · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:source_maps, source_maps)
+      |> assign(:pagination, paginated)
       |> assign(:__current_app__, app.id)
 
     {:noreply, socket}

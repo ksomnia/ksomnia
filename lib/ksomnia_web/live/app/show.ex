@@ -9,9 +9,6 @@ defmodule KsomniaWeb.AppLive.Show do
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :show]}
 
-  @page_size 10
-  @surround_size 2
-
   @impl true
   def mount(_params, _session, socket) do
     socket =
@@ -31,9 +28,7 @@ defmodule KsomniaWeb.AppLive.Show do
     paginated =
       app
       |> ErrorIdentity.for_app()
-      |> Pagination.paginate(current_page, @page_size, @surround_size)
-
-    error_identities = paginated.entries
+      |> Pagination.paginate(current_page)
 
     latest_source_map = SourceMap.latest_for_app(app)
 
@@ -42,7 +37,6 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:page_title, "#{app.name} · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:error_identities, error_identities)
       |> assign(:pagination, paginated)
       |> assign(:latest_source_map, latest_source_map)
       |> assign(:__current_app__, app.id)

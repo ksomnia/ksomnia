@@ -3,7 +3,7 @@
   <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :invites) %>
 
   <div class="px-7 mt-5 overflow-hidden">
-    <.table id="invites" rows={@invites} headers={false}>
+    <.table id="invites" rows={@pagination.entries} headers={false}>
       <:col :let={invite} label="email" td_class="text-left">
         <%= invite.email %>
       </:col>
@@ -15,6 +15,16 @@
         <% end %>
       </:col>
     </.table>
+
+    <.pagination
+      current_page={@pagination.current_page}
+      current_page_size={@pagination.current_page_size}
+      page_size={@pagination.page_size}
+      entry_count={@pagination.entry_count}
+      surrounding_size={@pagination.surrounding_size}
+      total_pages={@pagination.total_pages}
+      link={&~p"/t/#{@team.id}/members?page=#{&1}"}
+    />
   </div>
 </div>
 
