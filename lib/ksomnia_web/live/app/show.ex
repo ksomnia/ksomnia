@@ -31,19 +31,11 @@ defmodule KsomniaWeb.AppLive.Show do
     paginated =
       app
       |> ErrorIdentity.for_app()
-      |> Pagination.paginate(current_page, @page_size)
+      |> Pagination.paginate(current_page, @page_size, @surround_size)
 
     error_identities = paginated.entries
 
     latest_source_map = SourceMap.latest_for_app(app)
-
-    pagination = %{
-      page_size: @page_size,
-      surround_size: @surround_size,
-      current_page: current_page,
-      total_pages: paginated.total_pages,
-      entry_count: paginated.entry_count
-    }
 
     socket =
       socket
@@ -51,7 +43,7 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:app, app)
       |> assign(:team, team)
       |> assign(:error_identities, error_identities)
-      |> assign(:pagination, pagination)
+      |> assign(:pagination, paginated)
       |> assign(:latest_source_map, latest_source_map)
       |> assign(:__current_app__, app.id)
 

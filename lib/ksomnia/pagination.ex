@@ -1,10 +1,29 @@
 defmodule Ksomnia.Pagination do
   import Ecto.Query
   alias Ksomnia.Repo
+  alias Ksomnia.Pagination
 
-  def paginate(query, current_page, page_size) do
-    current_page = current_page - 1
-    offset = current_page * page_size
+  @enforce_keys [
+    :current_page_size,
+    :entry_count,
+    :total_pages,
+    :entries,
+    :current_page,
+    :page_size,
+    :surround_size
+  ]
+  defstruct [
+    :current_page_size,
+    :entry_count,
+    :total_pages,
+    :entries,
+    :current_page,
+    :page_size,
+    :surround_size
+  ]
+
+  def paginate(query, current_page, page_size, surround_size) do
+    offset = (current_page - 1) * page_size
 
     entry_count = Repo.aggregate(query, :count)
     total_pages = trunc(Float.ceil(entry_count / page_size))
@@ -15,11 +34,14 @@ defmodule Ksomnia.Pagination do
       |> limit(^page_size)
       |> Repo.all()
 
-    %{
+    %Pagination{
+      current_page: current_page,
       current_page_size: length(entries),
       entry_count: entry_count,
       total_pages: total_pages,
-      entries: entries
+      entries: entries,
+      page_size: page_size,
+      surround_size: surround_size
     }
   end
 end
