@@ -654,6 +654,21 @@ defmodule KsomniaWeb.CoreComponents do
   end
 
   @doc """
+  Renders a commit badge.
+
+  ## Examples
+
+      <.commit_badge commit_hash={commit_hash} />
+  """
+  attr :commit_hash, :string, required: true
+
+  def commit_badge(assigns) do
+    ~H"""
+    <span class="commit-badge"><%= String.slice(@commit_hash, 0, 7) %></span>
+    """
+  end
+
+  @doc """
   Renders an avatar.
 
   ## Examples
