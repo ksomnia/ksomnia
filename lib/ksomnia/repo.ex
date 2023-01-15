@@ -16,4 +16,8 @@ defmodule Ksomnia.Repo do
       {:ok, config}
     end
   end
+
+  def count(query) do
+    aggregate(query, :count)
+  end
 end
