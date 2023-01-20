@@ -251,7 +251,7 @@ defmodule KsomniaWeb.CoreComponents do
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file hidden month number password
-               range radio search select tel text textarea time url week)
+               range radio search select tel text textarea time url week placeholder)
 
   attr :value, :any
   attr :field, :any, doc: "a %Phoenix.HTML.Form{}/field name tuple, for example: {f, :email}"
@@ -338,6 +338,32 @@ defmodule KsomniaWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "placeholder"} = assigns) do
+    ~H"""
+    <div class="px-1">
+      <.label for={@id} class="sr-only"><%= @label %></.label>
+      <div class="relative mt-1 rounded-md shadow-sm">
+        <div
+          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+          aria-hidden="true"
+        >
+          <Heroicons.magnifying_glass class="mr-3 h-4 w-4 text-gray-400" />
+        </div>
+        <input
+          type={"text"}
+          name={@id}
+          id={@id}
+          value={""}
+          placeholder={@label}
+          class={[
+            "block w-full rounded-md border-gray-300 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          ]}
+        />
+      </div>
+    </div>
+    """
+  end
+
   def input(assigns) do
     ~H"""
     <div phx-feedback-for={@name}>
@@ -370,11 +396,12 @@ defmodule KsomniaWeb.CoreComponents do
   Renders a label.
   """
   attr :for, :string, default: nil
+  attr :class, :string, default: ""
   slot :inner_block, required: true
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-medium leading-6 text-zinc-800 capitalize">
+    <label for={@for} class={"block text-sm font-medium leading-6 text-zinc-800 capitalize #{@class}"}>
       <%= render_slot(@inner_block) %>
     </label>
     """

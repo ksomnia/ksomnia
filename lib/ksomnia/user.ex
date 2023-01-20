@@ -96,4 +96,12 @@ defmodule Ksomnia.User do
       }
     )
   end
+
+  def search_by_username(query, ""), do: query
+
+  def search_by_username(query, search_query) do
+    from(u in query,
+      where: like(u.email, ^"%#{search_query}%")
+    )
+  end
 end
