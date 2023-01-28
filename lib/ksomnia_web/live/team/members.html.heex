@@ -3,14 +3,25 @@
   <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :members) %>
 
   <div class="px-7 mt-5 mb-24 overflow-hidden">
-      <.simple_form
-        :let={f}
-        for={@search_query}
-        id="search_query_form"
-        phx-change="perform_search_query"
-        phx-submit="perform_search_query"
-      >
-        <.input field={{f, :search_query}} type="placeholder" label="Seach query" />
+    <.simple_form
+      :let={f}
+      for={@search_query}
+      id="search_query_form"
+      phx-change={
+        JS.push("perform_search_query")
+        |> JS.dispatch("ksomnia:performSearchQuery", to: "#search_query_form")
+      }
+      phx-submit={
+        JS.push("perform_search_query")
+        |> JS.dispatch("ksomnia:performSearchQuery", to: "#search_query_form")
+      }
+    >
+      <.input field={{f, :query}} type="search" label="Seach query"
+        clear={
+          JS.dispatch("ksomnia:clearSearchInput", to: ".search-input")
+          |> JS.push("perform_search_query")
+        }
+       />
     </.simple_form>
 
     <.table id="team_members" rows={@pagination.entries} headers={false}>
@@ -45,7 +56,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&~p"/t/#{@team.id}/members?page=#{&1}"}
+      link={&(~p"/t/#{@team.id}/members" <> page_query_string(&1, @search_query))}
     />
   </div>
 </div>

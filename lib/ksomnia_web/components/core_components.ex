@@ -260,6 +260,7 @@ defmodule KsomniaWeb.CoreComponents do
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
+  attr :clear, :any
   attr :rest, :global, include: ~w(autocomplete disabled form max maxlength min minlength
                                    pattern placeholder readonly required size step)
   slot :inner_block
@@ -338,7 +339,7 @@ defmodule KsomniaWeb.CoreComponents do
     """
   end
 
-  def input(%{type: "placeholder"} = assigns) do
+  def input(%{type: "search"} = assigns) do
     ~H"""
     <div class="px-1">
       <.label for={@id} class="sr-only"><%= @label %></.label>
@@ -353,12 +354,19 @@ defmodule KsomniaWeb.CoreComponents do
           type={"text"}
           name={@id}
           id={@id}
-          value={""}
+          value={@value}
           placeholder={@label}
           class={[
-            "block w-full rounded-md border-gray-300 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            "search-input block w-full rounded-md border-gray-300 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           ]}
         />
+        <div
+          class="z-10 absolute inset-y-0 right-0 flex items-center pl-3 cursor-pointer"
+          phx-click={@clear}
+          aria-hidden="true"
+        >
+          <Heroicons.x_circle class="mr-3 h-4 w-4 text-gray-400 hover:text-gray-500 cursor-pointer" />
+        </div>
       </div>
     </div>
     """
@@ -750,7 +758,7 @@ defmodule KsomniaWeb.CoreComponents do
 
   def pagination(assigns) do
     ~H"""
-    <div :if={@total_pages > 1} class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-700">
           Showing

@@ -13,8 +13,7 @@ defmodule KsomniaWeb.TeamLive.Members do
     {:ok,
      assign(socket, %{
        team: nil,
-       members: [],
-       search_query: SearchQuery.new("")
+       members: []
      })}
   end
 
@@ -22,19 +21,20 @@ defmodule KsomniaWeb.TeamLive.Members do
   def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
     current_page = Map.get(params, "page", "1") |> String.to_integer()
-    search_query = socket.assigns.search_query
+    search_query = Map.get(params, "query")
 
-    paginated =
+    pagination =
       team
       |> User.for_team()
-      |> User.search_by_username(search_query.data.query)
+      |> User.search_by_username(search_query)
       |> Pagination.paginate(current_page)
 
     socket =
       socket
       |> assign(:page_title, "#{team.name} · Members")
       |> assign(:team, team)
-      |> assign(:pagination, paginated)
+      |> assign(:pagination, pagination)
+      |> assign(:search_query, SearchQuery.new(search_query))
 
     {:noreply, socket}
   end
@@ -55,10 +55,9 @@ defmodule KsomniaWeb.TeamLive.Members do
     end
   end
 
-  @impl true
-  def handle_event("perform_search_query", %{"search_query_form_search_query" => search_query}, socket) do
+  def handle_event("perform_search_query", params, socket) do
+    search_query = Map.get(params, "search_query_form_query", "")
     search_query_changeset = SearchQuery.new(search_query)
-
     pagination = socket.assigns.pagination
     team = socket.assigns.team
 
@@ -73,5 +72,14 @@ defmodule KsomniaWeb.TeamLive.Members do
       |> assign(:search_query, search_query_changeset)
       |> assign(:pagination, pagination)
     }
+  end
+
+  def page_query_string(page, search_query) do
+    %{}
+    |> Ksomnia.Util.add_if("page", page)
+    |> Ksomnia.Util.add_if("query", SearchQuery.query(search_query))
+    |> Enum.reduce("?", fn ({k, v}, acc) ->
+      "#{acc}#{k}=#{v}&"
+    end)
   end
 end

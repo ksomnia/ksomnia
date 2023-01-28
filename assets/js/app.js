@@ -47,6 +47,25 @@ topbar.config({ barColors: { 0: "#6366f1" }, shadowColor: "rgba(0, 0, 0, .3)" })
 window.addEventListener("phx:page-loading-start", info => topbar.show())
 window.addEventListener("phx:page-loading-stop", info => topbar.hide())
 
+const updateParams = ({ query }) => {
+  let searchParams = new URLSearchParams(location.search)
+  let page = searchParams.get('page') || 1
+  let url = new URL(window.location)
+  url.searchParams.set('page', page)
+  url.searchParams.set('query', query)
+  window.history.pushState(null, '', url.toString())
+}
+
+window.addEventListener("ksomnia:performSearchQuery", (event) => {
+  let query = event.target.querySelector('#search_query_form_query').value
+  updateParams({ query })
+})
+
+window.addEventListener("ksomnia:clearSearchInput", (event) => {
+  event.target.value = ''
+  updateParams({ query: '' })
+})
+
 // connect if there are any LiveViews on the page
 liveSocket.connect()
 

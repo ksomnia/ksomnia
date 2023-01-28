@@ -34,9 +34,11 @@ defmodule Ksomnia.Pagination do
       |> limit(^page_size)
       |> Repo.all()
 
+    current_page_size = length(entries)
+
     %Pagination{
       current_page: current_page,
-      current_page_size: length(entries),
+      current_page_size: current_page_size,
       entry_count: entry_count,
       total_pages: total_pages,
       entries: entries,
