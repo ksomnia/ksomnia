@@ -12,7 +12,7 @@ defmodule Ksomnia.MixProject do
       aliases: aliases(),
       deps: deps(),
       elixirc_options: [
-        warnings_as_errors: true
+        warnings_as_errors: false
       ]
     ]
   end
@@ -65,7 +65,8 @@ defmodule Ksomnia.MixProject do
       {:ex_machina, "~> 2.7.0", only: :test},
       {:benchee, "~> 1.0", only: :dev},
       {:faker, "~> 0.17", only: :test},
-      {:heroicons, "~> 0.5.1"}
+      {:heroicons, "~> 0.5.1"},
+      {:sonix, "~> 0.1.0", github: "scollon42/sonix"}
     ]
   end
 

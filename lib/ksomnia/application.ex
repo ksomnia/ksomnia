@@ -20,6 +20,10 @@ defmodule Ksomnia.Application do
       # {Ksomnia.Worker, arg}
     ]
 
+    if Mix.env() == :dev do
+      Ksomnia.Dev.Logger.attatch()
+    end
+
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Ksomnia.Supervisor]

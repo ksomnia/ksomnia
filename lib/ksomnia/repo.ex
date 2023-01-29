@@ -20,4 +20,12 @@ defmodule Ksomnia.Repo do
   def count(query) do
     aggregate(query, :count)
   end
+
+  def last(query) do
+    Ecto.Query.last(query) |> one()
+  end
+
+  def first(query) do
+    Ecto.Query.first(query) |> one()
+  end
 end

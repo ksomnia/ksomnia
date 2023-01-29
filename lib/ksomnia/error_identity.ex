@@ -42,7 +42,8 @@ defmodule Ksomnia.ErrorIdentity do
       :column_number,
       :message,
       :stacktrace,
-      :last_error_at
+      :last_error_at,
+      :commit_hash
     ])
     |> put_error_identity_hash()
   end
