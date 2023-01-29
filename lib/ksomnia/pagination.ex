@@ -2,6 +2,7 @@ defmodule Ksomnia.Pagination do
   import Ecto.Query
   alias Ksomnia.Repo
   alias Ksomnia.Pagination
+  use Phoenix.Component
 
   @enforce_keys [
     :current_page_size,
@@ -34,14 +35,38 @@ defmodule Ksomnia.Pagination do
       |> limit(^page_size)
       |> Repo.all()
 
+    current_page_size = length(entries)
+
     %Pagination{
       current_page: current_page,
-      current_page_size: length(entries),
+      current_page_size: current_page_size,
       entry_count: entry_count,
       total_pages: total_pages,
       entries: entries,
       page_size: page_size,
       surrounding_size: surrounding_size
     }
+  end
+
+  def params_to_pagination(socket, query, params) do
+    current_page = Map.get(params, "page", "1") |> String.to_integer()
+    search_query = Map.get(params, "query")
+
+    pagination =
+      query
+      |> Pagination.paginate(current_page)
+
+    socket
+    |> assign(:pagination, pagination)
+    |> assign(:search_query, KsomniaWeb.SearchQuery.new(search_query))
+  end
+
+  def page_query_string(page, search_query) do
+    %{}
+    |> Ksomnia.Util.add_if("page", page)
+    |> Ksomnia.Util.add_if("query", KsomniaWeb.SearchQuery.query(search_query))
+    |> Enum.reduce("?", fn {k, v}, acc ->
+      "#{acc}#{k}=#{v}&"
+    end)
   end
 end

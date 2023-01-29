@@ -98,4 +98,12 @@ defmodule Ksomnia.Invite do
       Repo.delete(invite)
     end
   end
+
+  def search_by_email(query, ""), do: query
+
+  def search_by_email(query, search_query) do
+    from(u in query,
+      where: ilike(u.email, ^"%#{search_query}%")
+    )
+  end
 end

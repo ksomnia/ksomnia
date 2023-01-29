@@ -12,7 +12,7 @@ defmodule Ksomnia.MixProject do
       aliases: aliases(),
       deps: deps(),
       elixirc_options: [
-        warnings_as_errors: false
+        warnings_as_errors: true
       ]
     ]
   end
