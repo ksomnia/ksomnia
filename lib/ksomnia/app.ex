@@ -53,7 +53,6 @@ defmodule Ksomnia.App do
       where: a.team_id == ^team_id,
       order_by: [asc: a.inserted_at]
     )
-    |> Repo.all()
   end
 
   def for_user(user_id) do
@@ -75,5 +74,13 @@ defmodule Ksomnia.App do
     |> Enum.map(fn {_, [team]} ->
       Map.put(team, :apps, grouped_apps[team.id] || [])
     end)
+  end
+
+  def search_by_name(query, ""), do: query
+
+  def search_by_name(query, search_query) do
+    from(a in query,
+      where: ilike(a.name, ^"%#{search_query}%")
+    )
   end
 end

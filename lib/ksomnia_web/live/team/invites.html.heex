@@ -2,7 +2,7 @@
   <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :members) %>
   <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :invites) %>
 
-  <div class="px-7 mt-5 overflow-hidden">
+  <div class="px-7 mt-5 mb-24 overflow-hidden">
     <.simple_form
       :let={f}
       for={@search_query}
@@ -19,7 +19,7 @@
       <.input
         field={{f, :query}}
         type="search"
-        label="Seach invites by email"
+        label="Search invites by email"
         clear={
           JS.dispatch("ksomnia:clearSearchInput", to: ".search-input")
           |> JS.push("perform_search_query")
