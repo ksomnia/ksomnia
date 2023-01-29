@@ -93,6 +93,7 @@ defmodule KsomniaWeb do
       alias Phoenix.LiveView.JS
 
       import KsomniaWeb.LiveHelpers
+      alias Ksomnia.Pagination
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())

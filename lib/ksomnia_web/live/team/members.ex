@@ -20,23 +20,30 @@ defmodule KsomniaWeb.TeamLive.Members do
   @impl true
   def handle_params(%{"team_id" => id} = params, _, socket) do
     team = Repo.get(Team, id)
-    current_page = Map.get(params, "page", "1") |> String.to_integer()
-    search_query = Map.get(params, "query")
-
-    pagination =
-      team
-      |> User.for_team()
-      |> User.search_by_username(search_query)
-      |> Pagination.paginate(current_page)
 
     socket =
       socket
       |> assign(:page_title, "#{team.name} · Members")
       |> assign(:team, team)
-      |> assign(:pagination, pagination)
-      |> assign(:search_query, SearchQuery.new(search_query))
+      |> table_query(team, params)
 
     {:noreply, socket}
+  end
+
+  def handle_event("perform_search_query", params, socket) do
+    team = socket.assigns.team
+    search_query = Map.get(params, "search_query_form_query", "")
+    search_query_changeset = SearchQuery.new(search_query)
+
+    {:noreply,
+     socket
+     |> assign(:search_query, search_query_changeset)
+     |> table_query(
+       team,
+       Map.merge(params, %{
+         "query" => search_query
+       })
+     )}
   end
 
   @impl true
@@ -55,31 +62,18 @@ defmodule KsomniaWeb.TeamLive.Members do
     end
   end
 
-  def handle_event("perform_search_query", params, socket) do
-    search_query = Map.get(params, "search_query_form_query", "")
-    search_query_changeset = SearchQuery.new(search_query)
-    pagination = socket.assigns.pagination
-    team = socket.assigns.team
-
-    pagination =
+  defp table_query(socket, team, params) do
+    query =
       team
       |> User.for_team()
-      |> User.search_by_username(search_query)
-      |> Pagination.paginate(pagination.current_page)
+      |> User.search_by_username(params["query"])
 
-    {:noreply,
-      socket
-      |> assign(:search_query, search_query_changeset)
-      |> assign(:pagination, pagination)
-    }
-  end
-
-  def page_query_string(page, search_query) do
-    %{}
-    |> Ksomnia.Util.add_if("page", page)
-    |> Ksomnia.Util.add_if("query", SearchQuery.query(search_query))
-    |> Enum.reduce("?", fn ({k, v}, acc) ->
-      "#{acc}#{k}=#{v}&"
-    end)
+    socket
+    |> Pagination.params_to_pagination(
+      query,
+      Map.merge(params, %{
+        "query" => params["query"]
+      })
+    )
   end
 end

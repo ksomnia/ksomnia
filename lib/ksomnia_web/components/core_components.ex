@@ -351,7 +351,7 @@ defmodule KsomniaWeb.CoreComponents do
           <Heroicons.magnifying_glass class="mr-3 h-4 w-4 text-gray-400" />
         </div>
         <input
-          type={"text"}
+          type="text"
           name={@id}
           id={@id}
           value={@value}

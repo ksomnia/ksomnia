@@ -16,12 +16,15 @@
         |> JS.dispatch("ksomnia:performSearchQuery", to: "#search_query_form")
       }
     >
-      <.input field={{f, :query}} type="search" label="Seach query"
+      <.input
+        field={{f, :query}}
+        type="search"
+        label="Search members by username"
         clear={
           JS.dispatch("ksomnia:clearSearchInput", to: ".search-input")
           |> JS.push("perform_search_query")
         }
-       />
+      />
     </.simple_form>
 
     <.table id="team_members" rows={@pagination.entries} headers={false}>
@@ -56,7 +59,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&(~p"/t/#{@team.id}/members" <> page_query_string(&1, @search_query))}
+      link={&(~p"/t/#{@team.id}/members" <> Pagination.page_query_string(&1, @search_query))}
     />
   </div>
 </div>
