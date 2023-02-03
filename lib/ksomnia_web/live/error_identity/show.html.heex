@@ -1,7 +1,7 @@
 <main class="flex-1">
   <div class="px-7">
     <div class="py-2 text-indigo-600 font-medium mb-3">
-      <%= @error_identity.message %>
+      <%= Util.truncate_string(@error_identity.message, 200) %>
     </div>
     <span class="commit-badge mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
       <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(

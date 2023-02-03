@@ -37,3 +37,6 @@ npm-debug.log
 /tmp/
 
 *.DS_Store
+
+# Meilisearch
+/data.ms/

@@ -65,7 +65,8 @@ defmodule Ksomnia.MixProject do
       {:ex_machina, "~> 2.7.0", only: :test},
       {:benchee, "~> 1.0", only: :dev},
       {:faker, "~> 0.17", only: :test},
-      {:heroicons, "~> 0.5.1"}
+      {:heroicons, "~> 0.5.1"},
+      {:meilisearch, "~> 0.20.0"}
     ]
   end
 

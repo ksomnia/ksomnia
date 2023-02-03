@@ -42,7 +42,8 @@ defmodule Ksomnia.ErrorIdentity do
       :column_number,
       :message,
       :stacktrace,
-      :last_error_at
+      :last_error_at,
+      :commit_hash
     ])
     |> put_error_identity_hash()
   end
@@ -93,5 +94,9 @@ defmodule Ksomnia.ErrorIdentity do
 
   def for_app(app) do
     from(er in ErrorIdentity, where: er.app_id == ^app.id, order_by: [desc: er.last_error_at])
+  end
+
+  def get_by_ids(ids) do
+    from e in ErrorIdentity, where: e.id in ^ids
   end
 end

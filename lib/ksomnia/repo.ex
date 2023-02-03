@@ -20,4 +20,36 @@ defmodule Ksomnia.Repo do
   def count(query) do
     aggregate(query, :count)
   end
+
+  def last(query) do
+    Ecto.Query.last(query) |> one()
+  end
+
+  def first(query) do
+    Ecto.Query.first(query) |> one()
+  end
+
+  @doc """
+  Process a query in chunks.
+
+  ## Example
+
+      query
+      |> Repo.chunk(100)
+      |> Stream.each(&process_batch)
+      |> Stream.run()
+  """
+  def chunk(query, chunk_size) do
+    chunk_stream =
+      Stream.unfold(1, fn page_number ->
+        page = Ksomnia.Pagination.paginate(query, page_number, chunk_size)
+
+        {page.entries, page_number + 1}
+      end)
+
+    Stream.take_while(chunk_stream, fn
+      [] -> false
+      _ -> true
+    end)
+  end
 end
