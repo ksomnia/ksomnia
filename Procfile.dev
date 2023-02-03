@@ -1,3 +1,4 @@
 ksomnia: elixir --sname ksomnia -S mix phx.server
 source_mapper: cd source_mapper && node app.js
 sample_app: cd dev_extras/sample_app && PORT=5500 KSOMNIA_BASE_URL='http://localhost:4000/tracker_api/v1' mix phx.server
+meilisearch: meilisearch

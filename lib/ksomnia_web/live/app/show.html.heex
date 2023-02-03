@@ -14,10 +14,34 @@
   <% end %>
 
   <div class="px-7 mt-3 mb-24 overflow-hidden">
+    <.simple_form
+      :let={f}
+      for={@search_query}
+      id="search_query_form"
+      phx-change={
+        JS.push("perform_search_query")
+        |> JS.dispatch("ksomnia:performSearchQuery", to: "#search_query_form")
+      }
+      phx-submit={
+        JS.push("perform_search_query")
+        |> JS.dispatch("ksomnia:performSearchQuery", to: "#search_query_form")
+      }
+    >
+      <.input
+        field={{f, :query}}
+        type="search"
+        label="Search errors"
+        clear={
+          JS.dispatch("ksomnia:clearSearchInput", to: ".search-input")
+          |> JS.push("perform_search_query")
+        }
+      />
+    </.simple_form>
+
     <.table id="error_identities" rows={@pagination.entries}>
       <:col :let={error_identity} label="Error">
         <.link navigate={~p"/error_identities/#{error_identity.id}"} class="link">
-          <%= error_identity.message %>
+          <%= Util.truncate_string(error_identity.message, 200) %>
           <span class="link-secondary">at <%= error_identity.source %></span>
         </.link>
       </:col>
