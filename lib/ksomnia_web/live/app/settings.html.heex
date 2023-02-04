@@ -1,9 +1,5 @@
 <main class="flex-1">
   <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
-  <%= live_component(KsomniaWeb.AppLive.SettingsNavComponent,
-    app: @app,
-    settings_section: @__settings_section__
-  ) %>
 
   <div>
     <%= if @app do %>

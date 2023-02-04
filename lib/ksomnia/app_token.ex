@@ -7,6 +7,8 @@ defmodule Ksomnia.AppToken do
   alias Ksomnia.AppToken
   alias Ksomnia.Repo
 
+  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
+
   schema "app_tokens" do
     field :token, :string
     field :revoked_at, :naive_datetime
@@ -59,6 +61,13 @@ defmodule Ksomnia.AppToken do
   def find_by_token(token) do
     AppToken
     |> where(token: ^token)
+    |> preload(:app)
+    |> Repo.one()
+  end
+
+  def find_by_id(id) do
+    AppToken
+    |> where(id: ^id)
     |> preload(:app)
     |> Repo.one()
   end

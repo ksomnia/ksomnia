@@ -7,8 +7,7 @@ defmodule KsomniaWeb.AppLive.Tokens do
   alias Ksomnia.SourceMap
   alias Ksomnia.Util
 
-  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :settings]}
-  on_mount {KsomniaWeb.AppLive.SettingsNavComponent, [set_section: :tokens]}
+  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :tokens]}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -53,23 +52,33 @@ defmodule KsomniaWeb.AppLive.Tokens do
   end
 
   @impl true
-  def handle_event("generate_token", _value, socket) do
+  def handle_event("generate_token", params, socket) do
     user = socket.assigns.current_user
     app = socket.assigns.app
 
     AppToken.create(app.id, user.id)
 
-    {:noreply,
-     socket
-     |> assign(:app_tokens, AppToken.all(app.id))}
+    {:noreply, table_query(socket, app, params)}
   end
 
-  def handle_event("revoke-token", %{"id" => app_token_id}, socket) do
-    with %AppToken{} = app_token <- Repo.get(AppToken, app_token_id),
-         {:ok, app_token} <- AppToken.revoke(app_token) do
-      {:noreply, assign(socket, :app_tokens, AppToken.all(app_token.app_id))}
+  def handle_event("revoke-token", %{"id" => app_token_id} = params, socket) do
+    with %AppToken{} = app_token <- AppToken.find_by_id(app_token_id),
+         {:ok, _app_token} <- AppToken.revoke(app_token) do
+      {:noreply, table_query(socket, app_token.app, params)}
     else
       _error -> socket
     end
+  end
+
+  defp table_query(socket, app, params) do
+    query = AppToken.all(app.id)
+
+    socket
+    |> Pagination.params_to_pagination(
+      query,
+      Map.merge(params, %{
+        "query" => params["query"]
+      })
+    )
   end
 end

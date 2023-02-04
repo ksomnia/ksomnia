@@ -6,6 +6,7 @@ defmodule Ksomnia.Repo.Migrations.CreateTeamUsers do
       add :team_id, references(:teams, type: :uuid)
       add :user_id, references(:users, type: :uuid)
       add :role, :string
+      add :completed_onboarding_at, :naive_datetime
 
       timestamps()
     end
