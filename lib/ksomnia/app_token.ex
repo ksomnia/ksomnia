@@ -54,6 +54,5 @@ defmodule Ksomnia.AppToken do
       order_by: [asc: not is_nil(a.revoked_at), desc: :inserted_at],
       preload: [:user]
     )
-    |> Repo.all()
   end
 end

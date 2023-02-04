@@ -5,6 +5,7 @@ defmodule KsomniaWeb.AppLive.Tokens do
   alias Ksomnia.App
   alias Ksomnia.Repo
   alias Ksomnia.SourceMap
+  alias Ksomnia.Util
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :settings]}
   on_mount {KsomniaWeb.AppLive.SettingsNavComponent, [set_section: :tokens]}
@@ -20,33 +21,33 @@ defmodule KsomniaWeb.AppLive.Tokens do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
+  def handle_params(%{"id" => id} = params, _, socket) do
     app = Repo.get(App, id)
     team = Repo.get(Ksomnia.Team, app.team_id)
     latest_source_map = SourceMap.latest_for_app(app)
-    app_tokens = AppToken.all(app.id)
+
+    query = AppToken.all(app.id)
 
     socket =
       socket
       |> assign(:page_title, "#{app.name} · Settings · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:app_tokens, app_tokens)
       |> assign(:latest_source_map, latest_source_map)
       |> assign(:app_changeset, App.changeset(app, %{}))
       |> assign(:__current_app__, app.id)
+      |> Pagination.params_to_pagination(query, params)
 
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("toggle_token_visibility", %{"token" => token_id}, socket) do
+    token_visibility_state = socket.assigns.token_visibility_state
+
     socket =
-      assign(
-        socket,
-        :token_visibility_state,
-        toggle_value(socket.assigns.token_visibility_state, token_id)
-      )
+      socket
+      |> assign(:token_visibility_state, Util.toggle_value(token_visibility_state, token_id))
 
     {:noreply, socket}
   end
@@ -69,14 +70,6 @@ defmodule KsomniaWeb.AppLive.Tokens do
       {:noreply, assign(socket, :app_tokens, AppToken.all(app_token.app_id))}
     else
       _error -> socket
-    end
-  end
-
-  def toggle_value(map, key) do
-    case Map.get(map, key) do
-      nil -> Map.put(map, key, true)
-      true -> Map.put(map, key, false)
-      false -> Map.put(map, key, true)
     end
   end
 end

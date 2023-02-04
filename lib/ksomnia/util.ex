@@ -17,6 +17,14 @@ defmodule Ksomnia.Util do
     Map.put(map, key, value)
   end
 
+  def toggle_value(map, key) do
+    case Map.get(map, key) do
+      nil -> Map.put(map, key, true)
+      true -> Map.put(map, key, false)
+      false -> Map.put(map, key, true)
+    end
+  end
+
   def truncate_string(string, n) do
     if String.length(string) > n do
       String.slice(string, 0, n) <> "..."

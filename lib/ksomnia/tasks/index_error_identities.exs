@@ -4,7 +4,6 @@ defmodule Ksomnia.Tasks.IndexErrorIdentities do
   alias Ksomnia.App
   alias Ksomnia.Team
   alias Meilisearch.Indexes
-  alias Meilisearch.Documents
 
   def run() do
     Team

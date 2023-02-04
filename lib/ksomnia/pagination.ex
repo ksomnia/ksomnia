@@ -50,7 +50,7 @@ defmodule Ksomnia.Pagination do
 
   def params_to_pagination(socket, query, params) do
     current_page = Map.get(params, "page", "1") |> String.to_integer()
-    search_query = Map.get(params, "query", "") |> String.trim()
+    search_query = Map.get(params, "query", "")
 
     pagination =
       query
@@ -58,17 +58,13 @@ defmodule Ksomnia.Pagination do
 
     socket
     |> assign(:pagination, pagination)
-    |> Ksomnia.Util.assign_if(
-      search_query != "",
-      :search_query,
-      KsomniaWeb.SearchQuery.new(search_query)
-    )
+    |> assign(:search_query, KsomniaWeb.SearchQuery.new(search_query))
   end
 
-  def page_query_string(page, search_query) do
+  def page_query_string(page, search_query \\ nil) do
     %{}
     |> Ksomnia.Util.add_if("page", page)
-    |> Ksomnia.Util.add_if("query", KsomniaWeb.SearchQuery.query(search_query))
+    |> Ksomnia.Util.add_if("query", search_query && KsomniaWeb.SearchQuery.query(search_query))
     |> Enum.reduce("?", fn {k, v}, acc ->
       "#{acc}#{k}=#{v}&"
     end)
