@@ -10,7 +10,6 @@ defmodule Ksomnia.ErrorTracker do
            {:error_identity, ErrorIdentity.create(app, params)},
          {:tracked, _} <-
            {:tracked, ErrorRecord.track(app, error_identity, params)} do
-
       Ksomnia.Meilisearch.create(error_identity, app.team_id)
       :ok
     end

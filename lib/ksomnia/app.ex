@@ -3,8 +3,10 @@ defmodule Ksomnia.App do
   import Ecto.Changeset
   import Ecto.Query
   alias Ksomnia.App
+  alias Ksomnia.AppToken
   alias Ksomnia.Team
   alias Ksomnia.Repo
+  alias Ecto.Multi
 
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
@@ -36,16 +38,24 @@ defmodule Ksomnia.App do
     Repo.all(App)
   end
 
+  def new(team_id, attrs) do
+    %App{team_id: team_id}
+    |> changeset(attrs)
+  end
+
   def update(app, attrs) do
     app
     |> changeset(attrs)
     |> Repo.update()
   end
 
-  def create(team_id, attrs) when is_binary(team_id) do
-    %App{team_id: team_id}
-    |> changeset(attrs)
-    |> Repo.insert()
+  def create(team_id, user_id, attrs) do
+    Multi.new()
+    |> Multi.insert(:app, new(team_id, attrs))
+    |> Multi.run(:app_token, fn _repo, %{app: app} ->
+      AppToken.create(app.id, user_id)
+    end)
+    |> Repo.transaction()
   end
 
   def for_team(team_id) do

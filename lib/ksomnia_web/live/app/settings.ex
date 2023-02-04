@@ -7,6 +7,7 @@ defmodule KsomniaWeb.AppLive.Settings do
   alias Ksomnia.SourceMap
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :settings]}
+  on_mount {KsomniaWeb.AppLive.SettingsNavComponent, [set_section: :settings]}
 
   @impl true
   def mount(_params, _session, socket) do
