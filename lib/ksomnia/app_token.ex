@@ -55,4 +55,11 @@ defmodule Ksomnia.AppToken do
       preload: [:user]
     )
   end
+
+  def find_by_token(token) do
+    AppToken
+    |> where(token: ^token)
+    |> preload(:app)
+    |> Repo.one()
+  end
 end

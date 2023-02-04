@@ -27,11 +27,6 @@ defmodule KsomniaWeb.AppLive.Show do
     current_page = Map.get(params, "page", "1") |> String.to_integer()
     search_query = Map.get(params, "query")
 
-    pagination =
-      app
-      |> ErrorIdentity.for_app()
-      |> Pagination.paginate(current_page)
-
     latest_source_map = SourceMap.latest_for_app(app)
 
     socket =
@@ -40,9 +35,9 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:page_title, "#{app.name} · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:pagination, pagination)
       |> assign(:latest_source_map, latest_source_map)
       |> assign(:__current_app__, app.id)
+      |> do_search(app, search_query, current_page)
 
     {:noreply, socket}
   end
@@ -66,10 +61,10 @@ defmodule KsomniaWeb.AppLive.Show do
   end
 
   def do_search(socket, app, search_query, current_page) do
-    search_query = String.trim(search_query)
+    search_query = search_query && String.trim(search_query)
     index = "error_identities-app_id-#{app.id}"
 
-    with true <- search_query != "",
+    with true <- search_query != "" and search_query != nil,
          {:ok, %{"hits" => hits}} <- Meilisearch.Search.search(index, search_query) do
       error_identities = ErrorIdentity.get_by_ids(Enum.map(hits, & &1["id"]))
       pagination = Pagination.paginate(error_identities, current_page)

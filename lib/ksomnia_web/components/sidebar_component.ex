@@ -45,12 +45,12 @@ defmodule KsomniaWeb.SidebarComponent do
                 } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
             >
               <div class="flex">
-              <span class={"#{KsomniaWeb.LiveHelpers.generate_gradient(app.name)} bg-gradient-to-r opacity-60 mr-2 capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block flex justify-center items-center font-normal"}>
-                <%= String.at(app.name, 0) %>
-              </span>
-              <span>
-                <%= app.name %>
-              </span>
+                <span class={"#{KsomniaWeb.LiveHelpers.generate_gradient(app.name)} bg-gradient-to-r opacity-60 mr-2 capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block flex justify-center items-center font-normal"}>
+                  <%= String.at(app.name, 0) %>
+                </span>
+                <span>
+                  <%= app.name %>
+                </span>
               </div>
             </.link>
           <% end %>

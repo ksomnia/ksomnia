@@ -55,10 +55,14 @@
             <% end %>
           </div>
           <button
-            :if={!app_token.revoked_at && Permissions.can_revoke_app_token(@team, @current_user, app_token)}
+            :if={
+              !app_token.revoked_at &&
+                Permissions.can_revoke_app_token(@team, @current_user, app_token)
+            }
             class="border border-red-500 text-red-500 text-white py-1 px-2 rounded hover:text-red-700"
             phx-click="revoke-token"
             phx-value-id={"#{app_token.id}"}
+            data-confirm="Are you sure you want to revoke the token? This cannot be undone."
           >
             Revoke
           </button>

@@ -12,7 +12,6 @@ defmodule Ksomnia.App do
 
   schema "apps" do
     field :name, :string
-    field :token, :string
     belongs_to :team, Team, type: Ecto.ShortUUID
 
     timestamps()
@@ -23,15 +22,6 @@ defmodule Ksomnia.App do
     app
     |> cast(attrs, [:name])
     |> validate_required([:name])
-    |> put_token()
-  end
-
-  def put_token(changeset) do
-    if changeset.data.token do
-      changeset
-    else
-      put_change(changeset, :token, Ksomnia.Security.random_string(16))
-    end
   end
 
   def all() do
