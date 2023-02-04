@@ -63,6 +63,15 @@ defmodule KsomniaWeb.AppLive.Tokens do
      |> assign(:app_tokens, AppToken.all(app.id))}
   end
 
+  def handle_event("revoke-token", %{"id" => app_token_id}, socket) do
+    with %AppToken{} = app_token <- Repo.get(AppToken, app_token_id),
+         {:ok, app_token} <- AppToken.revoke(app_token) do
+      {:noreply, assign(socket, :app_tokens, AppToken.all(app_token.app_id))}
+    else
+      _error -> socket
+    end
+  end
+
   def toggle_value(map, key) do
     case Map.get(map, key) do
       nil -> Map.put(map, key, true)

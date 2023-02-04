@@ -41,11 +41,17 @@ defmodule Ksomnia.AppToken do
     end
   end
 
+  def revoke(app_token) do
+    app_token
+    |> change(revoked_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
+    |> Repo.update()
+  end
+
   def all(app_id) do
     from(a in AppToken,
       join: u in assoc(a, :user),
       where: a.app_id == ^app_id,
-      order_by: [desc: :inserted_at],
+      order_by: [asc: not is_nil(a.revoked_at), desc: :inserted_at],
       preload: [:user]
     )
     |> Repo.all()
