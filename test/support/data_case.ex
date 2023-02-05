@@ -56,14 +56,21 @@ defmodule Ksomnia.DataCase do
         team
       end
 
-      def create_app(team) do
-        App.create(team.id, %{
+      def create_app(team, user) do
+        App.create(team.id, user.id, %{
           name: Faker.App.name()
         })
+        |> case do
+          {:ok, %{app: app}} ->
+            {:ok, app}
+
+          error ->
+            error
+        end
       end
 
-      def create_app!(team) do
-        {:ok, app} = create_app(team)
+      def create_app!(team, user) do
+        {:ok, app} = create_app(team, user)
         app
       end
     end

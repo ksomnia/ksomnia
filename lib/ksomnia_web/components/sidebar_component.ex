@@ -44,7 +44,12 @@ defmodule KsomniaWeb.SidebarComponent do
                   else: "border-l-4 border-slate-50"
                 } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
             >
-              <%= app.name %>
+              <div class="flex">
+                <.avatar_sm name={app.name} />
+                <span>
+                  <%= app.name %>
+                </span>
+              </div>
             </.link>
           <% end %>
         </nav>
@@ -67,6 +72,7 @@ defmodule KsomniaWeb.SidebarComponent do
       <.live_component
         module={KsomniaWeb.TeamLive.AppFormComponent}
         app={%Ksomnia.App{}}
+        current_user={assigns[:current_user]}
         return_to="/"
         action={:new_app}
         id={:wrap}

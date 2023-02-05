@@ -13,6 +13,7 @@ defmodule Ksomnia.TeamUser do
     belongs_to :team, Team, type: Ecto.ShortUUID
     belongs_to :user, User, type: Ecto.ShortUUID
     field :role, :string
+    field :completed_onboarding_at, :naive_datetime
 
     timestamps()
   end
@@ -60,5 +61,24 @@ defmodule Ksomnia.TeamUser do
       Invite.delete_if_exists(email: target_user.email, team_id: team.id)
       Repo.delete(team_user)
     end
+  end
+
+  def completed_onboarding?(team, target_user) do
+    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id) do
+      team_user.completed_onboarding_at != nil
+    end
+  end
+
+  def complete_onboarding(team, target_user) do
+    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id),
+         {:ok, _} <- do_complete_onboarding(team_user) do
+      :ok
+    end
+  end
+
+  defp do_complete_onboarding(team_user) do
+    team_user
+    |> change(completed_onboarding_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
+    |> Repo.update()
   end
 end

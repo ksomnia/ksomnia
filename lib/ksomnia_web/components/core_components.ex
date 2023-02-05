@@ -680,9 +680,9 @@ defmodule KsomniaWeb.CoreComponents do
       <div class={[
         "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
         "#{if @round, do: "rounded-full", else: "rounded-md"}",
-        "inline-block text-white flex justify-center items-center font-bold"
+        "inline-block text-white flex justify-center items-center font-bold capitalize"
       ]}>
-        <%= @name |> String.first() |> String.capitalize() %>
+        <%= String.first(@name) %>
       </div>
     </div>
     """
@@ -708,13 +708,32 @@ defmodule KsomniaWeb.CoreComponents do
       <div class={[
         "#{LiveHelpers.generate_gradient(@name, true)}",
         "border-4 border-white rounded-full p-1 w-32 h-32 flex",
-        "justify-center items-center bg-gradient-to-r"
+        "justify-center items-center bg-gradient-to-r capitalize"
       ]}>
         <span class="text-6xl font-extrabold text-white">
-          <%= @name |> String.first() |> String.capitalize() %>
+          <%= String.first(@name) %>
         </span>
       </div>
     </div>
+    """
+  end
+
+  @doc """
+  Renders a small avatar.
+
+  ## Examples
+
+      <.avatar_sm name={app.name} />
+  """
+  def avatar_sm(assigns) do
+    ~H"""
+    <span class={[
+      "#{KsomniaWeb.LiveHelpers.generate_gradient(@name)} bg-gradient-to-r opacity-60 mr-2",
+      "capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block",
+      "flex justify-center items-center font-normal"
+    ]}>
+      <%= String.first(@name) %>
+    </span>
     """
   end
 

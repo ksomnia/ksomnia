@@ -19,4 +19,12 @@ defmodule Ksomnia.Permissions do
   def can_leave_team(%Team{} = team, %User{} = current_user) do
     !(TeamUser.is_owner(team, current_user) && TeamUser.is_single_owner(team))
   end
+
+  def can_revoke_app_token(
+        %Team{} = team,
+        %User{} = current_user,
+        %Ksomnia.AppToken{} = app_token
+      ) do
+    TeamUser.is_owner(team, current_user) || app_token.user_id == current_user.id
+  end
 end

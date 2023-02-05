@@ -5,6 +5,15 @@
     nav_section: @__nav_section__
   ) %>
 
+  <div :if={!Ksomnia.TeamUser.completed_onboarding?(@team, @current_user)} class="px-7">
+    <%= live_component(KsomniaWeb.OnboardingCardComponent,
+      team: @team,
+      current_user: @current_user,
+      id: :onboarding_card,
+      app: @app
+    ) %>
+  </div>
+
   <%= if @latest_source_map do %>
     <div class="px-7 py-2 text-slate-600 text-sm">
       Latest source map for the release
@@ -66,7 +75,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&~p"/apps/#{@app.id}?page=#{&1}"}
+      link={&(~p"/apps/#{@app.id}" <> Pagination.page_query_string(&1, @search_query))}
     />
   </div>
 </main>

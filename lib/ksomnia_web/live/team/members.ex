@@ -63,16 +63,18 @@ defmodule KsomniaWeb.TeamLive.Members do
   end
 
   defp table_query(socket, team, params) do
+    search_query = Map.get(params, "query")
+
     query =
       team
       |> User.for_team()
-      |> User.search_by_username(params["query"])
+      |> User.search_by_username(search_query)
 
     socket
     |> Pagination.params_to_pagination(
       query,
       Map.merge(params, %{
-        "query" => params["query"]
+        "query" => search_query
       })
     )
   end

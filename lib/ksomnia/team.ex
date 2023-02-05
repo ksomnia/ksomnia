@@ -33,7 +33,7 @@ defmodule Ksomnia.Team do
   def create(user, attrs) do
     Multi.new()
     |> Multi.insert(:team, new(attrs))
-    |> Ecto.Multi.insert(:team_user, fn %{team: team} ->
+    |> Multi.insert(:team_user, fn %{team: team} ->
       TeamUser.new(team.id, user.id, %{role: "owner"})
     end)
     |> Repo.transaction()

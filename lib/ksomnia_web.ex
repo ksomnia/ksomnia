@@ -94,6 +94,7 @@ defmodule KsomniaWeb do
 
       import KsomniaWeb.LiveHelpers
       alias Ksomnia.Pagination
+      alias Ksomnia.Permissions
       alias Ksomnia.Util
 
       # Routes generation with the ~p sigil

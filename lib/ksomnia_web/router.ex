@@ -54,6 +54,7 @@ defmodule KsomniaWeb.Router do
     live "/t/:team_id/members/invites", TeamLive.Invites, :invites
     live "/t/:team_id/members/invite", TeamLive.Members, :invite
     live "/t/:team_id/members", TeamLive.Members, :members
+    live "/apps/:id/settings/tokens", AppLive.Tokens, :tokens
     live "/apps/:id/settings", AppLive.Settings, :settings
     live "/apps/:id/source_maps", AppLive.SourceMaps, :source_maps
     live "/apps/:id", AppLive.Show, :show

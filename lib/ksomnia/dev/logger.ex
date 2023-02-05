@@ -1,7 +1,8 @@
 defmodule Ksomnia.Dev.Logger do
   use Tesla
 
-  @commit_hash Keyword.get(Application.compile_env(:ksomnia, :version), :git)
+  @commit_hash Keyword.get(Application.compile_env(:ksomnia, :git_version), :commit)
+  @logger_token System.get_env("KSOMNIA_DEV_LOGGER_TOKEN")
 
   def attatch do
     :logger.add_handler(Ksomnia.Dev.Logger, Ksomnia.Dev.Logger, %{})
@@ -9,7 +10,7 @@ defmodule Ksomnia.Dev.Logger do
 
   def track(attrs) do
     Ksomnia.ErrorTracker.track(%{
-      "token" => "JzBxyCF8RatQUcmA",
+      "token" => @logger_token,
       "message" => attrs[:message],
       "line_number" => to_string(attrs[:line_number]),
       "column_number" => to_string(attrs[:column_number]),
@@ -50,23 +51,30 @@ defmodule Ksomnia.Dev.Logger do
   end
 
   def log(log_event, _) do
-    if log_event.level == :error do
-      map = log_event.msg |> elem(1)
+    try do
+      if log_event.level == :error do
+        map = log_event.msg |> elem(1)
 
-      if args = Map.get(map, :args) do
-        stack = args |> Enum.at(4)
-        message = stack |> elem(0) |> elem(0)
-        source_line = stack |> elem(0) |> elem(1) |> Enum.at(1)
-        stacktrace = stack |> elem(0) |> elem(1) |> Exception.format_stacktrace()
+        if args = Map.get(map, :args) do
+          stack = args |> Enum.at(4)
+          message = stack |> elem(0) |> elem(0)
+          source_line = stack |> elem(0) |> elem(1) |> Enum.at(1)
+          stacktrace = stack |> elem(0) |> elem(1) |> Exception.format_stacktrace()
 
-        track(%{
-          message: "#{Exception.message(message)}",
-          source: get_application_source_line(stack |> elem(0) |> elem(1)),
-          line_number: source_line |> elem(3) |> Keyword.get(:line),
-          column_number: source_line |> elem(2),
-          stacktrace: stacktrace
-        })
+          track(%{
+            message: "#{Exception.message(message)}",
+            source: get_application_source_line(stack |> elem(0) |> elem(1)),
+            line_number: source_line |> elem(3) |> Keyword.get(:line),
+            column_number: source_line |> elem(2),
+            stacktrace: stacktrace
+          })
+        end
       end
+    rescue
+      error ->
+        IO.puts("#{inspect(__MODULE__)} #{inspect(error)}")
+        IO.puts("#{inspect(__MODULE__)} #{inspect(log_event)}")
+        reraise(error, __STACKTRACE__)
     end
   end
 end

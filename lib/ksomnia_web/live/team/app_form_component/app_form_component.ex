@@ -40,8 +40,11 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
   end
 
   defp save_app(socket, :new_app, app_params) do
-    case App.create(socket.assigns.new_app_team_id, app_params) do
-      {:ok, app} ->
+    new_app_team_id = socket.assigns.new_app_team_id
+    current_user = socket.assigns.current_user
+
+    case App.create(new_app_team_id, current_user.id, app_params) do
+      {:ok, %{app: app}} ->
         {:noreply,
          socket
          |> put_flash(:info, "App created successfully")

@@ -72,7 +72,7 @@ git_commit =
       nil
   end
 
-config :ksomnia, :version, git: git_commit
+config :ksomnia, :git_version, commit: git_commit
 
 config :meilisearch,
   endpoint: "http://127.0.0.1:7700",

@@ -3,7 +3,7 @@ defmodule Ksomnia.Meilisearch do
     attrs = %{
       id: error_identity.id,
       app_id: error_identity.app_id,
-      message: error_identity.message
+      message: normalize(error_identity.message)
     }
 
     app_index = "error_identities-app_id-#{error_identity.app_id}"
@@ -14,6 +14,11 @@ defmodule Ksomnia.Meilisearch do
   end
 
   def search(index, term) do
-    Meilisearch.Search.search(index, term)
+    Meilisearch.Search.search(index, normalize(term))
+  end
+
+  def normalize(message) do
+    message
+    |> String.replace(~r/[^a-zA-Z0-9]+/, " ")
   end
 end

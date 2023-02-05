@@ -1,28 +1,6 @@
 <main class="flex-1">
   <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
 
-  <div class="px-7 py-2">
-    <pre class="bg-slate-100 text-sm rounded-lg px-3 py-5 shadow-xs"><code class="p-0 m-0 leading-3 text-indigo-900 whitespace-nowrap">
-      <div class="px-3 pb-2">Your app's token</div>
-      <span phx-click="toggle_token_visibility" class="btn-primary select-none inline-flex items-center sm:order-1 sm:ml-3">
-        <%= if @display_token, do: "Hide", else: "Show" %>
-      </span>
-      <%= if @display_token do %>
-        <span class="relative border border-1 border-indigo-500 rounded-md px-4 py-2 pr-10 bg-slate-100">
-          <span id="token">
-            <%= @display_token %>
-          </span>
-          <span @click="KsomniaHelpers.copyTokenHandle($event)">
-            <Heroicons.clipboard_document_list
-              class="cursor-pointer text-indigo-500 hover:text-indigo-700 absolute w-6 h-6 top-1 right-1"
-            />
-          </span>
-        </span>
-      <% else %>
-        <span style="-webkit-text-security: disc" class="relative border border-1 border-indigo-500 rounded-md px-4 py-2 pr-4 bg-slate-100"><%= "****************" %></span>
-      <% end %>
-    </code></pre>
-  </div>
   <div>
     <%= if @app do %>
       <.live_component

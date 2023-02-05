@@ -5,7 +5,7 @@ defmodule Ksomnia.ErrorIdentityTest do
     test "creates error identites and updates track_count" do
       user = create_user!()
       team = create_team!(user)
-      app = create_app!(team)
+      app = create_app!(team, user)
 
       {:ok, ie1} = create_error_identity(app)
       {:ok, ie2} = create_error_identity(app)
