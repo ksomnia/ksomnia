@@ -5,7 +5,9 @@ defmodule KsomniaWeb.OnboardingCardComponent do
   def render(assigns) do
     ~H"""
     <div id="onboarding-card" class="p-6 bg-slate-50 border border-slate-200 rounded-lg shadow-lg">
-      <h3 class="text-lg font-medium text-slate-700 mb-4">Welcome to <%= @team.name %>!</h3>
+      <h3 class="text-lg font-medium text-slate-700 mb-4">
+        Welcome to <%= @team.name %>, <%= @current_user.username %>!
+      </h3>
       <p class="text-sm text-slate-600 mb-4">
         To start using the app, please follow these steps:
       </p>
@@ -21,14 +23,7 @@ defmodule KsomniaWeb.OnboardingCardComponent do
         class="link cursor-pointer"
         phx-click={
           JS.push("hide-onboarding")
-          |> JS.hide(
-            to: "#onboarding-card",
-            time: 200,
-            transition:
-              {"transition-all transform ease-in duration-200",
-               "opacity-100 translate-y-0 sm:scale-100",
-               "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
-          )
+          |> hide("#onboarding-card")
         }
         phx-target="#onboarding-card"
       >
@@ -43,8 +38,7 @@ defmodule KsomniaWeb.OnboardingCardComponent do
     team = socket.assigns.team
     current_user = socket.assigns.current_user
 
-    Ksomnia.TeamUser.completed_onboarding(team, current_user)
-    socket = socket |> assign(:hide_onboarding, true)
+    Ksomnia.TeamUser.complete_onboarding(team, current_user)
     {:noreply, socket}
   end
 end

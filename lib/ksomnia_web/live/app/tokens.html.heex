@@ -33,7 +33,7 @@
               <%= if !!@token_visibility_state[app_token.token], do: "Hide", else: "Show" %>
             </span>
             <%= if !!@token_visibility_state[app_token.token] do %>
-              <span class="relative border border-1 border-indigo-500 rounded-md px-4 py-2 pr-10 bg-slate-100">
+              <span class="font-mono relative border border-1 border-indigo-500 rounded-md px-4 py-2 pr-10 bg-slate-100">
                 <span id="token">
                   <%= app_token.token %>
                 </span>

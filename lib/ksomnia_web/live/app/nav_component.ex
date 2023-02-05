@@ -4,9 +4,7 @@ defmodule KsomniaWeb.AppLive.NavComponent do
   def render(assigns) do
     ~H"""
     <div class="flex px-7 pt-4">
-      <span class={"#{KsomniaWeb.LiveHelpers.generate_gradient(@app.name)} bg-gradient-to-r opacity-60 mr-2 capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block flex justify-center items-center font-normal"}>
-        <%= String.at(@app.name, 0) %>
-      </span>
+      <.avatar_sm name={@app.name} />
       <span class="font-bold text-slate-600">
         <%= @app.name %>
       </span>

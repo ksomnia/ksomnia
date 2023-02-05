@@ -69,7 +69,7 @@ defmodule Ksomnia.TeamUser do
     end
   end
 
-  def completed_onboarding(team, target_user) do
+  def complete_onboarding(team, target_user) do
     with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id),
          {:ok, _} <- do_complete_onboarding(team_user) do
       :ok
