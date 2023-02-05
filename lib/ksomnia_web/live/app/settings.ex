@@ -3,16 +3,14 @@ defmodule KsomniaWeb.AppLive.Settings do
 
   alias Ksomnia.App
   alias Ksomnia.Repo
-  alias Ksomnia.ErrorIdentity
-  alias Ksomnia.SourceMap
 
-  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :settings]}
+  on_mount({KsomniaWeb.AppLive.NavComponent, [set_section: :settings]})
 
   @impl true
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(:display_token, nil)
+      |> allow_upload(:avatar, accept: ~w(.jpg .jpeg .png), max_entries: 1)
 
     {:ok, socket}
   end
@@ -21,25 +19,49 @@ defmodule KsomniaWeb.AppLive.Settings do
   def handle_params(%{"id" => id}, _, socket) do
     app = Repo.get(App, id)
     team = Repo.get(Ksomnia.Team, app.team_id)
-    error_identities = ErrorIdentity.for_app(app)
-    latest_source_map = SourceMap.latest_for_app(app)
 
     socket =
       socket
       |> assign(:page_title, "#{app.name} · Settings · #{team.name}")
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:error_identities, error_identities)
-      |> assign(:latest_source_map, latest_source_map)
-      |> assign(:app_changeset, App.changeset(app, %{}))
       |> assign(:__current_app__, app.id)
+      |> assign(:changeset, App.changeset(app, %{}))
 
     {:noreply, socket}
   end
 
+  def handle_event("save", %{"app" => params}, socket) do
+    app = socket.assigns.app
+
+    params = Ksomnia.Avatar.consume(socket, params, "apps", app)
+
+    case App.update(app, params) do
+      {:ok, app} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "App updated successfully")
+         |> push_navigate(to: ~p"/apps/#{app.id}/settings")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, :changeset, changeset)}
+    end
+  end
+
   @impl true
-  def handle_event("toggle_token_visibility", _value, socket) do
-    display_token = if socket.assigns.display_token, do: nil, else: socket.assigns.app.token
-    {:noreply, assign(socket, :display_token, display_token)}
+  def handle_event("validate", app_params, socket) do
+    changeset =
+      socket.assigns.app
+      |> App.changeset(app_params)
+      |> Map.put(:action, :validate)
+
+    {:noreply, assign(socket, :changeset, changeset)}
+  end
+
+  @impl true
+  def handle_event("upload_file", %{"file" => file}, socket) do
+    {:ok, content} = File.read(file.path)
+
+    {:noreply, assign(socket, :file_content, content)}
   end
 end

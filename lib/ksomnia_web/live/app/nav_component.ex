@@ -4,7 +4,7 @@ defmodule KsomniaWeb.AppLive.NavComponent do
   def render(assigns) do
     ~H"""
     <div class="flex px-7 pt-4">
-      <.avatar_sm name={@app.name} />
+      <.avatar_sm name={@app.name} src={@app.avatar_original_path} />
       <span class="font-bold text-slate-600">
         <%= @app.name %>
       </span>

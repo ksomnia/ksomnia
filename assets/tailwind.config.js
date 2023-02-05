@@ -13,6 +13,10 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+      },
+      boxShadow: {
+        'inner-semidark': 'inset 0 0 40px rgba(0, 0, 0, 0.4)',
+        'inner-dark': 'inset 0 0 40px rgba(0, 0, 0, 0.9)',
       }
     }
   },

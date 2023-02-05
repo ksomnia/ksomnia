@@ -5,6 +5,8 @@ defmodule Ksomnia.Repo.Migrations.CreateApps do
     create table(:apps, primary_key: false) do
       add :id, :uuid, primary_key: true
       add :name, :string, null: false
+      add :avatar_path, :string
+      add :avatar_resized_paths, :map, default: %{}
       add :team_id, references(:teams, type: :uuid)
 
       timestamps()

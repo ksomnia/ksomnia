@@ -339,6 +339,18 @@ defmodule KsomniaWeb.CoreComponents do
     """
   end
 
+  def input(%{type: "file"} = assigns) do
+    ~H"""
+    <input
+      type="file"
+      id={@id || @name}
+      name={@name}
+      value={@value}
+      class="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
+    />
+    """
+  end
+
   def input(%{type: "search"} = assigns) do
     ~H"""
     <div class="px-1">
@@ -723,17 +735,24 @@ defmodule KsomniaWeb.CoreComponents do
 
   ## Examples
 
-      <.avatar_sm name={app.name} />
+      <.avatar_sm name={app.name} src={app.avatar_path} />
   """
   def avatar_sm(assigns) do
     ~H"""
-    <span class={[
-      "#{KsomniaWeb.LiveHelpers.generate_gradient(@name)} bg-gradient-to-r opacity-60 mr-2",
-      "capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block",
-      "flex justify-center items-center font-normal"
-    ]}>
-      <%= String.first(@name) %>
-    </span>
+    <%= if @src do %>
+      <img
+        src={@src}
+        class=" rounded-md w-6 h-6 inline-block mr-2 text-4xl group-hover:shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] group-hover:text-slate-500 ease-in duration-300"
+      />
+    <% else %>
+      <span class={[
+        "#{KsomniaWeb.LiveHelpers.generate_gradient(@name)} bg-gradient-to-r opacity-60 mr-2",
+        "capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block",
+        "flex justify-center items-center font-normal"
+      ]}>
+        <%= String.first(@name) %>
+      </span>
+    <% end %>
     """
   end
 

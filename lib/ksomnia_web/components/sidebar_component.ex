@@ -45,7 +45,7 @@ defmodule KsomniaWeb.SidebarComponent do
                 } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
             >
               <div class="flex">
-                <.avatar_sm name={app.name} />
+                <.avatar_sm name={app.name} src={app.avatar_original_path} />
                 <span>
                   <%= app.name %>
                 </span>

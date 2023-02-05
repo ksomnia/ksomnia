@@ -12,6 +12,10 @@ defmodule Ksomnia.App do
 
   schema "apps" do
     field :name, :string
+
+    field :avatar_original_path, :string
+    field :avatar_resized_paths, :map, default: %{}
+
     belongs_to :team, Team, type: Ecto.ShortUUID
 
     timestamps()
@@ -20,7 +24,7 @@ defmodule Ksomnia.App do
   @doc false
   def changeset(app, attrs) do
     app
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :avatar_original_path, :avatar_resized_paths])
     |> validate_required([:name])
   end
 
