@@ -56,11 +56,4 @@ defmodule KsomniaWeb.AppLive.Settings do
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
-
-  @impl true
-  def handle_event("upload_file", %{"file" => file}, socket) do
-    {:ok, content} = File.read(file.path)
-
-    {:noreply, assign(socket, :file_content, content)}
-  end
 end

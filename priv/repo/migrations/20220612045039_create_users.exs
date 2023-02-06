@@ -7,6 +7,8 @@ defmodule Ksomnia.Repo.Migrations.CreateUsers do
       add :email, :string, null: false
       add :username, :string
       add :encrypted_password, :string
+      add :avatar_original_path, :string
+      add :avatar_resized_paths, :map, default: %{}
 
       timestamps()
     end

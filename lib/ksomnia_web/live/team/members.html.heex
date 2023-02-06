@@ -30,7 +30,12 @@
     <.table id="team_members" rows={@pagination.entries} headers={false}>
       <:col :let={team_member} label="username">
         <div class="flex items-center">
-          <.avatar name={team_member.username} round={false} class="h-8 w-8 mr-2 block-inline" />
+          <.avatar
+            name={team_member.username}
+            src={team_member.avatar_resized_paths["160x160"]}
+            round={false}
+            class="h-8 w-8 mr-2 block-inline"
+          />
           <span class="ml-2"><%= team_member.username %></span>
         </div>
       </:col>

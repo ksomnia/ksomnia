@@ -343,40 +343,43 @@ defmodule KsomniaWeb.CoreComponents do
 
   def input(%{type: "avatar"} = assigns) do
     ~H"""
-    <span class="border border-slate-300 border-1 rounded-full inline-flex">
-      <label class={[
-        "group relative inline-block border border-8 border-slate-50",
-        "rounded-full overflow-hidden items-center justify-center flex w-24 h-24"
-      ]}>
-        <% upload = Enum.at(@uploads.avatar.entries, 0) %>
-        <.live_file_input
-          upload={@uploads.avatar}
-          class="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
-        />
-        <%= cond do %>
-          <% upload -> %>
-            <figure>
-              <.live_img_preview entry={upload} class="w-20 h-20" />
-            </figure>
-          <% @value -> %>
-            <span class="w-20 h-20 ease-in duration-300">
-              <img src={@value} class="w-20 h-20" />
-            </span>
-          <% true -> %>
-            <.avatar
-              name={@placeholder}
-              class="w-20 h-20 text-4xl group-hover:shadow-inner-semidark group-hover:text-slate-500 ease-in duration-300"
-            />
-        <% end %>
-        <div class={[
-          "flex items-center absolute text-center h-full capitalize",
-          "text-white text-xs font-bold cursor-pointer",
-          "group-hover:shadow-inner-dark group-hover:opacity-100 opacity-0 ease-in duration-300"
+    <div>
+      <.label for={@id}><%= @label %></.label>
+      <span class="mt-2 border border-slate-300 border-1 rounded-full inline-flex">
+        <label class={[
+          "group relative inline-block border border-8 border-slate-50",
+          "rounded-full overflow-hidden items-center justify-center flex w-24 h-24"
         ]}>
-          <span class="text-xs">CHANGE AVATAR</span>
-        </div>
-      </label>
-    </span>
+          <% upload = Enum.at(@uploads.avatar.entries, 0) %>
+          <.live_file_input
+            upload={@uploads.avatar}
+            class="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
+          />
+          <%= cond do %>
+            <% upload -> %>
+              <figure>
+                <.live_img_preview entry={upload} class="w-20 h-20" />
+              </figure>
+            <% @value -> %>
+              <span class="w-20 h-20 ease-in duration-300">
+                <img src={@value} class="w-20 h-20" />
+              </span>
+            <% true -> %>
+              <.avatar
+                name={@placeholder}
+                class="w-20 h-20 text-4xl group-hover:shadow-inner-semidark group-hover:text-slate-500 ease-in duration-300"
+              />
+          <% end %>
+          <div class={[
+            "flex items-center absolute text-center h-full capitalize",
+            "text-white text-xs font-bold cursor-pointer",
+            "group-hover:shadow-inner-dark group-hover:opacity-100 opacity-0 ease-in duration-300"
+          ]}>
+            <span class="text-xs">CHANGE AVATAR</span>
+          </div>
+        </label>
+      </span>
+    </div>
     """
   end
 
@@ -715,17 +718,25 @@ defmodule KsomniaWeb.CoreComponents do
   attr :name, :string, required: true
   attr :class, :string, default: ""
   attr :round, :boolean, default: true
+  attr :src, :string, default: nil
 
   def avatar(assigns) do
     ~H"""
     <div class="flex-shrink-0 select-none">
-      <div class={[
-        "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
-        "#{if @round, do: "rounded-full", else: "rounded-md"}",
-        "inline-block text-white flex justify-center items-center font-bold capitalize"
-      ]}>
-        <%= String.first(@name) %>
-      </div>
+      <%= if @src do %>
+        <img
+          src={@src}
+          class="rounded-md w-9 h-9 inline-block mr-2 text-4xl group-hover:shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] group-hover:text-slate-500 ease-in duration-300"
+        />
+      <% else %>
+        <div class={[
+          "#{@class} #{LiveHelpers.generate_gradient(@name)} bg-gradient-to-r",
+          "#{if @round, do: "rounded-full", else: "rounded-md"}",
+          "inline-block text-white flex justify-center items-center font-bold capitalize"
+        ]}>
+          <%= String.first(@name) %>
+        </div>
+      <% end %>
     </div>
     """
   end
