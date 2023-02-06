@@ -726,7 +726,7 @@ defmodule KsomniaWeb.CoreComponents do
       <%= if @src do %>
         <img
           src={@src}
-          class="rounded-md w-9 h-9 inline-block mr-2 text-4xl group-hover:shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] group-hover:text-slate-500 ease-in duration-300"
+          class="rounded-md w-9 h-9 inline-block mr-2 text-4xl group-hover:shadow-inner-dark group-hover:text-slate-500 ease-in duration-300"
         />
       <% else %>
         <div class={[
@@ -783,7 +783,7 @@ defmodule KsomniaWeb.CoreComponents do
     <%= if @src do %>
       <img
         src={@src}
-        class=" rounded-md w-6 h-6 inline-block mr-2 text-4xl group-hover:shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] group-hover:text-slate-500 ease-in duration-300"
+        class=" rounded-md w-6 h-6 inline-block mr-2 text-4xl group-hover:shadow-inner-dark group-hover:text-slate-500 ease-in duration-300"
       />
     <% else %>
       <span class={[

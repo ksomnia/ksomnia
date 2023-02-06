@@ -2,6 +2,7 @@ defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.Team
   alias Ksomnia.Permissions
+  alias Ksomnia.Avatar
 
   @impl true
   def update(%{team: team} = assigns, socket) do
@@ -10,7 +11,8 @@ defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> allow_upload(:avatar, accept: ~w(.jpg .jpeg .png), max_entries: 1)}
   end
 
   @impl true
@@ -30,6 +32,7 @@ defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
   defp save_app(socket, :edit_team, params) do
     team = socket.assigns.team
     user = socket.assigns.current_user
+    params = Avatar.consume(socket, params, "teams", team)
 
     case Permissions.can_update_team(team, user) && Team.update(team, params) do
       {:ok, _app} ->

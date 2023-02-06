@@ -1,8 +1,9 @@
 defmodule KsomniaWeb.AppLive.Settings do
   use KsomniaWeb, :live_view
-
   alias Ksomnia.App
   alias Ksomnia.Repo
+  alias Ksomnia.Avatar
+  alias Ksomnia.Team
 
   on_mount({KsomniaWeb.AppLive.NavComponent, [set_section: :settings]})
 
@@ -18,7 +19,7 @@ defmodule KsomniaWeb.AppLive.Settings do
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
     app = Repo.get(App, id)
-    team = Repo.get(Ksomnia.Team, app.team_id)
+    team = Repo.get(Team, app.team_id)
 
     socket =
       socket
@@ -33,7 +34,7 @@ defmodule KsomniaWeb.AppLive.Settings do
 
   def handle_event("save", %{"app" => params}, socket) do
     app = socket.assigns.app
-    params = Ksomnia.Avatar.consume(socket, params, "apps", app)
+    params = Avatar.consume(socket, params, "apps", app)
 
     case App.update(app, params) do
       {:ok, app} ->

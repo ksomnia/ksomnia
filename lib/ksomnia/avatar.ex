@@ -1,7 +1,7 @@
 defmodule Ksomnia.Avatar do
   use KsomniaWeb, :html
 
-  @resource_types ["apps"]
+  @resource_types ["apps", "users", "teams"]
 
   def consume(socket, params, resource_type, resource) when resource_type in @resource_types do
     Phoenix.LiveView.consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->

@@ -13,6 +13,8 @@ defmodule Ksomnia.Team do
 
   schema "teams" do
     field :name, :string
+    field :avatar_original_path, :string
+    field :avatar_resized_paths, :map, default: %{}
     has_many :team_users, TeamUser
     has_many :invites, Invite
     timestamps()
@@ -20,7 +22,7 @@ defmodule Ksomnia.Team do
 
   def changeset(team, attrs) do
     team
-    |> cast(attrs, [:name])
+    |> cast(attrs, [:name, :avatar_original_path, :avatar_resized_paths])
     |> validate_required([:name])
     |> validate_length(:name, min: 2)
   end

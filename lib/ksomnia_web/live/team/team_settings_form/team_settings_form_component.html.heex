@@ -8,6 +8,15 @@
     phx-submit="save"
   >
     <div>
+      <div>
+        <.input
+          field={{f, :avatar}}
+          type="avatar"
+          uploads={@uploads}
+          value={@changeset.data.avatar_original_path}
+          placeholder={@changeset.data.name}
+        />
+      </div>
       <div class="mt-5 text-left">
         <.input field={{f, :name}} type="text" label="Team name" />
       </div>
