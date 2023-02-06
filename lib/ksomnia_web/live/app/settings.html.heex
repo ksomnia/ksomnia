@@ -1,15 +1,25 @@
 <main class="flex-1">
   <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
 
-  <div>
-    <%= if @app do %>
-      <.live_component
-        id={@app.id}
-        module={KsomniaWeb.AppLive.AppSettingsFormComponent}
-        team_id={@team.id}
-        app={@app}
-        action={:edit_app}
+  <.simple_form :let={f} for={@changeset} id="app-form" phx-change="validate" phx-submit="save">
+    <div class="py-2 px-7">
+      <.input
+        field={{f, :avatar}}
+        type="avatar"
+        uploads={@uploads}
+        value={@app.avatar_original_path}
+        placeholder={@app.name}
       />
-    <% end %>
-  </div>
+    </div>
+    <div class="px-7">
+      <div class="mt-5 text-left">
+        <.input field={{f, :name}} type="text" label="App name" />
+      </div>
+      <div class="mt-5">
+        <.button phx-disable-with="Saving..." class="btn-primary">
+          Save
+        </.button>
+      </div>
+    </div>
+  </.simple_form>
 </main>

@@ -17,6 +17,8 @@ defmodule Ksomnia.User do
     field :password_confirmation, :string, virtual: true
     field :current_password, :string, virtual: true
     field :role, :string, virtual: true
+    field :avatar_original_path, :string
+    field :avatar_resized_paths, :map, default: %{}
     has_many :team_users, TeamUser
 
     timestamps()
@@ -25,7 +27,7 @@ defmodule Ksomnia.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :password])
+    |> cast(attrs, [:email, :username, :password, :avatar_original_path, :avatar_resized_paths])
     |> validate_required([:email, :username, :password])
     |> encrypt_password()
     |> validate_format(:email, ~r/@/)
@@ -55,7 +57,7 @@ defmodule Ksomnia.User do
 
   def profile_changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :password])
+    |> cast(attrs, [:email, :username, :password, :avatar_original_path, :avatar_resized_paths])
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
   end

@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.ProfileFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.User
+  alias Ksomnia.Avatar
 
   @impl true
   def update(%{user: user} = assigns, socket) do
@@ -9,23 +10,25 @@ defmodule KsomniaWeb.AppLive.ProfileFormComponent do
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> allow_upload(:avatar, accept: ~w(.jpg .jpeg .png), max_entries: 1)}
   end
 
   @impl true
-  def handle_event("validate", %{"user" => user_params}, socket) do
+  def handle_event("validate", %{"user" => params}, socket) do
     changeset =
       socket.assigns.user
-      |> User.changeset(user_params)
+      |> User.changeset(params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"user" => user_params}, socket) do
+  def handle_event("save", %{"user" => params}, socket) do
     user = socket.assigns.user
+    params = Avatar.consume(socket, params, "apps", user)
 
-    case User.update_profile(user, user_params) do
+    case User.update_profile(user, params) do
       {:ok, _user} ->
         {:noreply,
          socket

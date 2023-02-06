@@ -45,7 +45,7 @@ defmodule KsomniaWeb.SidebarComponent do
                 } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
             >
               <div class="flex">
-                <.avatar_sm name={app.name} />
+                <.avatar_sm name={app.name} src={app.avatar_original_path} />
                 <span>
                   <%= app.name %>
                 </span>
@@ -58,7 +58,11 @@ defmodule KsomniaWeb.SidebarComponent do
         <.link navigate={~p"/account/profile"} class="flex-shrink-0 w-full group block">
           <div class="flex items-center">
             <div>
-              <.avatar name={@current_user.username} class="h-9 w-9" />
+              <.avatar
+                name={@current_user.username}
+                src={@current_user.avatar_resized_paths["160x160"]}
+                class="h-9 w-9"
+              />
             </div>
             <div class="ml-3">
               <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
