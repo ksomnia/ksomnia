@@ -251,7 +251,7 @@ defmodule KsomniaWeb.CoreComponents do
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file hidden month number password
-               range radio search select tel text textarea time url week placeholder)
+               range radio search select tel text textarea time url week placeholder avatar)
 
   attr :value, :any
   attr :field, :any, doc: "a %Phoenix.HTML.Form{}/field name tuple, for example: {f, :email}"
@@ -261,6 +261,8 @@ defmodule KsomniaWeb.CoreComponents do
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
   attr :clear, :any
+  attr :uploads, :any, doc: "LiveView uploads"
+  attr :placeholder, :string
   attr :rest, :global, include: ~w(autocomplete disabled form max maxlength min minlength
                                    pattern placeholder readonly required size step)
   slot :inner_block
@@ -339,15 +341,42 @@ defmodule KsomniaWeb.CoreComponents do
     """
   end
 
-  def input(%{type: "file"} = assigns) do
+  def input(%{type: "avatar"} = assigns) do
     ~H"""
-    <input
-      type="file"
-      id={@id || @name}
-      name={@name}
-      value={@value}
-      class="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
-    />
+    <span class="border border-slate-300 border-1 rounded-full inline-flex">
+      <label class={[
+        "group relative inline-block border border-8 border-slate-50",
+        "rounded-full overflow-hidden items-center justify-center flex w-24 h-24"
+      ]}>
+        <% upload = Enum.at(@uploads.avatar.entries, 0) %>
+        <.live_file_input
+          upload={@uploads.avatar}
+          class="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
+        />
+        <%= cond do %>
+          <% upload -> %>
+            <figure>
+              <.live_img_preview entry={upload} class="w-20 h-20" />
+            </figure>
+          <% @value -> %>
+            <span class="w-20 h-20 ease-in duration-300">
+              <img src={@value} class="w-20 h-20" />
+            </span>
+          <% true -> %>
+            <.avatar
+              name={@placeholder}
+              class="w-20 h-20 text-4xl group-hover:shadow-inner-semidark group-hover:text-slate-500 ease-in duration-300"
+            />
+        <% end %>
+        <div class={[
+          "flex items-center absolute text-center h-full capitalize",
+          "text-white text-xs font-bold cursor-pointer",
+          "group-hover:shadow-inner-dark group-hover:opacity-100 opacity-0 ease-in duration-300"
+        ]}>
+          <span class="text-xs">CHANGE AVATAR</span>
+        </div>
+      </label>
+    </span>
     """
   end
 
@@ -380,6 +409,7 @@ defmodule KsomniaWeb.CoreComponents do
           <Heroicons.x_circle class="mr-3 h-4 w-4 text-gray-400 hover:text-gray-500 cursor-pointer" />
         </div>
       </div>
+      <.error :for={msg <- @errors}><%= msg %></.error>
     </div>
     """
   end
@@ -872,6 +902,17 @@ defmodule KsomniaWeb.CoreComponents do
         </nav>
       </div>
     </div>
+    """
+  end
+
+  @doc """
+  Pretty prints the given Elixir data structure. Useful for debugging.
+  """
+  attr :x, :any, required: true
+
+  def pp(assigns) do
+    ~H"""
+    <pre class="border border-md border-slate-200 p-2 rounded-md bg-slate-50 text-xs text-slate-700"><code><%= inspect(@x, pretty: true) %></code></pre>
     """
   end
 

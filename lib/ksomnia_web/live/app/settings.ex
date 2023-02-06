@@ -33,7 +33,6 @@ defmodule KsomniaWeb.AppLive.Settings do
 
   def handle_event("save", %{"app" => params}, socket) do
     app = socket.assigns.app
-
     params = Ksomnia.Avatar.consume(socket, params, "apps", app)
 
     case App.update(app, params) do
