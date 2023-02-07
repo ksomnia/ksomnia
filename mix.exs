@@ -66,7 +66,10 @@ defmodule Ksomnia.MixProject do
       {:benchee, "~> 1.0", only: :dev},
       {:faker, "~> 0.17", only: :test},
       {:heroicons, "~> 0.5.1"},
-      {:meilisearch, "~> 0.20.0"}
+      {:meilisearch, "~> 0.20.0"},
+      {:xandra, "~> 0.14"},
+      {:decimal, "~> 1.7"},
+      {:cassandrax, "~> 0.1.0"}
     ]
   end
 

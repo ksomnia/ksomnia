@@ -7,6 +7,17 @@
 # General application configuration
 import Config
 
+config :cassandrax, clusters: [Ksomnia.CassandraCluster]
+
+config :cassandrax, Ksomnia.CassandraCluster,
+  protocol_version: :v4,
+  nodes: ["127.0.0.1:9042"],
+  pool_size: System.get_env("CASSANDRADB_POOL_SIZE") || 10,
+  # username: System.get_env("CASSANDRADB_USER") || "cassandra",
+  # password: System.get_env("CASSANDRADB_PASSWORD") || "cassandra",
+  write_options: [consistency: :local_quorum],
+  read_options: [consistency: :one]
+
 config :ksomnia,
   ecto_repos: [Ksomnia.Repo]
 
