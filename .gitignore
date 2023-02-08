@@ -43,3 +43,7 @@ npm-debug.log
 
 # Meilisearch
 /data.ms/
+
+# Dialyxir
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
