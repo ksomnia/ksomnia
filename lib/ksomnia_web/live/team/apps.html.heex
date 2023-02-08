@@ -1,7 +1,7 @@
 <div class="text-center mt-1">
-  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :apps) %>
+  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @current_team, nav_section: :apps) %>
 
-  <%= if Enum.empty?(@apps) and @search_query.changes.query == "" do %>
+  <%= if Enum.empty?(@apps) && @search_query.changes[:query] == "" do %>
     <Heroicons.folder_plus class="mx-auto h-12 w-12 text-gray-400" />
     <h3 class="mt-2 text-sm font-medium text-gray-900">No apps</h3>
     <p class="mt-1 text-sm text-gray-500">Get started by creating a new app.</p>
@@ -9,13 +9,7 @@
       <a
         class="btn-primary inline-flex items-center"
         phx-target="#sidebar-component"
-        phx-click={
-          JS.push("open-new-app-modal",
-            value: %{team_id: @team.id},
-            target: "#sidebar-component"
-          )
-          |> show_modal("new-app-modal")
-        }
+        phx-click={show_modal(%JS{}, "new-app-modal")}
       >
         <Heroicons.plus class="h-5 w-5 mr-2" /> New App
       </a>
@@ -25,13 +19,7 @@
       <a
         class="btn-primary inline-flex items-center"
         phx-target="#sidebar-component"
-        phx-click={
-          JS.push("open-new-app-modal",
-            value: %{team_id: @team.id},
-            target: "#sidebar-component"
-          )
-          |> show_modal("new-app-modal")
-        }
+        phx-click={show_modal(%JS{}, "new-app-modal")}
       >
         <Heroicons.plus class="h-5 w-5 mr-2" /> New App
       </a>

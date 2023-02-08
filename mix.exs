@@ -66,7 +66,8 @@ defmodule Ksomnia.MixProject do
       {:benchee, "~> 1.0", only: :dev},
       {:faker, "~> 0.17", only: :test},
       {:heroicons, "~> 0.5.1"},
-      {:meilisearch, "~> 0.20.0"}
+      {:meilisearch, "~> 0.20.0"},
+      {:dialyxir, "~> 1.2"}
     ]
   end
 

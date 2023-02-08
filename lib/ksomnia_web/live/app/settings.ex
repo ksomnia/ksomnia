@@ -1,9 +1,8 @@
 defmodule KsomniaWeb.AppLive.Settings do
   use KsomniaWeb, :live_view
   alias Ksomnia.App
-  alias Ksomnia.Repo
   alias Ksomnia.Avatar
-  alias Ksomnia.Team
+  alias KsomniaWeb.LiveResource
 
   on_mount({KsomniaWeb.AppLive.NavComponent, [set_section: :settings]})
 
@@ -17,26 +16,22 @@ defmodule KsomniaWeb.AppLive.Settings do
   end
 
   @impl true
-  def handle_params(%{"id" => id}, _, socket) do
-    app = Repo.get(App, id)
-    team = Repo.get(Team, app.team_id)
+  def handle_params(_params, _, socket) do
+    %{current_team: current_team, current_app: current_app} = LiveResource.get_assigns(socket)
 
     socket =
       socket
-      |> assign(:page_title, "#{app.name} · Settings · #{team.name}")
-      |> assign(:app, app)
-      |> assign(:team, team)
-      |> assign(:__current_app__, app.id)
-      |> assign(:changeset, App.changeset(app, %{}))
+      |> assign(:page_title, "#{current_app.name} · Settings · #{current_team.name}")
+      |> assign(:changeset, App.changeset(current_app, %{}))
 
     {:noreply, socket}
   end
 
   def handle_event("save", %{"app" => params}, socket) do
-    app = socket.assigns.app
-    params = Avatar.consume(socket, params, "apps", app)
+    %{current_app: current_app} = LiveResource.get_assigns(socket)
+    params = Avatar.consume(socket, params, "apps", current_app)
 
-    case App.update(app, params) do
+    case App.update(current_app, params) do
       {:ok, app} ->
         {:noreply,
          socket
@@ -50,8 +45,10 @@ defmodule KsomniaWeb.AppLive.Settings do
 
   @impl true
   def handle_event("validate", app_params, socket) do
+    %{current_app: current_app} = LiveResource.get_assigns(socket)
+
     changeset =
-      socket.assigns.app
+      current_app
       |> App.changeset(app_params)
       |> Map.put(:action, :validate)
 

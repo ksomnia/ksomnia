@@ -3,9 +3,9 @@ defmodule KsomniaWeb.AppLive.Tokens do
 
   alias Ksomnia.AppToken
   alias Ksomnia.App
-  alias Ksomnia.Repo
   alias Ksomnia.SourceMap
   alias Ksomnia.Util
+  alias KsomniaWeb.LiveResource
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :tokens]}
 
@@ -13,28 +13,24 @@ defmodule KsomniaWeb.AppLive.Tokens do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(:display_token, nil)
       |> assign(:token_visibility_state, %{})
 
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _, socket) do
-    app = Repo.get(App, id)
-    team = Repo.get(Ksomnia.Team, app.team_id)
-    latest_source_map = SourceMap.latest_for_app(app)
+  def handle_params(params, _, socket) do
+    %{current_team: current_team, current_app: current_app} = LiveResource.get_assigns(socket)
+    latest_source_map = SourceMap.latest_for_app(current_app)
 
-    query = AppToken.all(app.id)
+    query = AppToken.all(current_app.id)
 
     socket =
       socket
-      |> assign(:page_title, "#{app.name} · Settings · #{team.name}")
-      |> assign(:app, app)
-      |> assign(:team, team)
+      |> assign(:page_title, "#{current_app.name} · Settings · #{current_team.name}")
       |> assign(:latest_source_map, latest_source_map)
-      |> assign(:app_changeset, App.changeset(app, %{}))
-      |> assign(:__current_app__, app.id)
+      |> assign(:app_changeset, App.changeset(current_app, %{}))
+      |> assign(:__current_app__, current_app.id)
       |> Pagination.params_to_pagination(query, params)
 
     {:noreply, socket}
@@ -53,12 +49,10 @@ defmodule KsomniaWeb.AppLive.Tokens do
 
   @impl true
   def handle_event("generate_token", params, socket) do
-    user = socket.assigns.current_user
-    app = socket.assigns.app
+    %{current_user: current_user, current_app: current_app} = LiveResource.get_assigns(socket)
+    AppToken.create(current_app.id, current_user.id)
 
-    AppToken.create(app.id, user.id)
-
-    {:noreply, table_query(socket, app, params)}
+    {:noreply, table_query(socket, current_app, params)}
   end
 
   def handle_event("revoke-token", %{"id" => app_token_id} = params, socket) do

@@ -7,6 +7,7 @@ defmodule Ksomnia.App do
   alias Ksomnia.Team
   alias Ksomnia.Repo
   alias Ecto.Multi
+  use Ksomnia.DataHelper, [:get, App]
 
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 

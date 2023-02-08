@@ -1,9 +1,9 @@
 defmodule KsomniaWeb.TeamLive.Apps do
   use KsomniaWeb, :live_view
-  alias Ksomnia.Team
   alias Ksomnia.Repo
   alias Ksomnia.App
   alias KsomniaWeb.SearchQuery
+  alias KsomniaWeb.LiveResource
 
   @impl true
   def mount(_params, _session, socket) do
@@ -11,14 +11,13 @@ defmodule KsomniaWeb.TeamLive.Apps do
   end
 
   @impl true
-  def handle_params(%{"team_id" => id} = params, _, socket) do
-    team = Repo.get(Team, id)
+  def handle_params(params, _, socket) do
+    %{current_team: team} = LiveResource.get_assigns(socket)
     search_query = Map.get(params, "query")
 
     socket =
       socket
       |> assign(:page_title, "#{team.name} · Apps")
-      |> assign(:team, team)
       |> assign(:search_query, KsomniaWeb.SearchQuery.new(search_query))
       |> table_query(
         team,
@@ -32,7 +31,7 @@ defmodule KsomniaWeb.TeamLive.Apps do
 
   @impl true
   def handle_event("perform_search_query", params, socket) do
-    team = socket.assigns.team
+    %{current_team: team} = LiveResource.get_assigns(socket)
     search_query = Map.get(params, "search_query_form_query", "")
     search_query_changeset = SearchQuery.new(search_query)
 

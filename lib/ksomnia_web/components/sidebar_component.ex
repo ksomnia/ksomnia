@@ -19,27 +19,24 @@ defmodule KsomniaWeb.SidebarComponent do
             <div class="flex w-full justify-between text-xs px-5 py-1 uppercase font-semibold text-slate-400">
               <.link
                 navigate={~p"/t/#{team.id}/apps"}
-                class={"#{if @team && team.id == @team.id, do: "text-indigo-400", else: ""} hover:text-indigo-500"}
+                class={
+                  "#{if team && team.id == (assigns[:current_team] && assigns[:current_team].id),
+                  do: "text-indigo-400", else: ""} hover:text-indigo-500"
+                }
               >
                 <%= team.name %>
               </.link>
               <Heroicons.plus_circle
                 class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer"
                 phx-target="#sidebar-component"
-                phx-click={
-                  JS.push("open-new-app-modal",
-                    value: %{team_id: team.id},
-                    target: "#sidebar-component"
-                  )
-                  |> show_modal("new-app-modal")
-                }
+                phx-click={show_modal(%JS{}, "new-app-modal")}
               />
             </div>
             <.link
               :for={app <- team.apps}
               navigate={~p"/apps/#{app.id}/"}
               class={"#{
-                if @__current_app__ == app.id,
+                if (@current_app && @current_app.id) == app.id,
                   do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4",
                   else: "border-l-4 border-slate-50"
                 } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
@@ -73,22 +70,7 @@ defmodule KsomniaWeb.SidebarComponent do
           </div>
         </.link>
       </div>
-      <.live_component
-        module={KsomniaWeb.TeamLive.AppFormComponent}
-        app={%Ksomnia.App{}}
-        current_user={assigns[:current_user]}
-        return_to="/"
-        action={:new_app}
-        id={:wrap}
-        new_app_team_id={assigns[:new_app_team_id]}
-        team={%{}}
-      />
     </div>
     """
-  end
-
-  @impl true
-  def handle_event("open-new-app-modal", %{"team_id" => team_id}, socket) do
-    {:noreply, assign(socket, :new_app_team_id, team_id)}
   end
 end

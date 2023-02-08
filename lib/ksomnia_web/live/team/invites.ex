@@ -1,11 +1,11 @@
 defmodule KsomniaWeb.TeamLive.Invites do
   use KsomniaWeb, :live_view
-  alias Ksomnia.Team
   alias Ksomnia.Repo
   alias Ksomnia.Invite
   alias Ksomnia.Permissions
   alias Ksomnia.Pagination
   alias KsomniaWeb.SearchQuery
+  alias KsomniaWeb.LiveResource
 
   @impl true
   def mount(_params, _session, socket) do
@@ -17,13 +17,12 @@ defmodule KsomniaWeb.TeamLive.Invites do
   end
 
   @impl true
-  def handle_params(%{"team_id" => id} = params, _, socket) do
-    team = Repo.get(Team, id)
+  def handle_params(params, _, socket) do
+    %{current_team: team} = LiveResource.get_assigns(socket)
 
     socket =
       socket
       |> assign(:page_title, "#{team.name} · Pending invites")
-      |> assign(:team, team)
       |> table_query(team, params)
 
     {:noreply, socket}

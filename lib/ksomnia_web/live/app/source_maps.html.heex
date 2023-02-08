@@ -1,5 +1,5 @@
 <main class="flex-1">
-  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
+  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @current_app, nav_section: @__nav_section__) %>
 
   <div class="px-7 mt-8 mb-24 overflow-hidden">
     <.table id="source_maps" rows={@pagination.entries}>
@@ -21,7 +21,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&~p"/apps/#{@app.id}?page=#{&1}"}
+      link={&~p"/apps/#{@current_app.id}?page=#{&1}"}
     />
   </div>
 </main>

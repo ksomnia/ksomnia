@@ -2,10 +2,11 @@ defmodule KsomniaWeb.TeamLive.Index do
   use KsomniaWeb, :live_view
   alias Ksomnia.Team
   alias Ksomnia.Invite
+  alias KsomniaWeb.LiveResource
 
   @impl true
   def mount(_params, _session, socket) do
-    %{current_user: user} = socket.assigns
+    %{current_user: user} = LiveResource.get_assigns(socket)
     changeset = Team.changeset(%Team{}, %{})
 
     session =
@@ -29,8 +30,10 @@ defmodule KsomniaWeb.TeamLive.Index do
 
   @impl true
   def handle_event("validate", %{"team" => params}, socket) do
+    %{current_team: team} = LiveResource.get_assigns(socket)
+
     changeset =
-      socket.assigns.team
+      team
       |> Team.changeset(params)
       |> Map.put(:action, :validate)
 
@@ -38,7 +41,9 @@ defmodule KsomniaWeb.TeamLive.Index do
   end
 
   def handle_event("save", %{"team" => params}, socket) do
-    case Team.create(socket.assigns.current_user, params) do
+    %{current_user: user} = LiveResource.get_assigns(socket)
+
+    case Team.create(user, params) do
       {:ok, %{team: team}} ->
         {:noreply,
          socket
@@ -51,7 +56,7 @@ defmodule KsomniaWeb.TeamLive.Index do
   end
 
   def handle_event("accept-invite", %{"invite-id" => invite_id}, socket) do
-    user = socket.assigns.current_user
+    %{current_user: user} = LiveResource.get_assigns(socket)
 
     case Invite.accept(invite_id, user) do
       {:ok, _} ->
@@ -68,7 +73,7 @@ defmodule KsomniaWeb.TeamLive.Index do
   end
 
   def handle_event("reject-invite", %{"invite-id" => invite_id}, socket) do
-    user = socket.assigns.current_user
+    %{current_user: user} = LiveResource.get_assigns(socket)
 
     case Invite.reject(invite_id, user) do
       {:ok, _} ->

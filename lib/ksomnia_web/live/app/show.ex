@@ -1,12 +1,10 @@
 defmodule KsomniaWeb.AppLive.Show do
   use KsomniaWeb, :live_view
-
   alias Ksomnia.Pagination
-  alias Ksomnia.App
-  alias Ksomnia.Repo
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMap
   alias KsomniaWeb.SearchQuery
+  alias KsomniaWeb.LiveResource
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :show]}
 
@@ -15,35 +13,31 @@ defmodule KsomniaWeb.AppLive.Show do
     socket =
       socket
       |> assign(:display_token, nil)
-      |> assign(:team, %{})
 
     {:ok, socket}
   end
 
   @impl true
-  def handle_params(%{"id" => id} = params, _, socket) do
-    app = Repo.get(App, id)
-    team = Repo.preload(app, :team).team
+  def handle_params(params, _, socket) do
+    %{current_team: current_team, current_app: current_app} = LiveResource.get_assigns(socket)
     current_page = Map.get(params, "page", "1") |> String.to_integer()
     search_query = Map.get(params, "query")
 
-    latest_source_map = SourceMap.latest_for_app(app)
+    latest_source_map = SourceMap.latest_for_app(current_app)
 
     socket =
       socket
+      |> assign(:page_title, "#{current_app.name} · #{current_team.name}")
       |> assign(:search_query, KsomniaWeb.SearchQuery.new(search_query))
-      |> assign(:page_title, "#{app.name} · #{team.name}")
-      |> assign(:app, app)
-      |> assign(:team, team)
       |> assign(:latest_source_map, latest_source_map)
-      |> assign(:__current_app__, app.id)
-      |> do_search(app, search_query, current_page)
+      |> do_search(current_app, search_query, current_page)
 
     {:noreply, socket}
   end
 
+  @impl true
   def handle_event("perform_search_query", params, socket) do
-    app = socket.assigns.app
+    %{current_app: current_app} = LiveResource.get_assigns(socket)
     current_page = Map.get(params, "page", "1") |> String.to_integer()
     search_query = Map.get(params, "search_query_form_query", "")
     search_query_changeset = SearchQuery.new(search_query)
@@ -51,13 +45,7 @@ defmodule KsomniaWeb.AppLive.Show do
     {:noreply,
      socket
      |> assign(:search_query, search_query_changeset)
-     |> do_search(app, search_query, current_page)}
-  end
-
-  @impl true
-  def handle_event("toggle_token_visibility", _value, socket) do
-    display_token = if socket.assigns.display_token, do: nil, else: socket.assigns.app.token
-    {:noreply, assign(socket, :display_token, display_token)}
+     |> do_search(current_app, search_query, current_page)}
   end
 
   def do_search(socket, app, search_query, current_page) do

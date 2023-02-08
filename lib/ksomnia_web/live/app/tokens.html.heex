@@ -1,5 +1,5 @@
 <main class="flex-1">
-  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @app, nav_section: @__nav_section__) %>
+  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @current_app, nav_section: @__nav_section__) %>
 
   <div class="px-7 mt-5 flex justify-between">
     <a class="btn-primary inline-flex items-center" phx-click="generate_token">
@@ -53,7 +53,7 @@
           <button
             :if={
               !app_token.revoked_at &&
-                Permissions.can_revoke_app_token(@team, @current_user, app_token)
+                Permissions.can_revoke_app_token(@current_team, @current_user, app_token)
             }
             class="border border-red-500 text-red-500 text-white py-1 px-2 rounded hover:text-red-700"
             phx-click="revoke-token"
@@ -82,7 +82,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&(~p"/apps/#{@app.id}/settings/tokens" <> Pagination.page_query_string(&1))}
+      link={&(~p"/apps/#{@current_app.id}/settings/tokens" <> Pagination.page_query_string(&1))}
     />
   </div>
 </main>

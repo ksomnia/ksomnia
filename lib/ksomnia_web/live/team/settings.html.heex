@@ -1,20 +1,20 @@
 <div class="mt-1">
-  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :settings) %>
-  <%= if Permissions.can_update_team(@team, @current_user) do %>
+  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @current_team, nav_section: :settings) %>
+  <%= if Permissions.can_update_team(@current_team, @current_user) do %>
     <.live_component
       id={:team_settings}
       module={KsomniaWeb.AppLive.TeamSettingsFormComponent}
-      team={@team}
+      team={@current_team}
       current_user={@current_user}
       action={:edit_team}
     />
   <% end %>
-  <%= if Permissions.can_leave_team(@team, @current_user) do %>
+  <%= if Permissions.can_leave_team(@current_team, @current_user) do %>
     <div class="border border-red-200 px-4 py-4 ml-8 mt-5 rounded-md text-left">
       <.button
         class="btn-danger"
         phx-click="leave-team"
-        data-confirm={"Are you sure you want to leave #{@team.name}?"}
+        data-confirm={"Are you sure you want to leave #{@current_team.name}?"}
       >
         Leave this team
       </.button>

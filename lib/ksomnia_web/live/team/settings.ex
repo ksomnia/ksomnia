@@ -1,49 +1,26 @@
 defmodule KsomniaWeb.TeamLive.Settings do
   use KsomniaWeb, :live_view
-  alias Ksomnia.Team
   alias Ksomnia.TeamUser
-  alias Ksomnia.Repo
-  alias Ksomnia.App
   alias Ksomnia.Permissions
+  alias KsomniaWeb.LiveResource
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok,
-     assign(socket, %{
-       team: nil
-     })}
-  end
-
-  @impl true
-  def handle_params(%{"team_id" => id} = params, _, socket) do
-    team = Repo.get(Team, id)
+  def handle_params(_params, _, socket) do
+    %{current_team: current_team} = LiveResource.get_assigns(socket)
 
     socket =
       socket
-      |> assign(:page_title, "#{team.name}")
-      |> assign(:team, team)
+      |> assign(:page_title, "#{current_team.name}")
 
-    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
-  end
-
-  defp apply_action(socket, :new_app, _params) do
-    socket
-    |> assign(:page_title, "New App")
-    |> assign(:app, %App{team_id: socket.assigns.team.id})
-  end
-
-  defp apply_action(socket, _, _params) do
-    socket
-    |> assign(:page_title, socket.assigns.team.name)
+    {:noreply, socket}
   end
 
   @impl true
   def handle_event("leave-team", %{}, socket) do
-    current_user = socket.assigns.current_user
-    team = socket.assigns.team
+    %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
-    with true <- Permissions.can_leave_team(team, current_user),
-         {:ok, _} <- TeamUser.remove_user(team, current_user) do
+    with true <- Permissions.can_leave_team(current_team, current_user),
+         {:ok, _} <- TeamUser.remove_user(current_team, current_user) do
       {:noreply, push_navigate(socket, to: "/")}
     else
       _ ->

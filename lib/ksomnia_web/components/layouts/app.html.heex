@@ -16,10 +16,10 @@
     <.live_component
       module={KsomniaWeb.SidebarComponent}
       id={:sidebar}
-      team={@team}
       user_apps_grouped={@user_apps_grouped}
       current_user={@current_user}
-      __current_app__={@__current_app__}
+      current_team={assigns[:current_team]}
+      current_app={assigns[:current_app]}
     />
   </div>
   <div class="md:pl-48 flex flex-col flex-1">
@@ -35,5 +35,14 @@
     <main class="flex-1">
       <%= @inner_content %>
     </main>
+    <.live_component
+      module={KsomniaWeb.TeamLive.AppFormComponent}
+      current_user={@current_user}
+      current_team={assigns[:current_team]}
+      current_app={%Ksomnia.App{}}
+      return_to="/"
+      action={:new_app}
+      id={:new_app_modal}
+    />
   </div>
 </main>

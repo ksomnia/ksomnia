@@ -1,16 +1,16 @@
 <main class="flex-1">
   <%= live_component(KsomniaWeb.AppLive.NavComponent,
-    app: @app,
-    team: @team,
+    app: @current_app,
+    team: @current_team,
     nav_section: @__nav_section__
   ) %>
 
-  <div :if={!Ksomnia.TeamUser.completed_onboarding?(@team, @current_user)} class="px-7">
+  <div :if={!Ksomnia.TeamUser.completed_onboarding?(@current_team, @current_user)} class="px-7">
     <%= live_component(KsomniaWeb.OnboardingCardComponent,
-      team: @team,
-      current_user: @current_user,
       id: :onboarding_card,
-      app: @app
+      app: @current_app,
+      team: @current_team,
+      current_user: @current_user
     ) %>
   </div>
 
@@ -75,7 +75,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&(~p"/apps/#{@app.id}" <> Pagination.page_query_string(&1, @search_query))}
+      link={&(~p"/apps/#{@current_app.id}" <> Pagination.page_query_string(&1, @search_query))}
     />
   </div>
 </main>

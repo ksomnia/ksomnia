@@ -1,6 +1,6 @@
 <div class="text-center mt-1">
-  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @team, nav_section: :members) %>
-  <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @team, nav_section: :members) %>
+  <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @current_team, nav_section: :members) %>
+  <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @current_team, nav_section: :members) %>
 
   <div class="px-7 mt-5 mb-24 overflow-hidden">
     <.simple_form
@@ -46,11 +46,11 @@
       </:col>
       <:col :let={team_member} label="actions" td_class="text-right">
         <button
-          :if={Permissions.can_remove_user_from_team(@team, @current_user, team_member)}
+          :if={Permissions.can_remove_user_from_team(@current_team, @current_user, team_member)}
           class="btn-secondary-danger"
           phx-click="remove-team-member"
           phx-value-team-member-id={"#{team_member.id}"}
-          data-confirm={"Are you sure you want to remove #{team_member.username} from #{@team.name}?"}
+          data-confirm={"Are you sure you want to remove #{team_member.username} from #{@current_team.name}?"}
         >
           Remove from the team
         </button>
@@ -64,7 +64,7 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&(~p"/t/#{@team.id}/members" <> Pagination.page_query_string(&1, @search_query))}
+      link={&(~p"/t/#{@current_team.id}/members" <> Pagination.page_query_string(&1, @search_query))}
     />
   </div>
 </div>
@@ -74,9 +74,9 @@
     <.live_component
       module={KsomniaWeb.TeamLive.InviteModalComponent}
       id={:invite_member}
-      team={@team}
+      team={@current_team}
       action={@live_action}
-      return_to={~p"/t/#{@team.id}/members"}
+      return_to={~p"/t/#{@current_team.id}/members"}
     />
   </.modal>
 <% end %>

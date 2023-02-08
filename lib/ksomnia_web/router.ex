@@ -48,19 +48,23 @@ defmodule KsomniaWeb.Router do
   scope "/", KsomniaWeb do
     pipe_through :authenticated_browser
 
-    live "/teams", TeamLive.Index, :index
-    live "/t/:team_id/apps", TeamLive.Apps, :apps
-    live "/t/:team_id/settings", TeamLive.Settings, :settings
-    live "/t/:team_id/members/invites", TeamLive.Invites, :invites
-    live "/t/:team_id/members/invite", TeamLive.Members, :invite
-    live "/t/:team_id/members", TeamLive.Members, :members
-    live "/apps/:id/settings/tokens", AppLive.Tokens, :tokens
-    live "/apps/:id/settings", AppLive.Settings, :settings
-    live "/apps/:id/source_maps", AppLive.SourceMaps, :source_maps
-    live "/apps/:id", AppLive.Show, :show
-    live "/account/profile", AccountLive.Profile, :profile
-    live "/account/password", AccountLive.Password, :password
-    live "/error_identities/:id", ErrorIdentityLive.Show, :show
+    live_session :team, on_mount: {KsomniaWeb.LiveResource, :set_current_resources} do
+      live "/teams", TeamLive.Index, :index
+      live "/t/:team_id/apps", TeamLive.Apps, :apps
+      live "/t/:team_id/settings", TeamLive.Settings, :settings
+      live "/t/:team_id/members/invites", TeamLive.Invites, :invites
+      live "/t/:team_id/members/invite", TeamLive.Members, :invite
+      live "/t/:team_id/members", TeamLive.Members, :members
+
+      live "/apps/:app_id/settings/tokens", AppLive.Tokens, :tokens
+      live "/apps/:app_id/settings", AppLive.Settings, :settings
+      live "/apps/:app_id/source_maps", AppLive.SourceMaps, :source_maps
+      live "/apps/:app_id", AppLive.Show, :show
+
+      live "/error_identities/:id", ErrorIdentityLive.Show, :show
+      live "/account/profile", AccountLive.Profile, :profile
+      live "/account/password", AccountLive.Password, :password
+    end
   end
 
   # Other scopes may use custom stacks.

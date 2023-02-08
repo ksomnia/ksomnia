@@ -1,10 +1,11 @@
 defmodule KsomniaWeb.TeamLive.AppFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.App
+  alias KsomniaWeb.LiveResource
 
   @impl true
-  def update(%{app: app} = assigns, socket) do
-    changeset = App.changeset(app, %{})
+  def update(assigns, socket) do
+    changeset = App.changeset(%App{}, %{})
 
     {:ok,
      socket
@@ -14,8 +15,10 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
 
   @impl true
   def handle_event("validate", %{"app" => app_params}, socket) do
+    %{current_app: current_app} = LiveResource.get_assigns(socket)
+
     changeset =
-      socket.assigns.app
+      current_app
       |> App.changeset(app_params)
       |> Map.put(:action, :validate)
 
@@ -27,7 +30,9 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
   end
 
   defp save_app(socket, :edit_app, app_params) do
-    case App.update(socket.assigns.app, app_params) do
+    %{current_app: current_app} = LiveResource.get_assigns(socket)
+
+    case App.update(current_app, app_params) do
       {:ok, app} ->
         {:noreply,
          socket
@@ -40,10 +45,9 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
   end
 
   defp save_app(socket, :new_app, app_params) do
-    new_app_team_id = socket.assigns.new_app_team_id
-    current_user = socket.assigns.current_user
+    %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
-    case App.create(new_app_team_id, current_user.id, app_params) do
+    case App.create(current_team.id, current_user.id, app_params) do
       {:ok, %{app: app}} ->
         {:noreply,
          socket

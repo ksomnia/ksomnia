@@ -9,8 +9,8 @@
   <%= live_component(KsomniaWeb.AccountLive.AccountNavComponent, current_section: :profile) %>
   <div class="">
     <.live_component
-      id={@current_user.id}
       module={KsomniaWeb.AppLive.ProfileFormComponent}
+      id={@current_user.id}
       user={@current_user}
       action={:edit_profile}
     />

@@ -761,7 +761,7 @@ defmodule KsomniaWeb.CoreComponents do
       <div class={[
         "#{LiveHelpers.generate_gradient(@name, true)}",
         "border-4 border-white rounded-full p-1 w-32 h-32 flex",
-        "justify-center items-center bg-gradient-to-r capitalize"
+        "justify-center items-center bg-gradient-to-r capitalize font-mono"
       ]}>
         <span class="text-6xl font-extrabold text-white">
           <%= String.first(@name) %>
@@ -783,13 +783,13 @@ defmodule KsomniaWeb.CoreComponents do
     <%= if @src do %>
       <img
         src={@src}
-        class=" rounded-md w-6 h-6 inline-block mr-2 text-4xl group-hover:shadow-inner-dark group-hover:text-slate-500 ease-in duration-300"
+        class="rounded-md w-6 h-6 inline-block mr-2 text-4xl group-hover:shadow-inner-dark group-hover:text-slate-500 ease-in duration-300"
       />
     <% else %>
       <span class={[
         "#{KsomniaWeb.LiveHelpers.generate_gradient(@name)} bg-gradient-to-r opacity-60 mr-2",
         "capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block",
-        "flex justify-center items-center font-normal"
+        "flex justify-center items-center font-normal font-mono"
       ]}>
         <%= String.first(@name) %>
       </span>
