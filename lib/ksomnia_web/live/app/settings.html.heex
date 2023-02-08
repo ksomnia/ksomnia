@@ -1,5 +1,8 @@
 <main class="flex-1">
-  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @current_app, nav_section: @__nav_section__) %>
+  <%= live_component(KsomniaWeb.AppLive.NavComponent,
+    app: @current_app,
+    nav_section: @__nav_section__
+  ) %>
 
   <.simple_form :let={f} for={@changeset} id="app-form" phx-change="validate" phx-submit="save">
     <div class="py-2 px-7">

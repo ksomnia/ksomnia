@@ -81,6 +81,7 @@ defmodule KsomniaWeb.SidebarComponent do
   @impl true
   def handle_event("set-new-app-modal-data", %{"team-id" => team_id}, socket) do
     send_update(KsomniaWeb.TeamLive.AppFormComponent, id: :new_app_modal, new_app_team_id: team_id)
+
     {:noreply, socket}
   end
 end

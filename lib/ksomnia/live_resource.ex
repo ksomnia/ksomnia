@@ -10,10 +10,10 @@ defmodule KsomniaWeb.LiveResource do
   defstruct [:current_user, :current_team, :current_app]
 
   @type t() :: %LiveResource{
-    current_user: %User{},
-    current_team: %Team{},
-    current_app: %App{},
-  }
+          current_user: %User{},
+          current_team: %Team{},
+          current_app: %App{}
+        }
 
   @spec get_assigns(Phoenix.LiveView.Socket.t()) :: LiveResource.t()
   def get_assigns(%{assigns: assigns}) do

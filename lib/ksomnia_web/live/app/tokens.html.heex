@@ -1,5 +1,8 @@
 <main class="flex-1">
-  <%= live_component(KsomniaWeb.AppLive.NavComponent, app: @current_app, nav_section: @__nav_section__) %>
+  <%= live_component(KsomniaWeb.AppLive.NavComponent,
+    app: @current_app,
+    nav_section: @__nav_section__
+  ) %>
 
   <div class="px-7 mt-5 flex justify-between">
     <a class="btn-primary inline-flex items-center" phx-click="generate_token">

@@ -1,6 +1,9 @@
 <div class="text-center mt-1">
   <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @current_team, nav_section: :members) %>
-  <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent, team: @current_team, nav_section: :members) %>
+  <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent,
+    team: @current_team,
+    nav_section: :members
+  ) %>
 
   <div class="px-7 mt-5 mb-24 overflow-hidden">
     <.simple_form
@@ -64,7 +67,9 @@
       entry_count={@pagination.entry_count}
       surrounding_size={@pagination.surrounding_size}
       total_pages={@pagination.total_pages}
-      link={&(~p"/t/#{@current_team.id}/members" <> Pagination.page_query_string(&1, @search_query))}
+      link={
+        &(~p"/t/#{@current_team.id}/members" <> Pagination.page_query_string(&1, @search_query))
+      }
     />
   </div>
 </div>
