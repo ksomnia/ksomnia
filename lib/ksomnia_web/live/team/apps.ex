@@ -46,6 +46,13 @@ defmodule KsomniaWeb.TeamLive.Apps do
      )}
   end
 
+  @impl true
+  def handle_event("set-new-app-modal-data", %{"team-id" => team_id}, socket) do
+    send_update(KsomniaWeb.TeamLive.AppFormComponent, id: :new_app_modal, new_app_team_id: team_id)
+
+    {:noreply, socket}
+  end
+
   defp table_query(socket, team, params) do
     apps =
       team.id

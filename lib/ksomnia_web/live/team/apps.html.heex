@@ -8,8 +8,11 @@
     <div class="mt-6">
       <a
         class="btn-primary inline-flex items-center"
-        phx-target="#sidebar-component"
-        phx-click={show_modal(%JS{}, "new-app-modal")}
+        phx-value-team-id={@current_team.id}
+        phx-click={
+          JS.push("set-new-app-modal-data")
+          |> show_modal("new-app-modal")
+        }
       >
         <Heroicons.plus class="h-5 w-5 mr-2" /> New App
       </a>
@@ -18,8 +21,11 @@
     <div class="text-left ml-7">
       <a
         class="btn-primary inline-flex items-center"
-        phx-target="#sidebar-component"
-        phx-click={show_modal(%JS{}, "new-app-modal")}
+        phx-value-team-id={@current_team.id}
+        phx-click={
+          JS.push("set-new-app-modal-data")
+          |> show_modal("new-app-modal")
+        }
       >
         <Heroicons.plus class="h-5 w-5 mr-2" /> New App
       </a>

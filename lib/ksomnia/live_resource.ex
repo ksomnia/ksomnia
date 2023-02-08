@@ -12,7 +12,7 @@ defmodule KsomniaWeb.LiveResource do
   @type t() :: %LiveResource{
     current_user: %User{},
     current_team: %Team{},
-    current_app: %App{} | nil,
+    current_app: %App{},
   }
 
   @spec get_assigns(Phoenix.LiveView.Socket.t()) :: LiveResource.t()

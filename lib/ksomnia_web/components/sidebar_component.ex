@@ -29,7 +29,11 @@ defmodule KsomniaWeb.SidebarComponent do
               <Heroicons.plus_circle
                 class="w-4 h-4 text-slate-400 hover:text-slate-500 cursor-pointer"
                 phx-target="#sidebar-component"
-                phx-click={show_modal(%JS{}, "new-app-modal")}
+                phx-value-team-id={team.id}
+                phx-click={
+                  JS.push("set-new-app-modal-data")
+                  |> show_modal("new-app-modal")
+                }
               />
             </div>
             <.link
@@ -72,5 +76,11 @@ defmodule KsomniaWeb.SidebarComponent do
       </div>
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("set-new-app-modal-data", %{"team-id" => team_id}, socket) do
+    send_update(KsomniaWeb.TeamLive.AppFormComponent, id: :new_app_modal, new_app_team_id: team_id)
+    {:noreply, socket}
   end
 end
