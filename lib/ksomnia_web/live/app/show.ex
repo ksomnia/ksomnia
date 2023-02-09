@@ -5,8 +5,9 @@ defmodule KsomniaWeb.AppLive.Show do
   alias Ksomnia.SourceMap
   alias KsomniaWeb.SearchQuery
   alias KsomniaWeb.LiveResource
+  alias Ksomnia.Queries.TeamUserQueries
 
-  on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :show]}
+  on_mount({KsomniaWeb.AppLive.NavComponent, [set_section: :show]})
 
   @impl true
   def mount(_params, _session, socket) do
@@ -19,10 +20,12 @@ defmodule KsomniaWeb.AppLive.Show do
 
   @impl true
   def handle_params(params, _, socket) do
-    %{current_team: current_team, current_app: current_app} = LiveResource.get_assigns(socket)
+    %{current_team: current_team, current_app: current_app, current_user: current_user} =
+      LiveResource.get_assigns(socket)
+
     current_page = Map.get(params, "page", "1") |> String.to_integer()
     search_query = Map.get(params, "query")
-
+    completed_onboarding = TeamUserQueries.completed_onboarding?(current_team, current_user)
     latest_source_map = SourceMap.latest_for_app(current_app)
 
     socket =
@@ -30,6 +33,7 @@ defmodule KsomniaWeb.AppLive.Show do
       |> assign(:page_title, "#{current_app.name} · #{current_team.name}")
       |> assign(:search_query, KsomniaWeb.SearchQuery.new(search_query))
       |> assign(:latest_source_map, latest_source_map)
+      |> assign(:completed_onboarding, completed_onboarding)
       |> do_search(current_app, search_query, current_page)
 
     {:noreply, socket}

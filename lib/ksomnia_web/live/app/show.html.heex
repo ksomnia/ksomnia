@@ -5,7 +5,7 @@
     nav_section: @__nav_section__
   ) %>
 
-  <div :if={!Ksomnia.TeamUser.completed_onboarding?(@current_team, @current_user)} class="px-7">
+  <div :if={!@completed_onboarding} class="px-7">
     <%= live_component(KsomniaWeb.OnboardingCardComponent,
       id: :onboarding_card,
       app: @current_app,

@@ -1,13 +1,12 @@
 defmodule Ksomnia.TeamUser do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.TeamUser
   alias Ksomnia.Team
   alias Ksomnia.User
   alias Ksomnia.Repo
   alias Ksomnia.Invite
-  use Ksomnia.DataHelper, [:get, TeamUser]
+  alias Ksomnia.Queries.TeamUserQueries
 
   schema "team_users" do
     belongs_to :team, Team, type: Ecto.ShortUUID
@@ -33,38 +32,15 @@ defmodule Ksomnia.TeamUser do
     |> changeset(attrs)
   end
 
-  def is_owner(%Team{} = team, %User{} = user) do
-    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: user.id) do
-      team_user.role == "owner"
-    else
-      _ -> false
-    end
-  end
-
-  def is_single_owner(%Team{} = team) do
-    Repo.one(
-      from(tu in TeamUser,
-        where: tu.team_id == ^team.id and tu.role == ^"owner",
-        select: count(tu.id)
-      )
-    ) == 1
-  end
-
   def remove_user(%Team{} = team, %User{} = target_user) do
-    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id) do
+    with %TeamUser{} = team_user <- TeamUserQueries.get(team_id: team.id, user_id: target_user.id) do
       Invite.delete_if_exists(email: target_user.email, team_id: team.id)
       Repo.delete(team_user)
     end
   end
 
-  def completed_onboarding?(team, target_user) do
-    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id) do
-      team_user.completed_onboarding_at != nil
-    end
-  end
-
   def complete_onboarding(team, target_user) do
-    with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: target_user.id),
+    with %TeamUser{} = team_user <- TeamUserQueries.get(team_id: team.id, user_id: target_user.id),
          {:ok, _} <- do_complete_onboarding(team_user) do
       :ok
     end

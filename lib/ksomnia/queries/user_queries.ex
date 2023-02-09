@@ -2,7 +2,7 @@ defmodule Ksomnia.Queries.UserQueries do
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.Team
-  alias Ksomnia.TeamUser
+  alias Ksomnia.Queries.TeamUserQueries
   import Ecto.Query
   use Ksomnia.DataHelper, [:get, User]
 
@@ -30,7 +30,7 @@ defmodule Ksomnia.Queries.UserQueries do
   @spec is_member?(binary(), Team.t()) :: boolean()
   def is_member?(user_email, %Team{} = team) do
     with %User{} = user <- get(email: user_email) do
-      !!Repo.get_by(TeamUser, team_id: team.id, user_id: user.id)
+      !!TeamUserQueries.get(team_id: team.id, user_id: user.id)
     else
       _ -> false
     end
