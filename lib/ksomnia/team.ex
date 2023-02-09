@@ -1,13 +1,11 @@
 defmodule Ksomnia.Team do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
   alias Ksomnia.Repo
   alias Ksomnia.Invite
   alias Ecto.Multi
-  use Ksomnia.DataHelper, [:get, Team]
 
   @type t() :: %Team{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
@@ -16,6 +14,7 @@ defmodule Ksomnia.Team do
     field :name, :string
     field :avatar_original_path, :string
     field :avatar_resized_paths, :map, default: %{}
+
     has_many :team_users, TeamUser
     has_many :invites, Invite
     timestamps()
@@ -46,18 +45,5 @@ defmodule Ksomnia.Team do
     team
     |> changeset(attrs)
     |> Repo.update()
-  end
-
-  def for_user(user) do
-    from(p in Team,
-      join: pu in assoc(p, :team_users),
-      where: pu.user_id == ^user.id,
-      order_by: [asc: p.inserted_at]
-    )
-    |> Repo.all()
-  end
-
-  def all() do
-    Repo.all(Team)
   end
 end

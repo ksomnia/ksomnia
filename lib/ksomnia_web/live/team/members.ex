@@ -42,7 +42,7 @@ defmodule KsomniaWeb.TeamLive.Members do
 
     with %User{} = target_user <- UserQueries.get(team_member_id),
          true <- Permissions.can_remove_user_from_team(current_team, current_user, target_user),
-         %TeamUser{} <- TeamUser.remove_user(current_team, target_user) do
+         {:ok, %TeamUser{}} <- TeamUser.remove_user(current_team, target_user) do
       {:noreply, table_query(socket, current_team, params)}
     else
       _ ->

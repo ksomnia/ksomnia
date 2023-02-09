@@ -10,9 +10,9 @@ defmodule Ksomnia.InviteTest do
     invitee = insert(:user, email: "invitee@test.test")
     invite = insert(:invite, email: invitee.email, inviter: inviter, team: team)
 
-    assert Team.for_user(invitee) == []
+    assert TeamQueries.for_user(invitee) == []
     Invite.accept(invite, invitee)
-    assert Team.for_user(invitee) == [team]
+    assert TeamQueries.for_user(invitee) == [team]
   end
 
   describe "create" do

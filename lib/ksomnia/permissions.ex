@@ -29,7 +29,7 @@ defmodule Ksomnia.Permissions do
   def can_revoke_app_token(
         %Team{} = team,
         %User{} = current_user,
-        %Ksomnia.AppToken{} = app_token
+        %AppToken{} = app_token
       ) do
     TeamUserQueries.is_owner(team, current_user) || app_token.user_id == current_user.id
   end

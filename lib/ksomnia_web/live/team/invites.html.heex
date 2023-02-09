@@ -32,7 +32,14 @@
 
     <.table id="invites" rows={@pagination.entries} headers={false}>
       <:col :let={invite} label="email" td_class="text-left">
-        <%= invite.email %>
+        <div class="flex items-center">
+          <.avatar
+            name={invite.email}
+            round={false}
+            class="h-8 w-8 mr-2 block-inline"
+          />
+          <span class="ml-2"><%= invite.email %></span>
+        </div>
       </:col>
       <:col :let={invite} label="email" td_class="text-right">
         <%= if Permissions.can_revoke_user_invite(@current_team, @current_user, invite) do %>

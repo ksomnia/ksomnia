@@ -4,6 +4,7 @@ defmodule Ksomnia.QueryHelper do
   using do
     quote do
       alias Ksomnia.Queries.UserQueries
+      alias Ksomnia.Queries.TeamQueries
       alias Ksomnia.Repo
 
       def count_for_query(query) do

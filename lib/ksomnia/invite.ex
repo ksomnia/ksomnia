@@ -1,14 +1,13 @@
 defmodule Ksomnia.Invite do
   use Ecto.Schema
-  import Ecto.Query
   import Ecto.Changeset
   alias Ksomnia.Invite
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
   alias Ksomnia.User
   alias Ksomnia.Queries.UserQueries
+  alias Ksomnia.Queries.InviteQueries
   alias Ksomnia.Repo
-  use Ksomnia.DataHelper, [:get, Invite]
 
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
@@ -56,21 +55,12 @@ defmodule Ksomnia.Invite do
     end
   end
 
-  def pending_for_team(team) do
-    from(i in Invite, where: i.team_id == ^team.id and is_nil(i.accepted_at))
-  end
-
-  def for_user_email(email) do
-    from(i in Invite, where: i.email == ^email and is_nil(i.accepted_at), preload: [:team])
-    |> Repo.all()
-  end
-
   def revoke(invite) do
     Repo.delete(invite)
   end
 
   def reject(invite_id, invitee) do
-    if invite = Repo.get_by(Invite, email: invitee.email, id: invite_id) do
+    if invite = InviteQueries.get(email: invitee.email, id: invite_id) do
       Repo.delete(invite)
     else
       :error
@@ -78,7 +68,7 @@ defmodule Ksomnia.Invite do
   end
 
   def accept(invite_id, invitee) when is_binary(invite_id) do
-    invite = Repo.get(Invite, invite_id)
+    invite = InviteQueries.get(invite_id)
     accept(invite, invitee)
   end
 
@@ -95,16 +85,8 @@ defmodule Ksomnia.Invite do
   end
 
   def delete_if_exists(fields) do
-    with %Invite{} = invite <- get(fields) do
+    with %Invite{} = invite <- InviteQueries.get(fields) do
       Repo.delete(invite)
     end
-  end
-
-  def search_by_email(query, ""), do: query
-
-  def search_by_email(query, search_query) do
-    from(u in query,
-      where: ilike(u.email, ^"%#{search_query}%")
-    )
   end
 end

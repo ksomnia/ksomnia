@@ -6,6 +6,7 @@ defmodule KsomniaWeb.LiveResource do
   alias Ksomnia.App
   alias Ksomnia.User
   alias KsomniaWeb.LiveResource
+  alias Ksomnia.Queries.TeamQueries
 
   defstruct [:current_user, :current_team, :current_app]
 
@@ -25,7 +26,7 @@ defmodule KsomniaWeb.LiveResource do
   end
 
   def on_mount(:set_current_resources, %{"team_id" => team_id}, _session, socket) do
-    with %Team{} = team <- Team.get(team_id) do
+    with %Team{} = team <- TeamQueries.get(team_id) do
       socket =
         socket
         |> assign(:current_team, team)
@@ -39,7 +40,7 @@ defmodule KsomniaWeb.LiveResource do
 
   def on_mount(:set_current_resources, %{"app_id" => app_id}, _session, socket) do
     with %App{} = app <- App.get(app_id),
-         %Team{} = team <- Team.get(app.team_id) do
+         %Team{} = team <- TeamQueries.get(app.team_id) do
       socket =
         socket
         |> assign(:current_app, app)

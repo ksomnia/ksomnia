@@ -1,11 +1,11 @@
 defmodule KsomniaWeb.TeamLive.Invites do
   use KsomniaWeb, :live_view
-  alias Ksomnia.Repo
   alias Ksomnia.Invite
   alias Ksomnia.Permissions
   alias Ksomnia.Pagination
   alias KsomniaWeb.SearchQuery
   alias KsomniaWeb.LiveResource
+  alias Ksomnia.Queries.InviteQueries
 
   @impl true
   def mount(_params, _session, socket) do
@@ -29,7 +29,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
   end
 
   def handle_event("perform_search_query", params, socket) do
-    team = socket.assigns.team
+    %{current_team: current_team} = LiveResource.get_assigns(socket)
     search_query = Map.get(params, "search_query_form_query", "")
     search_query_changeset = SearchQuery.new(search_query)
 
@@ -37,7 +37,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
      socket
      |> assign(:search_query, search_query_changeset)
      |> table_query(
-       team,
+       current_team,
        Map.merge(params, %{
          "query" => search_query
        })
@@ -47,7 +47,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
   @impl true
   def handle_event("revoke-invite", %{"invite-id" => invite_id} = params, socket) do
     %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
-    invite = Repo.get(Invite, invite_id)
+    invite = InviteQueries.get(invite_id)
 
     if Permissions.can_revoke_user_invite(current_team, current_user, invite) do
       Invite.revoke(invite)
@@ -60,8 +60,8 @@ defmodule KsomniaWeb.TeamLive.Invites do
   defp table_query(socket, team, params) do
     query =
       team
-      |> Invite.pending_for_team()
-      |> Invite.search_by_email(params["query"])
+      |> InviteQueries.pending_for_team()
+      |> InviteQueries.search_by_email(params["query"])
 
     socket
     |> Pagination.params_to_pagination(

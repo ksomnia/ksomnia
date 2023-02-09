@@ -1,5 +1,6 @@
 defmodule KsomniaWeb.AppLiveTest do
   use KsomniaWeb.ConnCase
+  use Ksomnia.QueryHelper
 
   import Phoenix.LiveViewTest
 
@@ -32,7 +33,7 @@ defmodule KsomniaWeb.AppLiveTest do
       {:ok, index_live, _html} = live(conn, ~p"/teams")
 
       assert render_click(index_live, "accept-invite", %{"invite-id" => invite.id})
-      assert Team.for_user(invitee) == [team]
+      assert TeamQueries.for_user(invitee) == [team]
     end
 
     test "the user rejects an invite", %{conn: conn, user: user, team: team} do
@@ -43,7 +44,7 @@ defmodule KsomniaWeb.AppLiveTest do
       {:ok, index_live, _html} = live(conn, ~p"/teams")
 
       assert render_click(index_live, "reject-invite", %{"invite-id" => invite.id})
-      assert Team.for_user(invitee) == []
+      assert TeamQueries.for_user(invitee) == []
     end
   end
 end

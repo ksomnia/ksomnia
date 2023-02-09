@@ -1,6 +1,8 @@
 defmodule KsomniaWeb.TeamLive.Index do
   use KsomniaWeb, :live_view
   alias Ksomnia.Team
+  alias Ksomnia.Queries.TeamQueries
+  alias Ksomnia.Queries.InviteQueries
   alias Ksomnia.Invite
   alias KsomniaWeb.LiveResource
 
@@ -11,8 +13,8 @@ defmodule KsomniaWeb.TeamLive.Index do
 
     session =
       socket
-      |> assign(:teams, Team.for_user(user))
-      |> assign(:invites, Invite.for_user_email(user.email))
+      |> assign(:teams, TeamQueries.for_user(user))
+      |> assign(:invites, InviteQueries.for_user_email(user.email))
       |> assign(:changeset, changeset)
 
     {:ok, session}
@@ -59,8 +61,8 @@ defmodule KsomniaWeb.TeamLive.Index do
       {:ok, _} ->
         socket =
           socket
-          |> assign(:teams, Team.for_user(user))
-          |> assign(:invites, Invite.for_user_email(user.email))
+          |> assign(:teams, TeamQueries.for_user(user))
+          |> assign(:invites, InviteQueries.for_user_email(user.email))
 
         {:noreply, socket}
 
@@ -76,7 +78,7 @@ defmodule KsomniaWeb.TeamLive.Index do
       {:ok, _} ->
         socket =
           socket
-          |> assign(:invites, Invite.for_user_email(user.email))
+          |> assign(:invites, InviteQueries.for_user_email(user.email))
 
         {:noreply, socket}
 

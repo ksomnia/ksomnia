@@ -36,6 +36,7 @@ defmodule Ksomnia.TeamUser do
     with %TeamUser{} = team_user <- TeamUserQueries.get(team_id: team.id, user_id: target_user.id) do
       Invite.delete_if_exists(email: target_user.email, team_id: team.id)
       Repo.delete(team_user)
+      {:ok, team_user}
     end
   end
 
