@@ -15,8 +15,12 @@ defmodule KsomniaWeb.LiveResource do
           current_app: %App{}
         }
 
-  @spec get_assigns(Phoenix.LiveView.Socket.t()) :: LiveResource.t()
+  @spec get_assigns(Phoenix.LiveView.Socket.t() | map()) :: LiveResource.t()
   def get_assigns(%{assigns: assigns}) do
+    assigns
+  end
+
+  def get_assigns(assigns) do
     assigns
   end
 

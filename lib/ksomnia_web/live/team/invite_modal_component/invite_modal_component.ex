@@ -1,11 +1,12 @@
 defmodule KsomniaWeb.TeamLive.InviteModalComponent do
   use KsomniaWeb, :live_component
-  alias Ksomnia.Invite
   alias KsomniaWeb.LiveResource
+  alias Ksomnia.Invite
 
   @impl true
-  def update(%{team: team} = assigns, socket) do
-    changeset = Invite.new(team.id, %{})
+  def update(assigns, socket) do
+    %{current_team: current_team} = LiveResource.get_assigns(assigns)
+    changeset = Invite.new(current_team.id, %{})
 
     {:ok,
      socket

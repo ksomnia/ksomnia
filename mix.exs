@@ -70,7 +70,7 @@ defmodule Ksomnia.MixProject do
       {:faker, "~> 0.17", only: :test},
       {:heroicons, "~> 0.5.1"},
       {:meilisearch, "~> 0.20.0"},
-      {:dialyxir, "~> 1.2"}
+      {:dialyxir, "~> 1.2", only: [:dev], runtime: false}
     ]
   end
 

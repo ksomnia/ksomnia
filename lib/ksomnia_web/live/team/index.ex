@@ -13,7 +13,6 @@ defmodule KsomniaWeb.TeamLive.Index do
       socket
       |> assign(:teams, Team.for_user(user))
       |> assign(:invites, Invite.for_user_email(user.email))
-      |> assign(:team, %Team{})
       |> assign(:changeset, changeset)
 
     {:ok, session}
@@ -30,10 +29,8 @@ defmodule KsomniaWeb.TeamLive.Index do
 
   @impl true
   def handle_event("validate", %{"team" => params}, socket) do
-    %{current_team: team} = LiveResource.get_assigns(socket)
-
     changeset =
-      team
+      %Team{}
       |> Team.changeset(params)
       |> Map.put(:action, :validate)
 

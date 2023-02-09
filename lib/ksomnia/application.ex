@@ -20,7 +20,7 @@ defmodule Ksomnia.Application do
       # {Ksomnia.Worker, arg}
     ]
 
-    if Mix.env() == :dev do
+    if unquote(Mix.env() == :dev) do
       Ksomnia.Dev.Logger.attatch()
     end
 

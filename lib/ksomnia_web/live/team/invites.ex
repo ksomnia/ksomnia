@@ -45,15 +45,13 @@ defmodule KsomniaWeb.TeamLive.Invites do
   end
 
   @impl true
-  def handle_event("revoke-invite", %{"invite-id" => invite_id}, socket) do
+  def handle_event("revoke-invite", %{"invite-id" => invite_id} = params, socket) do
+    %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
     invite = Repo.get(Invite, invite_id)
-    user = socket.assigns.current_user
-    team = socket.assigns.team
 
-    if Permissions.can_revoke_user_invite(team, user, invite) do
+    if Permissions.can_revoke_user_invite(current_team, current_user, invite) do
       Invite.revoke(invite)
-
-      {:noreply, assign(socket, :invites, Invite.pending_for_team(team))}
+      {:noreply, table_query(socket, current_team, params)}
     else
       {:noreply, socket}
     end

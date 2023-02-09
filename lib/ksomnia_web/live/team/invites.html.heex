@@ -1,7 +1,7 @@
 <div class="text-center mt-1">
   <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @current_team, nav_section: :members) %>
   <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent,
-    team: @current_team,
+    current_team: @current_team,
     nav_section: :invites
   ) %>
 
@@ -57,14 +57,3 @@
     />
   </div>
 </div>
-
-<%= if @live_action in [:invite] do %>
-  <.modal id="invite_member">
-    <.live_component
-      module={KsomniaWeb.TeamLive.InviteModalComponent}
-      id={:invite_member}
-      team={@current_team}
-      action={@live_action}
-    />
-  </.modal>
-<% end %>

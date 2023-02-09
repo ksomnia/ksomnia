@@ -1,5 +1,6 @@
 defmodule KsomniaWeb.TeamSettingsLiveTest do
   use KsomniaWeb.ConnCase
+  use Ksomnia.QueryHelper
 
   import Phoenix.LiveViewTest
 
@@ -22,9 +23,9 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
       url = ~p"/t/#{team.id}/settings"
       {:ok, index_live, _html} = live(conn, url)
 
-      assert Repo.count(User.for_team(team)) == 2
+      assert count_for_query(UserQueries.for_team(team)) == 2
       assert render_click(index_live, "leave-team", %{})
-      assert Repo.count(User.for_team(team)) == 1
+      assert count_for_query(UserQueries.for_team(team)) == 1
     end
 
     test "owner cannot leave the team if they are the single owner (a team must have at least one owner)",
@@ -37,18 +38,18 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
       url = ~p"/t/#{team.id}/settings"
       {:ok, index_live, _html} = live(user2_conn, url)
 
-      assert Repo.count(User.for_team(team)) == 2
+      assert count_for_query(UserQueries.for_team(team)) == 2
       assert render_click(index_live, "leave-team", %{})
-      assert Repo.count(User.for_team(team)) == 1
+      assert count_for_query(UserQueries.for_team(team)) == 1
 
       # The last owner cannot leave the team
       user1_conn = login_as(conn, user)
       url = ~p"/t/#{team.id}/settings"
       {:ok, index_live, _html} = live(user1_conn, url)
 
-      assert Repo.count(User.for_team(team)) == 1
+      assert count_for_query(UserQueries.for_team(team)) == 1
       assert render_click(index_live, "leave-team", %{})
-      assert Repo.count(User.for_team(team)) == 1
+      assert count_for_query(UserQueries.for_team(team)) == 1
     end
   end
 end

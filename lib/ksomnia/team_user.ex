@@ -33,12 +33,6 @@ defmodule Ksomnia.TeamUser do
     |> changeset(attrs)
   end
 
-  def is_member(team_id, email) when not is_nil(team_id) and not is_nil(email) do
-    with %User{} = user <- User.get(email: email) do
-      Repo.get_by(TeamUser, team_id: team_id, user_id: user.id)
-    end
-  end
-
   def is_owner(%Team{} = team, %User{} = user) do
     with %TeamUser{} = team_user <- TeamUser.get(team_id: team.id, user_id: user.id) do
       team_user.role == "owner"

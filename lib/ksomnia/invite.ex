@@ -6,6 +6,7 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
   alias Ksomnia.User
+  alias Ksomnia.Queries.UserQueries
   alias Ksomnia.Repo
   use Ksomnia.DataHelper, [:get, Invite]
 
@@ -37,7 +38,7 @@ defmodule Ksomnia.Invite do
   def ensure_not_member(%{changes: %{email: email}} = changeset) do
     team_id = changeset.data.team_id
 
-    if TeamUser.is_member(team_id, email) do
+    if UserQueries.is_member?(email, %Team{id: team_id}) do
       changeset
       |> add_error(:email, "the user is already a team member")
     else

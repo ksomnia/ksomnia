@@ -6,6 +6,7 @@ defmodule KsomniaWeb.TeamLive.Members do
   alias Ksomnia.Pagination
   alias KsomniaWeb.SearchQuery
   alias KsomniaWeb.LiveResource
+  alias Ksomnia.Queries.UserQueries
 
   @impl true
   def handle_params(params, _, socket) do
@@ -36,14 +37,13 @@ defmodule KsomniaWeb.TeamLive.Members do
   end
 
   @impl true
-  def handle_event("remove-team-member", %{"team-member-id" => team_member_id}, socket) do
+  def handle_event("remove-team-member", %{"team-member-id" => team_member_id} = params, socket) do
     %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
-    with %User{} = target_user <- User.get(team_member_id),
+    with %User{} = target_user <- UserQueries.get(team_member_id),
          true <- Permissions.can_remove_user_from_team(current_team, current_user, target_user),
          %TeamUser{} <- TeamUser.remove_user(current_team, target_user) do
-      socket = assign(socket, :team_members, User.for_team(current_team))
-      {:noreply, socket}
+      {:noreply, table_query(socket, current_team, params)}
     else
       _ ->
         {:noreply, socket}
@@ -55,8 +55,8 @@ defmodule KsomniaWeb.TeamLive.Members do
 
     query =
       team
-      |> User.for_team()
-      |> User.search_by_username(search_query)
+      |> UserQueries.for_team()
+      |> UserQueries.search_by_username(search_query)
 
     socket
     |> Pagination.params_to_pagination(

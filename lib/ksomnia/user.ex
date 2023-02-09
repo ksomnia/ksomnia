@@ -1,7 +1,6 @@
 defmodule Ksomnia.User do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.TeamUser
@@ -86,24 +85,5 @@ defmodule Ksomnia.User do
     user
     |> profile_changeset(attrs)
     |> Repo.update()
-  end
-
-  def for_team(team) do
-    from(u in User,
-      join: tu in assoc(u, :team_users),
-      where: tu.team_id == ^team.id,
-      select: %{
-        u
-        | role: tu.role
-      }
-    )
-  end
-
-  def search_by_username(query, ""), do: query
-
-  def search_by_username(query, search_query) do
-    from(u in query,
-      where: ilike(u.email, ^"%#{search_query}%")
-    )
   end
 end

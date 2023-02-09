@@ -14,7 +14,7 @@ defmodule KsomniaWeb.TeamLive.MembersNavComponent do
       </div>
       <div class="flex ml-8 mt-5">
         <.link
-          navigate={~p"/t/#{@team.id}/members"}
+          navigate={~p"/t/#{@current_team.id}/members"}
           class={[
             "#{if @nav_section == :members, do: "bg-indigo-100", else: "bg-transparent"}",
             "p-2 hover:bg-indigo-100 text-indigo-700 font-medium rounded-md cursor-pointer mr-2"
@@ -23,7 +23,7 @@ defmodule KsomniaWeb.TeamLive.MembersNavComponent do
           Members
         </.link>
         <.link
-          navigate={~p"/t/#{@team.id}/members/invites"}
+          navigate={~p"/t/#{@current_team.id}/members/invites"}
           class={[
             "#{if @nav_section == :invites, do: "bg-indigo-100", else: "bg-transparent"}",
             "p-2 hover:bg-indigo-100 text-indigo-700 font-medium rounded-md cursor-pointer mr-2"
@@ -33,8 +33,7 @@ defmodule KsomniaWeb.TeamLive.MembersNavComponent do
         </.link>
         <.live_component
           module={KsomniaWeb.TeamLive.InviteModalComponent}
-          team={@team}
-          return_to="/"
+          current_team={@current_team}
           id={:new_invite}
         />
       </div>

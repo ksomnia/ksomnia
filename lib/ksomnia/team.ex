@@ -9,6 +9,7 @@ defmodule Ksomnia.Team do
   alias Ecto.Multi
   use Ksomnia.DataHelper, [:get, Team]
 
+  @type t() :: %Team{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "teams" do
