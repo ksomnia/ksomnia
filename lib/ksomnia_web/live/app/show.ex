@@ -1,11 +1,11 @@
 defmodule KsomniaWeb.AppLive.Show do
   use KsomniaWeb, :live_view
   alias Ksomnia.Pagination
-  alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMap
   alias KsomniaWeb.SearchQuery
   alias KsomniaWeb.LiveResource
   alias Ksomnia.Queries.TeamUserQueries
+  alias Ksomnia.Queries.ErrorIdentityQueries
 
   on_mount({KsomniaWeb.AppLive.NavComponent, [set_section: :show]})
 
@@ -58,7 +58,7 @@ defmodule KsomniaWeb.AppLive.Show do
 
     with true <- search_query != "" and search_query != nil,
          {:ok, %{"hits" => hits}} <- Meilisearch.Search.search(index, search_query) do
-      error_identities = ErrorIdentity.get_by_ids(Enum.map(hits, & &1["id"]))
+      error_identities = ErrorIdentityQueries.get_by_ids(Enum.map(hits, & &1["id"]))
       pagination = Pagination.paginate(error_identities, current_page)
 
       socket
@@ -67,7 +67,7 @@ defmodule KsomniaWeb.AppLive.Show do
       _ ->
         pagination =
           app
-          |> ErrorIdentity.for_app()
+          |> ErrorIdentityQueries.for_app()
           |> Pagination.paginate(current_page)
 
         socket

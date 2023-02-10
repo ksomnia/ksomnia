@@ -1,7 +1,6 @@
 defmodule Ksomnia.ErrorRecord do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.App
   alias Ksomnia.ErrorRecord
   alias Ksomnia.Repo
@@ -34,17 +33,5 @@ defmodule Ksomnia.ErrorRecord do
       client_app_name: params["client_app_name"]
     })
     |> Repo.insert()
-  end
-
-  def for_error_identity(error_identity) do
-    from(er in ErrorRecord,
-      where: er.error_identity_id == ^error_identity.id,
-      order_by: [desc: er.inserted_at]
-    )
-  end
-
-  def for_app(app) do
-    from(er in ErrorRecord, where: er.app_id == ^app.id, order_by: [desc: er.inserted_at])
-    |> Repo.all()
   end
 end

@@ -1,12 +1,11 @@
 defmodule KsomniaWeb.ErrorIdentityLive.Show do
   use KsomniaWeb, :live_view
   import Phoenix.HTML.Tag
-
   alias Ksomnia.Repo
-  alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.SourceMapper
   alias Ksomnia.Pagination
+  alias Ksomnia.Queries.ErrorRecordQueries
 
   @stacktrace_types ["source_map", "generated_source"]
 
@@ -29,9 +28,9 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     team = error_identity.app.team
     current_page = Map.get(params, "page", "1") |> String.to_integer()
 
-    paginated =
+    pagination =
       error_identity
-      |> ErrorRecord.for_error_identity()
+      |> ErrorRecordQueries.for_error_identity()
       |> Pagination.paginate(current_page)
 
     socket =
@@ -40,7 +39,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:error_identity, error_identity)
       |> assign(:app, app)
       |> assign(:team, team)
-      |> assign(:pagination, paginated)
+      |> assign(:pagination, pagination)
       |> assign(:__current_app__, app.id)
 
     view_pid = self()
