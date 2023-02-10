@@ -20,8 +20,12 @@ defmodule Ksomnia.Application do
       # {Ksomnia.Worker, arg}
     ]
 
-    if unquote(Mix.env() == :dev) do
-      Ksomnia.Dev.Logger.attatch()
+    case Application.get_env(:ksomnia, :app_hooks) do
+      nil -> nil
+      hooks ->
+        Enum.each(hooks, fn {mod, fun, args} ->
+          apply(mod, fun, args)
+        end)
     end
 
     # See https://hexdocs.pm/elixir/Supervisor.html

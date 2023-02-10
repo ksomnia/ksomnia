@@ -3,10 +3,11 @@ defmodule Ksomnia.ErrorTracker do
   alias Ksomnia.AppToken
   alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
+  alias Ksomnia.Queries.AppTokenQueries
 
   def track(params) do
     with {:app_token, %AppToken{} = app_token} <-
-           {:app_token, AppToken.find_by_token(params["token"])},
+           {:app_token, AppTokenQueries.find_by_token(params["token"])},
          {:app, %App{} = app} <- {:app, app_token.app},
          {_, {:ok, error_identity}} <-
            {:error_identity, ErrorIdentity.create(app, params)},

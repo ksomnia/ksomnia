@@ -4,6 +4,7 @@ defmodule Ksomnia.Team do
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
   alias Ksomnia.Repo
+  alias Ksomnia.App
   alias Ksomnia.Invite
   alias Ecto.Multi
 
@@ -17,6 +18,7 @@ defmodule Ksomnia.Team do
 
     has_many :team_users, TeamUser
     has_many :invites, Invite
+    has_many :apps, App
     timestamps()
   end
 

@@ -10,10 +10,11 @@ defmodule KsomniaWeb.TeamLive.Index do
   def mount(_params, _session, socket) do
     %{current_user: user} = LiveResource.get_assigns(socket)
     changeset = Team.changeset(%Team{}, %{})
+    teams = TeamQueries.for_user(user)
 
     session =
       socket
-      |> assign(:teams, TeamQueries.for_user(user))
+      |> assign(:teams, teams)
       |> assign(:invites, InviteQueries.for_user_email(user.email))
       |> assign(:changeset, changeset)
 

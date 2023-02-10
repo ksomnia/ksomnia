@@ -6,6 +6,7 @@ defmodule Ksomnia.User do
   alias Ksomnia.TeamUser
   use Ksomnia.DataHelper, [:get, User]
 
+  @type t() :: %User{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "users" do

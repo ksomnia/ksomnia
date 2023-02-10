@@ -1,12 +1,12 @@
 defmodule Ksomnia.AppToken do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.App
   alias Ksomnia.User
   alias Ksomnia.AppToken
   alias Ksomnia.Repo
 
+  @type t() :: %AppToken{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "app_tokens" do
@@ -47,28 +47,5 @@ defmodule Ksomnia.AppToken do
     app_token
     |> change(revoked_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
     |> Repo.update()
-  end
-
-  def all(app_id) do
-    from(a in AppToken,
-      join: u in assoc(a, :user),
-      where: a.app_id == ^app_id,
-      order_by: [asc: not is_nil(a.revoked_at), desc: :inserted_at],
-      preload: [:user]
-    )
-  end
-
-  def find_by_token(token) do
-    AppToken
-    |> where(token: ^token)
-    |> preload(:app)
-    |> Repo.one()
-  end
-
-  def find_by_id(id) do
-    AppToken
-    |> where(id: ^id)
-    |> preload(:app)
-    |> Repo.one()
   end
 end

@@ -5,6 +5,7 @@ defmodule Ksomnia.ErrorIdentity do
   alias Ksomnia.ErrorIdentity
   alias Ksomnia.Repo
 
+  @type t() :: %ErrorIdentity{}
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
   schema "error_identities" do

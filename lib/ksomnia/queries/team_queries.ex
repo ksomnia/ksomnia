@@ -1,9 +1,10 @@
 defmodule Ksomnia.Queries.TeamQueries do
   import Ecto.Query
   alias Ksomnia.Team
+  alias Ksomnia.User
   use Ksomnia.DataHelper, [:get, Team]
 
-  @spec for_user(Team.t()) :: [Team.t()]
+  @spec for_user(User.t()) :: [Team.t()]
   def for_user(user) do
     from(t in Team,
       join: tu in assoc(t, :team_users),

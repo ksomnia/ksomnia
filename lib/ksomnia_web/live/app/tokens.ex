@@ -1,10 +1,10 @@
 defmodule KsomniaWeb.AppLive.Tokens do
   use KsomniaWeb, :live_view
-
   alias Ksomnia.AppToken
   alias Ksomnia.App
   alias Ksomnia.SourceMap
   alias Ksomnia.Util
+  alias Ksomnia.Queries.AppTokenQueries
   alias KsomniaWeb.LiveResource
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :tokens]}
@@ -22,8 +22,7 @@ defmodule KsomniaWeb.AppLive.Tokens do
   def handle_params(params, _, socket) do
     %{current_team: current_team, current_app: current_app} = LiveResource.get_assigns(socket)
     latest_source_map = SourceMap.latest_for_app(current_app)
-
-    query = AppToken.all(current_app.id)
+    query = AppTokenQueries.all(current_app.id)
 
     socket =
       socket
@@ -56,7 +55,7 @@ defmodule KsomniaWeb.AppLive.Tokens do
   end
 
   def handle_event("revoke-token", %{"id" => app_token_id} = params, socket) do
-    with %AppToken{} = app_token <- AppToken.find_by_id(app_token_id),
+    with %AppToken{} = app_token <- AppTokenQueries.find_by_id(app_token_id),
          {:ok, _app_token} <- AppToken.revoke(app_token) do
       {:noreply, table_query(socket, app_token.app, params)}
     else
@@ -65,7 +64,7 @@ defmodule KsomniaWeb.AppLive.Tokens do
   end
 
   defp table_query(socket, app, params) do
-    query = AppToken.all(app.id)
+    query = AppTokenQueries.all(app.id)
 
     socket
     |> Pagination.params_to_pagination(

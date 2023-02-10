@@ -1,9 +1,9 @@
 defmodule Ksomnia.Queries.TeamUserQueries do
+  import Ecto.Query
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
-  import Ecto.Query
   use Ksomnia.DataHelper, [:get, TeamUser]
 
   @spec is_owner(Team.t(), User.t()) :: boolean()

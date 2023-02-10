@@ -9,6 +9,7 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.Queries.InviteQueries
   alias Ksomnia.Repo
 
+  @type t() :: %Invite{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "invites" do
@@ -37,7 +38,7 @@ defmodule Ksomnia.Invite do
   def ensure_not_member(%{changes: %{email: email}} = changeset) do
     team_id = changeset.data.team_id
 
-    if UserQueries.is_member?(email, %Team{id: team_id}) do
+    if UserQueries.is_member?(email, team_id) do
       changeset
       |> add_error(:email, "the user is already a team member")
     else
@@ -60,16 +61,21 @@ defmodule Ksomnia.Invite do
   end
 
   def reject(invite_id, invitee) do
-    if invite = InviteQueries.get(email: invitee.email, id: invite_id) do
+    with %Invite{} = invite <- InviteQueries.get_by_id(invite_id),
+         true <- invite.email == invitee.email do
       Repo.delete(invite)
     else
-      :error
+      _ -> :error
     end
   end
 
   def accept(invite_id, invitee) when is_binary(invite_id) do
-    invite = InviteQueries.get(invite_id)
-    accept(invite, invitee)
+    with %Invite{} = invite <- InviteQueries.get_by_id(invite_id),
+         {:ok, _} = result <- accept(invite, invitee) do
+      result
+    else
+      _ -> :error
+    end
   end
 
   def accept(invite, invitee) do
@@ -84,8 +90,8 @@ defmodule Ksomnia.Invite do
     |> Repo.transaction()
   end
 
-  def delete_if_exists(fields) do
-    with %Invite{} = invite <- InviteQueries.get(fields) do
+  def delete_if_exists(email, team_id) do
+    with %Invite{} = invite <- InviteQueries.get_by_email_and_team_id(email, team_id) do
       Repo.delete(invite)
     end
   end

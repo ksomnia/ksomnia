@@ -7,13 +7,14 @@ defmodule KsomniaWeb.LiveResource do
   alias Ksomnia.User
   alias KsomniaWeb.LiveResource
   alias Ksomnia.Queries.TeamQueries
+  alias Ksomnia.Queries.AppQueries
 
   defstruct [:current_user, :current_team, :current_app]
 
   @type t() :: %LiveResource{
-          current_user: %User{},
-          current_team: %Team{},
-          current_app: %App{}
+          current_user: User.t(),
+          current_team: Team.t(),
+          current_app: App.t()
         }
 
   @spec get_assigns(Phoenix.LiveView.Socket.t() | map()) :: LiveResource.t()
@@ -39,7 +40,7 @@ defmodule KsomniaWeb.LiveResource do
   end
 
   def on_mount(:set_current_resources, %{"app_id" => app_id}, _session, socket) do
-    with %App{} = app <- App.get(app_id),
+    with %App{} = app <- AppQueries.get(app_id),
          %Team{} = team <- TeamQueries.get(app.team_id) do
       socket =
         socket

@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.LiveCurrentUser do
   alias Ksomnia.User
   alias Ksomnia.Repo
+  alias Ksomnia.Queries.AppQueries
   use Phoenix.LiveComponent
 
   def on_mount(:current_user, _params, session, socket) do
@@ -9,7 +10,7 @@ defmodule KsomniaWeb.LiveCurrentUser do
       socket =
         socket
         |> assign(:current_user, user)
-        |> assign(:user_apps_grouped, Ksomnia.App.for_user(user.id))
+        |> assign(:user_apps_grouped, AppQueries.for_user(user.id))
 
       {:cont, socket}
     else

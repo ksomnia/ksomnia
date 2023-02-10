@@ -5,11 +5,16 @@ defmodule Ksomnia.Queries.ErrorIdentityQueries do
 
   @spec get_by_ids([binary()]) :: Ecto.Query.t()
   def get_by_ids(ids) do
-    from(e in ErrorIdentity, where: e.id in ^ids)
+    from(e in ErrorIdentity,
+      where: e.id in ^ids
+    )
   end
 
-  @spec for_app([App.t()]) :: Ecto.Query.t()
+  @spec for_app(App.t()) :: Ecto.Query.t()
   def for_app(app) do
-    from(er in ErrorIdentity, where: er.app_id == ^app.id, order_by: [desc: er.last_error_at])
+    from(er in ErrorIdentity,
+      where: er.app_id == ^app.id,
+      order_by: [desc: er.last_error_at]
+    )
   end
 end

@@ -1,7 +1,7 @@
 defmodule KsomniaWeb.TeamLive.Apps do
   use KsomniaWeb, :live_view
   alias Ksomnia.Repo
-  alias Ksomnia.App
+  alias Ksomnia.Queries.AppQueries
   alias KsomniaWeb.SearchQuery
   alias KsomniaWeb.LiveResource
 
@@ -56,8 +56,8 @@ defmodule KsomniaWeb.TeamLive.Apps do
   defp table_query(socket, team, params) do
     apps =
       team.id
-      |> App.for_team()
-      |> App.search_by_name(params["query"])
+      |> AppQueries.for_team()
+      |> AppQueries.search_by_name(params["query"])
       |> Repo.all()
 
     socket

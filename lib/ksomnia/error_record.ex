@@ -5,6 +5,7 @@ defmodule Ksomnia.ErrorRecord do
   alias Ksomnia.ErrorRecord
   alias Ksomnia.Repo
 
+  @type t() :: %ErrorRecord{}
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
   schema "error_records" do

@@ -1,6 +1,5 @@
 defmodule Ksomnia.Queries.ErrorRecordQueries do
   import Ecto.Query
-  # alias Ksomnia.Repo
   alias Ksomnia.ErrorRecord
   alias Ksomnia.ErrorIdentity
 

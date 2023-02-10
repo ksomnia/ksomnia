@@ -49,7 +49,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
     %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
     invite = InviteQueries.get(invite_id)
 
-    if Permissions.can_revoke_user_invite(current_team, current_user, invite) do
+    if !!invite && Permissions.can_revoke_user_invite(current_team, current_user, invite) do
       Invite.revoke(invite)
       {:noreply, table_query(socket, current_team, params)}
     else
