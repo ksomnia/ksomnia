@@ -73,7 +73,8 @@ defmodule Ksomnia.InviteTest do
                  inviter_id: inviter.id
                })
 
-      assert_email_sent(Ksomnia.UserInviteEmail.pending_invite_notification(invite))
+      assert {:ok, email} = Ksomnia.UserInviteEmail.pending_invite_notification(invite)
+      assert_email_sent(email)
     end
   end
 end

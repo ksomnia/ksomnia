@@ -5,6 +5,8 @@ defmodule Ksomnia.Dev.Logger do
   @logger_token System.get_env("KSOMNIA_DEV_LOGGER_TOKEN")
 
   def attatch do
+    IO.puts("Attatching the development logger")
+
     :logger.add_handler(Ksomnia.Dev.Logger, Ksomnia.Dev.Logger, %{})
   end
 

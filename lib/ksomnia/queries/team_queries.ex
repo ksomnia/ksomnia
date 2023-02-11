@@ -2,7 +2,7 @@ defmodule Ksomnia.Queries.TeamQueries do
   import Ecto.Query
   alias Ksomnia.Team
   alias Ksomnia.User
-  use Ksomnia.DataHelper, [:get, Team]
+  alias Ksomnia.Repo
 
   @spec for_user(User.t()) :: [Team.t()]
   def for_user(user) do
@@ -12,5 +12,10 @@ defmodule Ksomnia.Queries.TeamQueries do
       order_by: [asc: t.inserted_at]
     )
     |> Repo.all()
+  end
+
+  @spec get_by_id(binary()) :: Team.t() | nil
+  def get_by_id(team_id) do
+    Repo.get(Team, team_id)
   end
 end

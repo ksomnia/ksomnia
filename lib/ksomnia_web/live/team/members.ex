@@ -40,7 +40,7 @@ defmodule KsomniaWeb.TeamLive.Members do
   def handle_event("remove-team-member", %{"team-member-id" => team_member_id} = params, socket) do
     %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
-    with %User{} = target_user <- UserQueries.get(team_member_id),
+    with %User{} = target_user <- UserQueries.get_by_id(team_member_id),
          true <- Permissions.can_remove_user_from_team(current_team, current_user, target_user),
          {:ok, %TeamUser{}} <- TeamUser.remove_user(current_team, target_user) do
       {:noreply, table_query(socket, current_team, params)}

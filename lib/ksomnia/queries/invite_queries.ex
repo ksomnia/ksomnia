@@ -3,7 +3,6 @@ defmodule Ksomnia.Queries.InviteQueries do
   alias Ksomnia.Invite
   alias Ksomnia.Team
   alias Ksomnia.Repo
-  use Ksomnia.DataHelper, [:get, Invite]
 
   @spec search_by_email(Ecto.Query.t(), binary()) :: Ecto.Query.t()
   def search_by_email(query, ""), do: query

@@ -27,7 +27,7 @@ defmodule KsomniaWeb.LiveResource do
   end
 
   def on_mount(:set_current_resources, %{"team_id" => team_id}, _session, socket) do
-    with %Team{} = team <- TeamQueries.get(team_id) do
+    with %Team{} = team <- TeamQueries.get_by_id(team_id) do
       socket =
         socket
         |> assign(:current_team, team)
@@ -40,8 +40,8 @@ defmodule KsomniaWeb.LiveResource do
   end
 
   def on_mount(:set_current_resources, %{"app_id" => app_id}, _session, socket) do
-    with %App{} = app <- AppQueries.get(app_id),
-         %Team{} = team <- TeamQueries.get(app.team_id) do
+    with %App{} = app <- AppQueries.get_by_id(app_id),
+         %Team{} = team <- TeamQueries.get_by_id(app.team_id) do
       socket =
         socket
         |> assign(:current_app, app)

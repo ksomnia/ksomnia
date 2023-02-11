@@ -36,7 +36,7 @@ defmodule Ksomnia.TeamUser do
 
   def remove_user(%Team{} = team, %User{} = target_user) do
     with %TeamUser{} = team_user <-
-           TeamUserQueries.get(team_id: team.id, user_id: target_user.id),
+           TeamUserQueries.get_by_team_id_and_user_id(team.id, target_user.id),
          _ <- Invite.delete_if_exists(target_user.email, team.id),
          {:ok, _} <- Repo.delete(team_user) do
       {:ok, team_user}
@@ -45,7 +45,7 @@ defmodule Ksomnia.TeamUser do
 
   def complete_onboarding(team, target_user) do
     with %TeamUser{} = team_user <-
-           TeamUserQueries.get(team_id: team.id, user_id: target_user.id),
+           TeamUserQueries.get_by_team_id_and_user_id(team.id, target_user.id),
          {:ok, _} <- do_complete_onboarding(team_user) do
       :ok
     end

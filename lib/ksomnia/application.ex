@@ -21,7 +21,9 @@ defmodule Ksomnia.Application do
     ]
 
     case Application.get_env(:ksomnia, :app_hooks) do
-      nil -> nil
+      nil ->
+        nil
+
       hooks ->
         Enum.each(hooks, fn {mod, fun, args} ->
           apply(mod, fun, args)

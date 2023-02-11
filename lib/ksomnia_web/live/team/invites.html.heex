@@ -33,11 +33,7 @@
     <.table id="invites" rows={@pagination.entries} headers={false}>
       <:col :let={invite} label="email" td_class="text-left">
         <div class="flex items-center">
-          <.avatar
-            name={invite.email}
-            round={false}
-            class="h-8 w-8 mr-2 block-inline"
-          />
+          <.avatar name={invite.email} round={false} class="h-8 w-8 mr-2 block-inline" />
           <span class="ml-2"><%= invite.email %></span>
         </div>
       </:col>

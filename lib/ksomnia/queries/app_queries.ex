@@ -3,7 +3,6 @@ defmodule Ksomnia.Queries.AppQueries do
   alias Ksomnia.App
   alias Ksomnia.Team
   alias Ksomnia.Repo
-  use Ksomnia.DataHelper, [:get, App]
 
   @spec search_by_name(Ecto.Query.t(), binary()) :: Ecto.Query.t()
   def search_by_name(query, ""), do: query
@@ -42,5 +41,10 @@ defmodule Ksomnia.Queries.AppQueries do
     |> Enum.map(fn {_, [team]} ->
       Map.put(team, :apps, grouped_apps[team.id] || [])
     end)
+  end
+
+  @spec get_by_id(binary()) :: App.t()
+  def get_by_id(app_id) do
+    Repo.get(App, app_id)
   end
 end

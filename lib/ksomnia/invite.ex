@@ -50,7 +50,8 @@ defmodule Ksomnia.Invite do
 
   def create(team_id, attrs) do
     with {:ok, invite} <- Repo.insert(new(team_id, attrs)),
-         %Swoosh.Email{} = email <- Ksomnia.UserInviteEmail.pending_invite_notification(invite) do
+         {:ok, %Swoosh.Email{} = email} <-
+           Ksomnia.UserInviteEmail.pending_invite_notification(invite) do
       Ksomnia.Mailer.deliver(email)
       {:ok, invite}
     end
