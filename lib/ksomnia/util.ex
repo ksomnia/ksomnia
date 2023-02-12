@@ -32,4 +32,8 @@ defmodule Ksomnia.Util do
       string
     end
   end
+
+  def utc_now() do
+    NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+  end
 end

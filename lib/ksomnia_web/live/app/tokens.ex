@@ -2,9 +2,9 @@ defmodule KsomniaWeb.AppLive.Tokens do
   use KsomniaWeb, :live_view
   alias Ksomnia.AppToken
   alias Ksomnia.App
-  alias Ksomnia.SourceMap
   alias Ksomnia.Util
   alias Ksomnia.Queries.AppTokenQueries
+  alias Ksomnia.Mutations.AppTokenMutations
   alias KsomniaWeb.LiveResource
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :tokens]}
@@ -21,13 +21,11 @@ defmodule KsomniaWeb.AppLive.Tokens do
   @impl true
   def handle_params(params, _, socket) do
     %{current_team: current_team, current_app: current_app} = LiveResource.get_assigns(socket)
-    latest_source_map = SourceMap.latest_for_app(current_app)
     query = AppTokenQueries.all(current_app.id)
 
     socket =
       socket
       |> assign(:page_title, "#{current_app.name} · Settings · #{current_team.name}")
-      |> assign(:latest_source_map, latest_source_map)
       |> assign(:app_changeset, App.changeset(current_app, %{}))
       |> assign(:__current_app__, current_app.id)
       |> Pagination.params_to_pagination(query, params)
@@ -49,14 +47,14 @@ defmodule KsomniaWeb.AppLive.Tokens do
   @impl true
   def handle_event("generate_token", params, socket) do
     %{current_user: current_user, current_app: current_app} = LiveResource.get_assigns(socket)
-    AppToken.create(current_app.id, current_user.id)
+    AppTokenMutations.create(current_app.id, current_user.id)
 
     {:noreply, table_query(socket, current_app, params)}
   end
 
   def handle_event("revoke-token", %{"id" => app_token_id} = params, socket) do
     with %AppToken{} = app_token <- AppTokenQueries.find_by_id(app_token_id),
-         {:ok, _app_token} <- AppToken.revoke(app_token) do
+         {:ok, _app_token} <- AppTokenMutations.revoke(app_token) do
       {:noreply, table_query(socket, app_token.app, params)}
     else
       _error -> socket

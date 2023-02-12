@@ -4,6 +4,7 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.Invite
   alias Ksomnia.Team
   alias Ksomnia.User
+  alias Ksomnia.Util
   alias Ksomnia.Queries.UserQueries
 
   @type t() :: %Invite{}
@@ -50,8 +51,6 @@ defmodule Ksomnia.Invite do
   def ensure_not_member(changeset), do: changeset
 
   def set_accepted_at(invite) do
-    accepted_at = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
-
-    change(invite, accepted_at: accepted_at)
+    change(invite, accepted_at: Util.utc_now())
   end
 end

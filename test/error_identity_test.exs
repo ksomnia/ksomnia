@@ -23,7 +23,7 @@ defmodule Ksomnia.ErrorIdentityTest do
     |     at HTMLButtonElement.<anonymous> (http://localhost:5500/assets/app.js:17:15367)
     """
 
-    ErrorIdentity.create(app, %{
+    ErrorIdentityMutations.create(app, %{
       "source" => "http://localhost:5500/assets/app.js",
       "message" =>
         "Uncaught TypeError: Cannot read properties of undefined (reading 'missing-key')",

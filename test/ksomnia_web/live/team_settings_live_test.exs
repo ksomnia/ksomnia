@@ -13,9 +13,9 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
   describe "the team settings page" do
     setup [:create_user_and_team]
 
-    test "the user can leave the team", %{conn: conn, team: team} do
+    test "the user can leave the team", %{conn: conn, user: user, team: team} do
       user2 = create_user!()
-      insert(:team_user, user: user2, team: team)
+      add_user_to_team!(team, user, user2)
 
       conn = login_as(conn, user2)
       url = ~p"/t/#{team.id}/settings"
@@ -29,7 +29,8 @@ defmodule KsomniaWeb.TeamSettingsLiveTest do
     test "owner cannot leave the team if they are the single owner (a team must have at least one owner)",
          %{conn: conn, user: user, team: team} do
       user2 = create_user!()
-      insert(:team_user, user: user2, team: team, role: "owner")
+      add_user_to_team!(team, user, user2)
+      make_owner(team, user2)
 
       # The second owner leaves the team
       user2_conn = login_as(conn, user2)

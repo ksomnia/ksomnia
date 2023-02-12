@@ -1,8 +1,8 @@
 defmodule KsomniaWeb.AppLive.Show do
   use KsomniaWeb, :live_view
   alias Ksomnia.Pagination
-  alias Ksomnia.SourceMap
   alias KsomniaWeb.SearchQuery
+  alias Ksomnia.Queries.SourceMapQueries
   alias KsomniaWeb.LiveResource
   alias Ksomnia.Queries.TeamUserQueries
   alias Ksomnia.Queries.ErrorIdentityQueries
@@ -26,7 +26,7 @@ defmodule KsomniaWeb.AppLive.Show do
     current_page = Map.get(params, "page", "1") |> String.to_integer()
     search_query = Map.get(params, "query")
     completed_onboarding = TeamUserQueries.completed_onboarding?(current_team, current_user)
-    latest_source_map = SourceMap.latest_for_app(current_app)
+    latest_source_map = SourceMapQueries.latest_for_app(current_app)
 
     socket =
       socket

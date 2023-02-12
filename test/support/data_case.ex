@@ -19,7 +19,6 @@ defmodule Ksomnia.DataCase do
   using do
     quote do
       use Ksomnia.Fixtures
-      import Ksomnia.Factory
     end
   end
 

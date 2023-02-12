@@ -3,7 +3,6 @@ defmodule Ksomnia.ErrorIdentity do
   import Ecto.Changeset
   alias Ksomnia.App
   alias Ksomnia.ErrorIdentity
-  alias Ksomnia.Repo
 
   @type t() :: %ErrorIdentity{}
   @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
@@ -71,24 +70,5 @@ defmodule Ksomnia.ErrorIdentity do
       hash = :crypto.hash(:sha256, changes) |> Base.url_encode64()
       put_change(changeset, :error_identity_hash, hash)
     end
-  end
-
-  def create(app, params) do
-    %ErrorIdentity{app_id: app.id}
-    |> changeset(Map.merge(params, %{"last_error_at" => NaiveDateTime.utc_now()}))
-    |> Repo.insert(
-      on_conflict: [
-        set: [
-          last_error_at: NaiveDateTime.utc_now()
-        ],
-        inc: [
-          track_count: 1
-        ]
-      ],
-      conflict_target: [
-        :error_identity_hash
-      ],
-      returning: true
-    )
   end
 end

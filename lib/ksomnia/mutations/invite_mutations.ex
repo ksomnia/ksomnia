@@ -1,6 +1,7 @@
 defmodule Ksomnia.Mutations.InviteMutations do
   alias Ksomnia.Invite
   alias Ksomnia.TeamUser
+  alias Ksomnia.User
   alias Ksomnia.Queries.InviteQueries
   alias Ksomnia.Repo
 
@@ -29,17 +30,17 @@ defmodule Ksomnia.Mutations.InviteMutations do
     end
   end
 
-  @spec accept(binary(), User.t()) :: {:ok, %{invite: Invite.t(), team_user: TeamUser.t()}}
+  @spec accept(binary(), User.t()) ::
+          {:ok, %{invite: Invite.t(), team_user: TeamUser.t()}}
+          | {:error, term(), Ecto.Changeset.t(), any()}
   def accept(invite_id, invitee) when is_binary(invite_id) do
     with %Invite{} = invite <- InviteQueries.get_by_id(invite_id),
          {:ok, _} = result <- do_accept(invite, invitee) do
       result
-    else
-      _ -> :error
     end
   end
 
-  defp do_accept(invite, invitee) do
+  defp do_accept(%Invite{} = invite, %User{} = invitee) do
     Ecto.Multi.new()
     |> Ecto.Multi.update(:invite, Invite.set_accepted_at(invite))
     |> Ecto.Multi.insert(:team_user, fn %{} ->

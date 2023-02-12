@@ -1,7 +1,8 @@
 defmodule KsomniaWeb.AppLive.SourceMaps do
   use KsomniaWeb, :live_view
-  alias Ksomnia.SourceMap
+  alias Ksomnia.Queries.SourceMapQueries
   alias Ksomnia.Pagination
+  alias Ksomnia.SourceMap
   alias KsomniaWeb.LiveResource
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :source_maps]}
@@ -13,7 +14,7 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
 
     pagination =
       current_app
-      |> SourceMap.for_app()
+      |> SourceMapQueries.for_app()
       |> Pagination.paginate(current_page)
 
     socket =

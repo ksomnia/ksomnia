@@ -1,11 +1,10 @@
 defmodule Ksomnia.SourceMap do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query
   alias Ksomnia.App
   alias Ksomnia.SourceMap
-  alias Ksomnia.Repo
 
+  @type t() :: %SourceMap{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "source_maps" do
@@ -27,12 +26,6 @@ defmodule Ksomnia.SourceMap do
     |> source_map_hash()
     |> put_target_file_hash()
     |> unique_constraint([:target_file_hash, :source_map_file_hash])
-  end
-
-  def create(app, params) do
-    %SourceMap{app_id: app.id}
-    |> changeset(params)
-    |> Repo.insert()
   end
 
   def source_map_hash(changeset) do
@@ -61,34 +54,9 @@ defmodule Ksomnia.SourceMap do
     ])
   end
 
-  def latest_for_commit_hash(commit_hash) do
-    from(s in SourceMap,
-      where: s.commit_hash == ^commit_hash,
-      order_by: [desc: :inserted_at],
-      limit: 1
-    )
-    |> Repo.one()
-  end
-
-  def latest_for_app(app) do
-    from(s in SourceMap,
-      where: s.app_id == ^app.id,
-      order_by: [desc: :inserted_at],
-      limit: 1
-    )
-    |> Repo.one()
-  end
-
   def commit_hash_abbriv(error_identity) do
     if error_identity.commit_hash do
       String.slice(error_identity.commit_hash, 0, 7)
     end
-  end
-
-  def for_app(app) do
-    from(s in SourceMap,
-      where: s.app_id == ^app.id,
-      order_by: [desc: :inserted_at]
-    )
   end
 end

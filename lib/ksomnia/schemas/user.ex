@@ -1,7 +1,6 @@
 defmodule Ksomnia.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.TeamUser
 
@@ -36,7 +35,7 @@ defmodule Ksomnia.User do
     |> unique_constraint(:email)
   end
 
-  def change_password(user, params) do
+  def change_password_changeset(user, params) do
     user
     |> new_password_changeset(params)
     |> validate_change(:current_password, fn :current_password, current_password ->
@@ -47,7 +46,6 @@ defmodule Ksomnia.User do
       end
     end)
     |> encrypt_password()
-    |> Repo.update()
   end
 
   def new_password_changeset(user, attrs) do

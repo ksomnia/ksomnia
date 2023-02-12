@@ -3,6 +3,7 @@ defmodule Ksomnia.SourceMapper do
   plug Tesla.Middleware.BaseUrl, "http://localhost:3000"
   plug Tesla.Middleware.JSON
   alias Ksomnia.SourceMap
+  alias Ksomnia.Queries.SourceMapQueries
 
   # TODO: handle when commit doesn't exists
   def map_stacktrace(error_identity) do
@@ -21,7 +22,7 @@ defmodule Ksomnia.SourceMapper do
   end
 
   def get_source_map(error_identity) do
-    SourceMap.latest_for_commit_hash(error_identity.commit_hash)
+    SourceMapQueries.latest_for_commit_hash(error_identity.commit_hash)
   end
 
   def source_map_file_path(source_map) do

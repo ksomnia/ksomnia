@@ -55,8 +55,11 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
          |> put_flash(:info, "App created successfully")
          |> push_navigate(to: ~p"/apps/#{app.id}")}
 
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, :app, %Ecto.Changeset{} = changeset, _} ->
         {:noreply, assign(socket, changeset: changeset)}
+
+      {:error, _, _, _} ->
+        {:noreply, socket}
     end
   end
 end

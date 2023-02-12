@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.PasswordFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.User
+  alias Ksomnia.Mutations.UserMutations
 
   @impl true
   def update(%{user: user} = assigns, socket) do
@@ -25,7 +26,7 @@ defmodule KsomniaWeb.AppLive.PasswordFormComponent do
   def handle_event("save", %{"user" => new_password_params}, socket) do
     user = socket.assigns.user
 
-    case User.change_password(user, new_password_params) do
+    case UserMutations.change_password(user, new_password_params) do
       {:ok, _user} ->
         {:noreply,
          socket

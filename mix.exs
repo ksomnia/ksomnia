@@ -65,12 +65,12 @@ defmodule Ksomnia.MixProject do
       {:timex, "~> 3.7"},
       {:tesla, "~> 1.4"},
       {:cors_plug, "~> 3.0"},
-      {:ex_machina, "~> 2.7.0", only: :test},
       {:benchee, "~> 1.0", only: :dev},
       {:faker, "~> 0.17", only: :test},
       {:heroicons, "~> 0.5.1"},
       {:meilisearch, "~> 0.20.0"},
-      {:dialyxir, "~> 1.2", only: [:dev], runtime: false}
+      {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
+      {:type_check, "~> 0.13.3"}
     ]
   end
 

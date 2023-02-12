@@ -3,11 +3,12 @@ defmodule KsomniaWeb.SourceMapController do
   alias Ksomnia.App
   alias Ksomnia.Repo
   alias Ksomnia.SourceMap
+  alias Ksomnia.Mutations.SourceMapMutations
   require Logger
 
   def create(conn, %{"app_token" => token} = params) do
     with {:app, app} <- {:app, Repo.get_by(App, token: token)},
-         {:ok, source_map_record} <- SourceMap.create(app, params),
+         {:ok, source_map_record} <- SourceMapMutations.create(app, params),
          {:saved, :ok} <- {:saved, save_source_map(source_map_record, params["source_map"].path)} do
       json(conn, %{status: "ok"})
     else

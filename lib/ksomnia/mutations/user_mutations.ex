@@ -14,4 +14,11 @@ defmodule Ksomnia.Mutations.UserMutations do
     |> User.profile_changeset(attrs)
     |> Repo.update()
   end
+
+  @spec change_password(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  def change_password(user, params) do
+    user
+    |> User.change_password_changeset(params)
+    |> Repo.update()
+  end
 end

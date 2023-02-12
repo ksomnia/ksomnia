@@ -5,8 +5,10 @@ defmodule Ksomnia.Fixtures do
     quote do
       alias Ksomnia.Mutations.UserMutations
       alias Ksomnia.Mutations.TeamMutations
+      alias Ksomnia.Mutations.TeamUserMutations
       alias Ksomnia.Mutations.InviteMutations
       alias Ksomnia.Mutations.AppMutations
+      alias Ksomnia.Mutations.ErrorIdentityMutations
       alias Ksomnia.Queries.TeamQueries
       alias Ksomnia.Queries.UserQueries
       alias Ksomnia.App
@@ -73,6 +75,10 @@ defmodule Ksomnia.Fixtures do
       def add_user_to_team!(team, inviter, invitee) do
         invite = create_invite!(team, inviter, %{email: invitee.email})
         {:ok, _} = InviteMutations.accept(invite.id, invitee)
+      end
+
+      def make_owner(team, user) do
+        TeamUserMutations.make_owner(team.id, user.id)
       end
 
       def create_app(team, user, attrs \\ []) do

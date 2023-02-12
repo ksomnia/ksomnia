@@ -24,4 +24,14 @@ defmodule Ksomnia.Mutations.TeamUserMutations do
       :ok
     end
   end
+
+  @spec make_owner(binary(), binary()) :: TeamUser.t() | nil
+  def make_owner(team_id, target_user_id) do
+    with %TeamUser{} = team_user <-
+           TeamUserQueries.get_by_team_id_and_user_id(team_id, target_user_id) do
+      team_user
+      |> Ecto.Changeset.change(role: "owner")
+      |> Repo.update()
+    end
+  end
 end

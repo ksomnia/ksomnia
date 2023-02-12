@@ -68,7 +68,7 @@ defmodule KsomniaWeb.TeamLive.Index do
 
         {:noreply, socket}
 
-      {:error, _} ->
+      {:error, _, _, _} ->
         {:noreply, socket}
     end
   end

@@ -4,7 +4,7 @@ defmodule Ksomnia.AppToken do
   alias Ksomnia.App
   alias Ksomnia.User
   alias Ksomnia.AppToken
-  alias Ksomnia.Repo
+  alias Ksomnia.Util
 
   @type t() :: %AppToken{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
@@ -30,11 +30,6 @@ defmodule Ksomnia.AppToken do
     |> changeset(%{})
   end
 
-  def create(app_id, user_id) do
-    new(app_id, user_id)
-    |> Repo.insert()
-  end
-
   def put_token(changeset) do
     if changeset.data.token do
       changeset
@@ -43,9 +38,8 @@ defmodule Ksomnia.AppToken do
     end
   end
 
-  def revoke(app_token) do
+  def put_revoked_at(app_token) do
     app_token
-    |> change(revoked_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
-    |> Repo.update()
+    |> change(revoked_at: Util.utc_now())
   end
 end

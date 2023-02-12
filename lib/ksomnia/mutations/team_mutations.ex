@@ -5,7 +5,8 @@ defmodule Ksomnia.Mutations.TeamMutations do
   alias Ksomnia.User
   alias Ecto.Multi
 
-  @spec create(User.t(), map()) :: {:ok, %{team: Team.t(), team_user: TeamUser.t()}} | {:error, :any}
+  @spec create(User.t(), map()) ::
+          {:ok, %{team: Team.t(), team_user: TeamUser.t()}} | {:error, any()}
   def create(user, attrs) do
     Multi.new()
     |> Multi.insert(:team, Team.new(attrs))

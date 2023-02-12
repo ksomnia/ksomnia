@@ -13,9 +13,9 @@ defmodule KsomniaWeb.AppLiveTest do
   describe "the user's home page" do
     setup [:create_app]
 
-    test "displays the user's invites", %{conn: conn, user: user} do
-      invitee = insert(:user, email: "invitee@test.test")
-      insert(:invite, email: invitee.email, inviter: user)
+    test "displays the user's invites", %{conn: conn, user: user, team: team} do
+      invitee = create_user!()
+      _invite = create_invite!(team, user, email: invitee.email)
 
       conn = login_as(conn, invitee)
       {:ok, _index_live, html} = live(conn, ~p"/teams")
@@ -23,8 +23,8 @@ defmodule KsomniaWeb.AppLiveTest do
     end
 
     test "the user accepts an invite", %{conn: conn, user: user, team: team} do
-      invitee = create_user!(email: "invitee@test.test")
-      invite = insert(:invite, email: invitee.email, inviter: user, team: team)
+      invitee = create_user!()
+      invite = create_invite!(team, user, email: invitee.email)
 
       conn = login_as(conn, invitee)
       {:ok, index_live, _html} = live(conn, ~p"/teams")
@@ -34,8 +34,8 @@ defmodule KsomniaWeb.AppLiveTest do
     end
 
     test "the user rejects an invite", %{conn: conn, user: user, team: team} do
-      invitee = insert(:user, email: "invitee@test.test")
-      invite = insert(:invite, email: invitee.email, inviter: user, team: team)
+      invitee = create_user!()
+      invite = create_invite!(team, user, email: invitee.email)
 
       conn = login_as(conn, invitee)
       {:ok, index_live, _html} = live(conn, ~p"/teams")
