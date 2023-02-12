@@ -3,10 +3,8 @@ defmodule Ksomnia.Team do
   import Ecto.Changeset
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
-  alias Ksomnia.Repo
   alias Ksomnia.App
   alias Ksomnia.Invite
-  alias Ecto.Multi
 
   @type t() :: %Team{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
@@ -32,20 +30,5 @@ defmodule Ksomnia.Team do
   def new(attrs) do
     %Team{}
     |> changeset(attrs)
-  end
-
-  def create(user, attrs) do
-    Multi.new()
-    |> Multi.insert(:team, new(attrs))
-    |> Multi.insert(:team_user, fn %{team: team} ->
-      TeamUser.new(team.id, user.id, %{role: "owner"})
-    end)
-    |> Repo.transaction()
-  end
-
-  def update(team, attrs) do
-    team
-    |> changeset(attrs)
-    |> Repo.update()
   end
 end

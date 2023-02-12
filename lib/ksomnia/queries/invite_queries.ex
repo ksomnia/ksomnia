@@ -29,6 +29,7 @@ defmodule Ksomnia.Queries.InviteQueries do
     Repo.get(Invite, invite_id)
   end
 
+  @spec get_by_email_and_team_id(binary(), binary()) :: Invite.t() | nil
   def get_by_email_and_team_id(email, team_id) do
     Repo.get_by(Invite, email: email, team_id: team_id)
   end

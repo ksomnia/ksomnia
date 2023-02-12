@@ -2,6 +2,7 @@ defmodule KsomniaWeb.AppLive.Settings do
   use KsomniaWeb, :live_view
   alias Ksomnia.App
   alias Ksomnia.Avatar
+  alias Ksomnia.Mutations.AppMutations
   alias KsomniaWeb.LiveResource
 
   on_mount({KsomniaWeb.AppLive.NavComponent, [set_section: :settings]})
@@ -31,7 +32,7 @@ defmodule KsomniaWeb.AppLive.Settings do
     %{current_app: current_app} = LiveResource.get_assigns(socket)
     params = Avatar.consume(socket, params, "apps", current_app)
 
-    case App.update(current_app, params) do
+    case AppMutations.update(current_app, params) do
       {:ok, app} ->
         {:noreply,
          socket

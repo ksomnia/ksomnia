@@ -1,43 +1,31 @@
 defmodule Ksomnia.InviteTest do
+  alias Ksomnia.Mutations.InviteMutations
   use Ksomnia.DataCase
   import Swoosh.TestAssertions
 
   test "accept/2" do
-    inviter = insert(:user, email: "inviter@test.test")
-    team = insert(:team, name: "team")
-    insert(:team_user, team: team, user: inviter)
+    inviter = create_user!(email: "inviter@test.test")
+    team = create_team!(inviter)
 
-    invitee = insert(:user, email: "invitee@test.test")
-    invite = insert(:invite, email: invitee.email, inviter: inviter, team: team)
+    invitee = create_user!(email: "invitee@test.test")
+    invite = create_invite!(team, inviter, email: invitee.email)
 
     assert TeamQueries.for_user(invitee) == []
-    Invite.accept(invite, invitee)
+    InviteMutations.accept(invite.id, invitee)
     assert TeamQueries.for_user(invitee) == [team]
   end
 
   describe "create" do
-    test "creates an invite" do
-      inviter = insert(:user, email: "inviter@test.test")
-      team = insert(:team, name: "team")
-      insert(:team_user, team: team, user: inviter)
-
-      assert {:ok, %Invite{}} =
-               Invite.create(team.id, %{
-                 email: "invitee@test.test",
-                 team_id: team.id,
-                 inviter_id: inviter.id
-               })
-    end
-
     test "invitee is already a team member" do
-      inviter = insert(:user, email: "inviter@test.test")
-      team = insert(:team, name: "team")
-      insert(:team_user, team: team, user: inviter)
-      invitee = insert(:user, email: "invitee@test.test")
-      insert(:team_user, team: team, user: invitee)
+      inviter = create_user!(email: "inviter@test.test")
+      team = create_team!(inviter)
+
+      invitee = create_user!(email: "invitee@test.test")
+      invite = create_invite!(team, inviter, email: invitee.email)
+      InviteMutations.accept(invite.id, invitee)
 
       assert {:error, changset} =
-               Invite.create(team.id, %{
+               InviteMutations.create(team.id, inviter.id, %{
                  email: "invitee@test.test",
                  team_id: team.id,
                  inviter_id: inviter.id
@@ -47,16 +35,15 @@ defmodule Ksomnia.InviteTest do
     end
 
     test "invite already exists" do
-      inviter = insert(:user, email: "inviter@test.test")
-      team = insert(:team, name: "team")
-      insert(:team_user, team: team, user: inviter)
-      insert(:invite, email: "invitee@test.test", inviter: inviter, team: team)
+      inviter = create_user!(email: "inviter@test.test")
+      team = create_team!(inviter)
+      invitee = create_user!(email: "invitee@test.test")
+      create_invite!(team, inviter, email: invitee.email)
 
       assert {:error, changset} =
-               Invite.create(team.id, %{
+               InviteMutations.create(team.id, inviter.id, %{
                  email: "invitee@test.test",
-                 team_id: team.id,
-                 inviter_id: inviter.id
+                 team_id: team.id
                })
 
       assert [email: {"has already been invited", _}] = changset.errors
@@ -67,7 +54,7 @@ defmodule Ksomnia.InviteTest do
       team = create_team!(inviter)
 
       assert {:ok, %Invite{} = invite} =
-               Invite.create(team.id, %{
+               InviteMutations.create(team.id, inviter.id, %{
                  email: "invitee@test.test",
                  team_id: team.id,
                  inviter_id: inviter.id

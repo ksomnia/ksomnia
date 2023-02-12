@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.TeamLive.AppFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.App
+  alias Ksomnia.Mutations.AppMutations
   alias KsomniaWeb.LiveResource
 
   @impl true
@@ -32,7 +33,7 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
   defp save_app(socket, :edit_app, app_params) do
     %{current_app: current_app} = LiveResource.get_assigns(socket)
 
-    case App.update(current_app, app_params) do
+    case AppMutations.update(current_app, app_params) do
       {:ok, app} ->
         {:noreply,
          socket
@@ -47,7 +48,7 @@ defmodule KsomniaWeb.TeamLive.AppFormComponent do
   defp save_app(socket, :new_app, app_params) do
     %{current_user: current_user} = LiveResource.get_assigns(socket)
 
-    case App.create(socket.assigns.new_app_team_id, current_user.id, app_params) do
+    case AppMutations.create(socket.assigns.new_app_team_id, current_user.id, app_params) do
       {:ok, %{app: app}} ->
         {:noreply,
          socket

@@ -34,6 +34,7 @@ defmodule KsomniaWeb.TeamLive.MembersNavComponent do
         <.live_component
           module={KsomniaWeb.TeamLive.InviteModalComponent}
           current_team={@current_team}
+          current_user={@current_user}
           id={:new_invite}
         />
       </div>

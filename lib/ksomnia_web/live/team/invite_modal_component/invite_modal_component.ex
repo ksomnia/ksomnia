@@ -2,11 +2,12 @@ defmodule KsomniaWeb.TeamLive.InviteModalComponent do
   use KsomniaWeb, :live_component
   alias KsomniaWeb.LiveResource
   alias Ksomnia.Invite
+  alias Ksomnia.Mutations.InviteMutations
 
   @impl true
   def update(assigns, socket) do
-    %{current_team: current_team} = LiveResource.get_assigns(assigns)
-    changeset = Invite.new(current_team.id, %{})
+    %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(assigns)
+    changeset = Invite.new(current_team.id, current_user.id, %{})
 
     {:ok,
      socket
@@ -16,19 +17,20 @@ defmodule KsomniaWeb.TeamLive.InviteModalComponent do
 
   @impl true
   def handle_event("validate", %{"invite" => params}, socket) do
-    %{current_team: current_team} = LiveResource.get_assigns(socket)
+    %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
     changeset =
-      Invite.new(current_team.id, params)
+      Invite.new(current_team.id, current_user.id, params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"invite" => params}, socket) do
-    %{current_team: current_team} = LiveResource.get_assigns(socket)
+    %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
-    case Invite.create(current_team.id, params) do
+    case InviteMutations.create(current_team.id, current_user.id, params) do
       {:ok, _invite} ->
         {:noreply,
          socket

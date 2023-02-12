@@ -1,5 +1,6 @@
 defmodule KsomniaWeb.OnboardingCardComponent do
   use KsomniaWeb, :live_component
+  alias Ksomnia.Mutations.TeamUserMutations
 
   @impl true
   def render(assigns) do
@@ -38,7 +39,7 @@ defmodule KsomniaWeb.OnboardingCardComponent do
     team = socket.assigns.team
     current_user = socket.assigns.current_user
 
-    Ksomnia.TeamUser.complete_onboarding(team, current_user)
+    TeamUserMutations.complete_onboarding(team, current_user)
     {:noreply, socket}
   end
 end

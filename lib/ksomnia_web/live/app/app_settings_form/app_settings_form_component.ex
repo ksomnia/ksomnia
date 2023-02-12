@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.AppSettingsFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.App
+  alias Ksomnia.Mutations.AppMutations
 
   @impl true
   def update(%{app: app} = assigns, socket) do
@@ -29,7 +30,7 @@ defmodule KsomniaWeb.AppLive.AppSettingsFormComponent do
   defp save_app(socket, :edit_app, app_params) do
     app = socket.assigns.app
 
-    case App.update(app, app_params) do
+    case AppMutations.update(app, app_params) do
       {:ok, app} ->
         {:noreply,
          socket

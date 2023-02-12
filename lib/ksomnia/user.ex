@@ -4,7 +4,6 @@ defmodule Ksomnia.User do
   alias Ksomnia.Repo
   alias Ksomnia.User
   alias Ksomnia.TeamUser
-  use Ksomnia.DataHelper, [:get, User]
 
   @type t() :: %User{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
@@ -29,6 +28,9 @@ defmodule Ksomnia.User do
     user
     |> cast(attrs, [:email, :username, :password, :avatar_original_path, :avatar_resized_paths])
     |> validate_required([:email, :username, :password])
+    |> update_change(:email, &String.trim/1)
+    |> update_change(:email, &String.downcase/1)
+    |> update_change(:username, &String.trim/1)
     |> encrypt_password()
     |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
@@ -75,16 +77,5 @@ defmodule Ksomnia.User do
   def new(attrs) do
     %User{}
     |> changeset(attrs)
-  end
-
-  def create(attrs) do
-    new(attrs)
-    |> Repo.insert()
-  end
-
-  def update_profile(user, attrs) do
-    user
-    |> profile_changeset(attrs)
-    |> Repo.update()
   end
 end

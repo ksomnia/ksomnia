@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.RegistrationController do
   use KsomniaWeb, :controller
   alias Ksomnia.User
+  alias Ksomnia.Mutations.UserMutations
 
   def new(conn, _params) do
     conn
@@ -9,7 +10,7 @@ defmodule KsomniaWeb.RegistrationController do
   end
 
   def create(conn, params) do
-    with {:ok, user} <- User.create(params["user"]) do
+    with {:ok, user} <- UserMutations.create(params["user"]) do
       conn
       |> put_session(:user_id, user.id)
       |> redirect(to: "/")

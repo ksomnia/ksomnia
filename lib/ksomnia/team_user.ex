@@ -4,17 +4,14 @@ defmodule Ksomnia.TeamUser do
   alias Ksomnia.TeamUser
   alias Ksomnia.Team
   alias Ksomnia.User
-  alias Ksomnia.Repo
-  alias Ksomnia.Invite
-  alias Ksomnia.Queries.TeamUserQueries
 
   @type t() :: %TeamUser{}
 
   schema "team_users" do
-    belongs_to :team, Team, type: Ecto.ShortUUID
-    belongs_to :user, User, type: Ecto.ShortUUID
-    field :role, :string
-    field :completed_onboarding_at, :naive_datetime
+    belongs_to(:team, Team, type: Ecto.ShortUUID)
+    belongs_to(:user, User, type: Ecto.ShortUUID)
+    field(:role, :string)
+    field(:completed_onboarding_at, :naive_datetime)
 
     timestamps()
   end
@@ -34,26 +31,10 @@ defmodule Ksomnia.TeamUser do
     |> changeset(attrs)
   end
 
-  def remove_user(%Team{} = team, %User{} = target_user) do
-    with %TeamUser{} = team_user <-
-           TeamUserQueries.get_by_team_id_and_user_id(team.id, target_user.id),
-         _ <- Invite.delete_if_exists(target_user.email, team.id),
-         {:ok, _} <- Repo.delete(team_user) do
-      {:ok, team_user}
-    end
-  end
+  def complete_onboarding(team_user) do
+    completed_onboarding_at = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
 
-  def complete_onboarding(team, target_user) do
-    with %TeamUser{} = team_user <-
-           TeamUserQueries.get_by_team_id_and_user_id(team.id, target_user.id),
-         {:ok, _} <- do_complete_onboarding(team_user) do
-      :ok
-    end
-  end
-
-  defp do_complete_onboarding(team_user) do
     team_user
-    |> change(completed_onboarding_at: NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second))
-    |> Repo.update()
+    |> change(completed_onboarding_at: completed_onboarding_at)
   end
 end

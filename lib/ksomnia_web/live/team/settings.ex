@@ -1,8 +1,8 @@
 defmodule KsomniaWeb.TeamLive.Settings do
   use KsomniaWeb, :live_view
-  alias Ksomnia.TeamUser
   alias Ksomnia.Permissions
   alias KsomniaWeb.LiveResource
+  alias Ksomnia.Mutations.TeamUserMutations
 
   @impl true
   def handle_params(_params, _, socket) do
@@ -20,7 +20,7 @@ defmodule KsomniaWeb.TeamLive.Settings do
     %{current_team: current_team, current_user: current_user} = LiveResource.get_assigns(socket)
 
     with true <- Permissions.can_leave_team(current_team, current_user),
-         {:ok, _} <- TeamUser.remove_user(current_team, current_user) do
+         {:ok, _} <- TeamUserMutations.remove_user(current_team, current_user) do
       {:noreply, push_navigate(socket, to: "/")}
     else
       _ ->

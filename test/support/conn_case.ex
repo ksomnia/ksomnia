@@ -19,10 +19,8 @@ defmodule KsomniaWeb.ConnCase do
 
   using do
     quote do
-      alias Ksomnia.Repo
+      use Ksomnia.Fixtures
       alias Ksomnia.User
-      alias Ksomnia.Team
-      alias Ksomnia.Invite
 
       # Import conveniences for testing with connections
       import Plug.Conn

@@ -2,6 +2,7 @@
   <%= live_component(KsomniaWeb.TeamLive.NavComponent, team: @current_team, nav_section: :members) %>
   <%= live_component(KsomniaWeb.TeamLive.MembersNavComponent,
     current_team: @current_team,
+    current_user: @current_user,
     nav_section: :members
   ) %>
 

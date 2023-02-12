@@ -1,11 +1,11 @@
 defmodule KsomniaWeb.TeamLive.Invites do
   use KsomniaWeb, :live_view
-  alias Ksomnia.Invite
   alias Ksomnia.Permissions
   alias Ksomnia.Pagination
   alias KsomniaWeb.SearchQuery
   alias KsomniaWeb.LiveResource
   alias Ksomnia.Queries.InviteQueries
+  alias Ksomnia.Mutations.InviteMutations
 
   @impl true
   def mount(_params, _session, socket) do
@@ -50,7 +50,7 @@ defmodule KsomniaWeb.TeamLive.Invites do
     invite = InviteQueries.get_by_id(invite_id)
 
     if !!invite && Permissions.can_revoke_user_invite(current_team, current_user, invite) do
-      Invite.revoke(invite)
+      InviteMutations.revoke(invite)
       {:noreply, table_query(socket, current_team, params)}
     else
       {:noreply, socket}

@@ -4,7 +4,6 @@ defmodule Ksomnia.UserApp do
   alias Ksomnia.User
   alias Ksomnia.App
   alias Ksomnia.UserApp
-  use Ksomnia.DataHelper, [:get, UserApp]
 
   @type t() :: %UserApp{}
   @primary_key {:id, Ecto.ShortUUID, autogenerate: true}

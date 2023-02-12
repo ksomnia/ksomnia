@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.Team
+  alias Ksomnia.Mutations.TeamMutations
   alias Ksomnia.Permissions
   alias Ksomnia.Avatar
 
@@ -34,7 +35,7 @@ defmodule KsomniaWeb.AppLive.TeamSettingsFormComponent do
     user = socket.assigns.current_user
     params = Avatar.consume(socket, params, "teams", team)
 
-    case Permissions.can_update_team(team, user) && Team.update(team, params) do
+    case Permissions.can_update_team(team, user) && TeamMutations.update(team, params) do
       {:ok, _app} ->
         {:noreply,
          socket

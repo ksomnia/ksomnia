@@ -1,19 +1,20 @@
 defmodule Ksomnia.TeamUserTest do
+  alias Ksomnia.Mutations.TeamUserMutations
+  alias Ksomnia.Queries.TeamUserQueries
+  alias Ksomnia.Mutations.InviteMutations
   use Ksomnia.DataCase
 
   describe "remove_user/2" do
     test "removes the user from team along with the associated data" do
-      user = insert(:user)
-      team = insert(:team)
-      insert(:team_user, user: user, team: team, role: "owner")
-      user2 = insert(:user)
-      invite = insert(:invite, email: user2.email, team: team)
-      Invite.accept(invite, user2)
+      user = create_user!()
+      user2 = create_user!()
+      team = create_team!(user)
+      add_user_to_team!(team, user, user2)
 
-      assert [_] = Repo.all(Invite)
-      TeamUser.remove_user(team, user2)
-      assert [] = Repo.all(Invite)
-      refute Repo.get_by(TeamUser, user_id: user2.id, team_id: team.id)
+      assert [_] = repo_all(Invite)
+      TeamUserMutations.remove_user(team, user2)
+      assert [] = repo_all(Invite)
+      refute TeamUserQueries.get_by_team_id_and_user_id(team.id, user2.id)
     end
   end
 end

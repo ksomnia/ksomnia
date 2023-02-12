@@ -1,14 +1,11 @@
 defmodule KsomniaWeb.AppLiveTest do
   use KsomniaWeb.ConnCase
-  use Ksomnia.QueryHelper
-
   import Phoenix.LiveViewTest
 
   def create_app(_opts) do
-    user = insert(:user, email: "user@test.test")
-    team = insert(:team)
-    app = insert(:app, team: team)
-    insert(:team_user, user: user, team: team)
+    user = create_user!(email: "user@test.test")
+    team = create_team!(user)
+    app = create_app!(team, user)
 
     %{app: app, user: user, team: team}
   end
@@ -26,7 +23,7 @@ defmodule KsomniaWeb.AppLiveTest do
     end
 
     test "the user accepts an invite", %{conn: conn, user: user, team: team} do
-      invitee = insert(:user, email: "invitee@test.test")
+      invitee = create_user!(email: "invitee@test.test")
       invite = insert(:invite, email: invitee.email, inviter: user, team: team)
 
       conn = login_as(conn, invitee)

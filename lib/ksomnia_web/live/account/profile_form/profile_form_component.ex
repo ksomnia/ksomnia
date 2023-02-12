@@ -1,6 +1,7 @@
 defmodule KsomniaWeb.AppLive.ProfileFormComponent do
   use KsomniaWeb, :live_component
   alias Ksomnia.User
+  alias Ksomnia.Mutations.UserMutations
   alias Ksomnia.Avatar
 
   @impl true
@@ -28,7 +29,7 @@ defmodule KsomniaWeb.AppLive.ProfileFormComponent do
     user = socket.assigns.user
     params = Avatar.consume(socket, params, "apps", user)
 
-    case User.update_profile(user, params) do
+    case UserMutations.update_profile(user, params) do
       {:ok, _user} ->
         {:noreply,
          socket

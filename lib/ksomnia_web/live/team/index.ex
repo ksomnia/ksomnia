@@ -3,7 +3,8 @@ defmodule KsomniaWeb.TeamLive.Index do
   alias Ksomnia.Team
   alias Ksomnia.Queries.TeamQueries
   alias Ksomnia.Queries.InviteQueries
-  alias Ksomnia.Invite
+  alias Ksomnia.Mutations.TeamMutations
+  alias Ksomnia.Mutations.InviteMutations
   alias KsomniaWeb.LiveResource
 
   @impl true
@@ -43,7 +44,7 @@ defmodule KsomniaWeb.TeamLive.Index do
   def handle_event("save", %{"team" => params}, socket) do
     %{current_user: user} = LiveResource.get_assigns(socket)
 
-    case Team.create(user, params) do
+    case TeamMutations.create(user, params) do
       {:ok, %{team: team}} ->
         {:noreply,
          socket
@@ -58,7 +59,7 @@ defmodule KsomniaWeb.TeamLive.Index do
   def handle_event("accept-invite", %{"invite-id" => invite_id}, socket) do
     %{current_user: user} = LiveResource.get_assigns(socket)
 
-    case Invite.accept(invite_id, user) do
+    case InviteMutations.accept(invite_id, user) do
       {:ok, _} ->
         socket =
           socket
@@ -75,7 +76,7 @@ defmodule KsomniaWeb.TeamLive.Index do
   def handle_event("reject-invite", %{"invite-id" => invite_id}, socket) do
     %{current_user: user} = LiveResource.get_assigns(socket)
 
-    case Invite.reject(invite_id, user) do
+    case InviteMutations.reject(invite_id, user) do
       {:ok, _} ->
         socket =
           socket
