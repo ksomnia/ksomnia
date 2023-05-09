@@ -10,7 +10,7 @@ defmodule Ksomnia.SourceMapper do
     with {:source_map, %SourceMap{} = source_map} <-
            {:source_map, get_source_map(error_identity)},
          {:ok, %{body: body}} <- do_map_stacktrace(error_identity.stacktrace, source_map) do
-      body
+      {:ok, body}
     end
   end
 

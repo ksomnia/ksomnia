@@ -46,7 +46,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
     spawn(fn ->
       case SourceMapper.map_stacktrace(error_identity) do
-        {:ok, %{body: %{"mappings" => mappings, "sources" => sources}}} ->
+        {:ok, %{"mappings" => mappings, "sources" => sources}} ->
           send(view_pid, %{mappings: mappings, sources: sources})
 
         _ ->

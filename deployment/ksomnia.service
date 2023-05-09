@@ -12,7 +12,7 @@ Environment="PORT=4000"
 Environment="MIX_ENV=prod"
 Environment="HOME=/opt/ksomnia"
 Environment="SECRET_KEY_BASE=""
-Environment="KSOMNIA_DATABASE_URL=postgres://user:password@localhost:5432/ksomnia_prod"
+Environment="KSOMNIA_DATABASE_URL="postgres://user:password@localhost:5432/ksomnia_prod"
 Environment="PHX_HOST=example.com"
 
 WorkingDirectory=/opt/ksomnia

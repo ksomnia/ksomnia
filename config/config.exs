@@ -13,7 +13,10 @@ config :ksomnia,
 # Configures the endpoint
 config :ksomnia, KsomniaWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: KsomniaWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    formats: [html: KsomniaWeb.ErrorHTML, json: KsomniaWeb.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: Ksomnia.PubSub,
   live_view: [signing_salt: "8ETgfuCm"]
 
