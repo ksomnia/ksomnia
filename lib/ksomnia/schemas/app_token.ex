@@ -7,13 +7,13 @@ defmodule Ksomnia.AppToken do
   alias Ksomnia.Util
 
   @type t() :: %AppToken{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 4, autogenerate: true}
   schema "app_tokens" do
     field :token, :string
     field :revoked_at, :naive_datetime
-    belongs_to :app, App, type: Ecto.ShortUUID
-    belongs_to :user, User, type: Ecto.ShortUUID
+    belongs_to :app, App, type: Uniq.UUID
+    belongs_to :user, User, type: Uniq.UUID
 
     timestamps()
   end

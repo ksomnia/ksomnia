@@ -19,7 +19,7 @@ defmodule Ksomnia.Schemas.ErrorEvent do
     {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
     {:ok, app_id} = ShortUUID.decode(app.id)
 
-    %ErrorEvent{
+    ee = %ErrorEvent{
       id: Ksomnia.Security.random_uint64(),
       error_identity_id: error_identity_id,
       app_id: app_id,
@@ -30,5 +30,7 @@ defmodule Ksomnia.Schemas.ErrorEvent do
       ipv4_address: params["ipv4_address"],
       ipv6_address: params["ipv6_address"],
     }
+
+    Ksomnia.ClickhouseRepo.insert_all(ErrorEvent, Util.ecto_struct_to_map([ee]))
   end
 end

@@ -6,14 +6,14 @@ defmodule Ksomnia.ErrorRecord do
   alias Ksomnia.Repo
 
   @type t() :: %ErrorRecord{}
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 7, autogenerate: true}
   schema "error_records" do
     field :ip_address, :string
     field :user_agent, :string
     field :client_version, :string
-    belongs_to :app, App, type: Ksomnia.ShortUUID6
-    belongs_to :error_identity, App, type: Ksomnia.ShortUUID6
+    belongs_to :app, App, type: Uniq.UUID
+    belongs_to :error_identity, App, type: Uniq.UUID
 
     timestamps()
   end

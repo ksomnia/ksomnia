@@ -4,7 +4,7 @@ defmodule Ksomnia.Queries.ErrorEventQueries do
   alias Ksomnia.ClickhouseReadRepo
 
   def for_error_identity(error_identity) do
-    {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
+    error_identity_id = Uniq.UUID.to_string(error_identity.id)
 
     query =
       from(e in ErrorEventView,

@@ -5,8 +5,8 @@ defmodule Ksomnia.ErrorIdentity do
   alias Ksomnia.ErrorIdentity
 
   @type t() :: %ErrorIdentity{}
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 7, autogenerate: true}
   schema "error_identities" do
     field :error_identity_hash, :string
     field :source, :string
@@ -17,7 +17,7 @@ defmodule Ksomnia.ErrorIdentity do
     field :commit_hash, :string
     field :track_count, :integer, default: 1
     field :last_error_at, :naive_datetime
-    belongs_to :app, App, type: Ecto.ShortUUID
+    belongs_to :app, App, type: Uniq.UUID
 
     timestamps()
   end
