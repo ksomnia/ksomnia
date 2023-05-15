@@ -11,6 +11,8 @@ defmodule Ksomnia.Application do
       # Start the Ecto repository
       Ksomnia.Repo,
       # Start the Telemetry supervisor
+      Ksomnia.ClickhouseRepo,
+      Ksomnia.ClickhouseReadRepo,
       KsomniaWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Ksomnia.PubSub},

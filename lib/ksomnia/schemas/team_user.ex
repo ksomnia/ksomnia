@@ -8,8 +8,8 @@ defmodule Ksomnia.TeamUser do
   @type t() :: %TeamUser{}
 
   schema "team_users" do
-    belongs_to(:team, Team, type: Ecto.ShortUUID)
-    belongs_to(:user, User, type: Ecto.ShortUUID)
+    belongs_to(:team, Team, type: Uniq.UUID)
+    belongs_to(:user, User, type: Uniq.UUID)
     field(:role, :string)
     field(:completed_onboarding_at, :naive_datetime)
 

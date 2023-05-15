@@ -5,8 +5,8 @@ defmodule Ksomnia.User do
   alias Ksomnia.TeamUser
 
   @type t() :: %User{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 4, autogenerate: true}
   schema "users" do
     field :email, :string
     field :encrypted_password, :string
@@ -17,7 +17,7 @@ defmodule Ksomnia.User do
     field :role, :string, virtual: true
     field :avatar_original_path, :string
     field :avatar_resized_paths, :map, default: %{}
-    has_many :team_users, TeamUser
+    has_many :team_users, TeamUser, references: :id
 
     timestamps()
   end

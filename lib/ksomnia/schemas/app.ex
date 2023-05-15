@@ -5,15 +5,14 @@ defmodule Ksomnia.App do
   alias Ksomnia.Team
 
   @type t() :: %App{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 4, autogenerate: true}
   schema "apps" do
     field :name, :string
-
     field :avatar_original_path, :string
     field :avatar_resized_paths, :map, default: %{}
 
-    belongs_to :team, Team, type: Ecto.ShortUUID
+    belongs_to :team, Team, type: Uniq.UUID
 
     timestamps()
   end

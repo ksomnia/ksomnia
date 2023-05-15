@@ -6,11 +6,11 @@ defmodule Ksomnia.UserApp do
   alias Ksomnia.UserApp
 
   @type t() :: %UserApp{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 4, autogenerate: true}
   schema "user_apps" do
-    belongs_to :user, User, type: Ecto.ShortUUID
-    belongs_to :app, App, type: Ecto.ShortUUID
+    belongs_to :user, User, type: Uniq.UUID
+    belongs_to :app, App, type: Uniq.UUID
 
     timestamps()
   end

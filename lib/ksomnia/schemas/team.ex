@@ -7,8 +7,8 @@ defmodule Ksomnia.Team do
   alias Ksomnia.Invite
 
   @type t() :: %Team{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
+  @primary_key {:id, Uniq.UUID, version: 4, autogenerate: true}
   schema "teams" do
     field :name, :string
     field :avatar_original_path, :string

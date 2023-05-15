@@ -66,20 +66,12 @@ config :cors_plug,
   max_age: 86400,
   methods: ["GET", "POST"]
 
-git_commit =
-  case System.cmd("git", ["rev-parse", "HEAD"]) do
-    {commit, 0} ->
-      commit
-
-    _ ->
-      nil
-  end
-
-config :ksomnia, :git_version, commit: git_commit
-
 config :meilisearch,
   endpoint: "http://127.0.0.1:7700",
   api_key: System.get_env("MEILISEARCH_API_KEY")
+
+config :ksomnia,
+  clickhouse_url: "http://localhost:8123"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

@@ -789,7 +789,7 @@ defmodule KsomniaWeb.CoreComponents do
       <span class={[
         "#{KsomniaWeb.LiveHelpers.generate_gradient(@name)} bg-gradient-to-r opacity-60 mr-2",
         "capitalize text-xs font-mono border border-slate-100 rounded-md w-6 h-6 inline-block",
-        "flex justify-center items-center font-normal font-mono"
+        "flex justify-center items-center font-extrabold font-mono"
       ]}>
         <%= String.first(@name) %>
       </span>
