@@ -41,7 +41,7 @@ defmodule Ksomnia.MixProject do
     [
       {:phoenix, "~> 1.7.2"},
       {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.6"},
+      {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_view, "~> 2.0.2"},
@@ -70,7 +70,9 @@ defmodule Ksomnia.MixProject do
       {:heroicons, "~> 0.5.1"},
       {:meilisearch, "~> 0.20.0"},
       {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
-      {:type_check, "~> 0.13.3"}
+      {:type_check, "~> 0.13.3"},
+      {:pillar, "~> 0.37.0"},
+      {:ecto_ch, "~> 0.1.4"}
     ]
   end
 

@@ -1,7 +1,7 @@
 defmodule Ksomnia.Dev.Logger do
   use Tesla
 
-  @commit_hash Keyword.get(Application.compile_env(:ksomnia, :git_version), :commit)
+  @commit_hash System.cmd("git", ["rev-parse", "HEAD"]) |> elem(0)
   @logger_token System.get_env("KSOMNIA_DEV_LOGGER_TOKEN")
 
   def attatch do

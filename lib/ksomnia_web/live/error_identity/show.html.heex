@@ -44,7 +44,7 @@
   </div>
 
   <div class="px-7 mt-8 mb-24 overflow-hidden">
-    <.table id="error_records" rows={@pagination.entries}>
+    <.table id="error_records" rows={@entries}>
       <:col :let={error_record} label="IP address">
         <%= error_record.ip_address %>
       </:col>
@@ -58,14 +58,5 @@
         </span>
       </:col>
     </.table>
-    <.pagination
-      current_page={@pagination.current_page}
-      current_page_size={@pagination.current_page_size}
-      page_size={@pagination.page_size}
-      entry_count={@pagination.entry_count}
-      surrounding_size={@pagination.surrounding_size}
-      total_pages={@pagination.total_pages}
-      link={&~p"/error_identities/#{@error_identity.id}?page=#{&1}"}
-    />
   </div>
 </main>
