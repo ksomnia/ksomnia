@@ -1,6 +1,7 @@
 defmodule Ksomnia.Queries.ErrorIdentityQueries do
   import Ecto.Query
   alias Ksomnia.ErrorIdentity
+  alias Ksomnia.Repo
   alias Ksomnia.App
 
   @spec get_by_ids([binary()]) :: Ecto.Query.t()
@@ -8,6 +9,10 @@ defmodule Ksomnia.Queries.ErrorIdentityQueries do
     from(e in ErrorIdentity,
       where: e.id in ^ids
     )
+  end
+
+  def get_by_id(id) do
+    Repo.get(ErrorIdentity, id)
   end
 
   @spec for_app(App.t()) :: Ecto.Query.t()

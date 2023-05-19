@@ -1,1 +1,8 @@
+# Exit on error
+set -o errexit
+
+# Print the command before execution
+set -o xtrace
+
+/usr/bin/mix local.rebar --force
 /usr/bin/mix do local.hex --force, deps.get, ecto.migrate

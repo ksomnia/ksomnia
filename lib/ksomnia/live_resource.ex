@@ -1,13 +1,16 @@
 defmodule KsomniaWeb.LiveResource do
   import Phoenix.Component
   import Phoenix.LiveView
+  alias Ksomnia.Queries.ErrorIdentityQueries
   use KsomniaWeb, :html
   alias Ksomnia.Team
   alias Ksomnia.App
   alias Ksomnia.User
+  alias Ksomnia.ErrorIdentity
   alias KsomniaWeb.LiveResource
   alias Ksomnia.Queries.TeamQueries
   alias Ksomnia.Queries.AppQueries
+  alias Ksomnia.Queries.ErrorIdentityQueries
 
   defstruct [:current_user, :current_team, :current_app]
 
@@ -41,6 +44,22 @@ defmodule KsomniaWeb.LiveResource do
 
   def on_mount(:set_current_resources, %{"app_id" => app_id}, _session, socket) do
     with %App{} = app <- AppQueries.get_by_id(app_id),
+         %Team{} = team <- TeamQueries.get_by_id(app.team_id) do
+      socket =
+        socket
+        |> assign(:current_app, app)
+        |> assign(:current_team, team)
+
+      {:cont, socket}
+    else
+      _ ->
+        {:halt, redirect(socket, to: ~p"/teams")}
+    end
+  end
+
+  def on_mount(:set_current_resources, %{"id" => error_identity_id}, _session, socket) do
+    with %ErrorIdentity{} = error_identity <- ErrorIdentityQueries.get_by_id(error_identity_id),
+         %App{} = app <- AppQueries.get_by_id(error_identity.app_id),
          %Team{} = team <- TeamQueries.get_by_id(app.team_id) do
       socket =
         socket

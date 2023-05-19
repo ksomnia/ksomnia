@@ -28,6 +28,11 @@ ksomnia-*.tar
 # Ignore uploaded avatars.
 /priv/static/uploads/avatars/
 
+# Ignore icons
+/priv/static/android-chrome*
+/priv/static/apple-touch-icon*
+/priv/static/favicon*
+
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 
