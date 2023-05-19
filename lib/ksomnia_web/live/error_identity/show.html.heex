@@ -4,7 +4,7 @@
       <%= Util.truncate_string(@error_identity.message, 200) %>
     </div>
     <span class="commit-badge mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
-      <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(
+      <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.Util.commit_hash_abbriv(
         @error_identity
       ) %>
     </span>

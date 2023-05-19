@@ -7,7 +7,7 @@
   <div class="px-7 mt-8 mb-24 overflow-hidden">
     <.table id="source_maps" rows={@pagination.entries}>
       <:col :let={source_map} label="Commit">
-        <span class="commit-badge"><%= SourceMap.commit_hash_abbriv(source_map) %></span>
+        <span class="commit-badge"><%= Ksomnia.Util.commit_hash_abbriv(source_map) %></span>
       </:col>
       <:col :let={source_map} label="Uploaded at" th_class="w-60">
         <%= Timex.format!(source_map.inserted_at, "{D} {Mshort} {YYYY}") %>

@@ -17,6 +17,16 @@ config :ksomnia, :live_demo, %{
   url: System.get_env("LIVE_DEMO_URL")
 }
 
+if System.get_env("KSOMNIA_MAILGUN_API_KEY") && System.get_env("KSOMNIA_MAILGUN_DOMAIN") &&
+     System.get_env("KSOMNIA_MAILGUN_BASEURL") do
+  config :ksomnia, Ksomnia.Mailer,
+    adapter: Swoosh.Adapters.Mailgun,
+    api_key: System.get_env("KSOMNIA_MAILGUN_API_KEY"),
+    domain: System.get_env("KSOMNIA_MAILGUN_DOMAIN"),
+    base_url: System.get_env("KSOMNIA_MAILGUN_BASEURL"),
+    testing_email: System.get_env("KSOMNIA_MAILGUN_TESTING_EMAIL")
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("KSOMNIA_DATABASE_URL") ||

@@ -53,10 +53,4 @@ defmodule Ksomnia.SourceMap do
       source_map.source_map_file_hash
     ])
   end
-
-  def commit_hash_abbriv(error_identity) do
-    if error_identity.commit_hash do
-      String.slice(error_identity.commit_hash, 0, 7)
-    end
-  end
 end

@@ -17,9 +17,10 @@ defmodule Ksomnia.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Ksomnia.PubSub},
       # Start the Endpoint (http/https)
-      KsomniaWeb.Endpoint
+      KsomniaWeb.Endpoint,
       # Start a worker by calling: Ksomnia.Worker.start_link(arg)
       # {Ksomnia.Worker, arg}
+      {Finch, name: Swoosh.Finch}
     ]
 
     case Application.get_env(:ksomnia, :app_hooks) do

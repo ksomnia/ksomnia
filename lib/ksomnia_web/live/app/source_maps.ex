@@ -2,7 +2,6 @@ defmodule KsomniaWeb.AppLive.SourceMaps do
   use KsomniaWeb, :live_view
   alias Ksomnia.Queries.SourceMapQueries
   alias Ksomnia.Pagination
-  alias Ksomnia.SourceMap
   alias KsomniaWeb.LiveResource
 
   on_mount {KsomniaWeb.AppLive.NavComponent, [set_section: :source_maps]}

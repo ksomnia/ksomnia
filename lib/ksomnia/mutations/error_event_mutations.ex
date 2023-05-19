@@ -1,5 +1,5 @@
 defmodule Ksomnia.Mutations.ErrorEventMutations do
-  alias Ksomnia.Schemas.ErrorEvent
+  alias Ksomnia.ErrorEvent
   alias Ksomnia.Util
   alias Ksomnia.ClickhouseRepo
 

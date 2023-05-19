@@ -56,11 +56,9 @@ defmodule Ksomnia.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:ecto_shortuuid, "~> 0.1.3"},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:comeonin, "~> 5.3"},
       {:argon2_elixir, "~> 3.0"},
-      {:shortuuid, "~> 2.1"},
       {:elixir_uuid, "~> 1.6", hex: :uuid_utils},
       {:timex, "~> 3.7"},
       {:tesla, "~> 1.4"},
@@ -72,7 +70,9 @@ defmodule Ksomnia.MixProject do
       {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
       {:type_check, "~> 0.13.3"},
       {:ecto_ch, "~> 0.1.4"},
-      {:uniq, "~> 0.1"}
+      {:pillar, "~> 0.37.0"},
+      {:uniq, "~> 0.1"},
+      {:finch, "~> 0.16.0"}
     ]
   end
 
