@@ -6,13 +6,10 @@ defmodule Ksomnia.Queries.ErrorEventQueries do
   def for_error_identity(error_identity) do
     {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
 
-    query =
-      from(e in ErrorEventView,
-        where: e.error_identity_id == ^error_identity_id,
-        order_by: [desc: e.inserted_at]
-      )
-
-    ClickhouseReadRepo.all(query)
+    from(e in ErrorEventView,
+      where: e.error_identity_id == ^error_identity_id,
+      order_by: [desc: e.inserted_at]
+    )
   end
 
   def get_error_events() do
