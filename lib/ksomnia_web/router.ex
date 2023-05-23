@@ -72,6 +72,14 @@ defmodule KsomniaWeb.Router do
     pipe_through :api
 
     post("/source_maps", SourceMapController, :create)
+
+    get(
+      "/error_event_frequencies/error_identities/:id",
+      ErrorEventFrequencyController,
+      :error_identity_frequencies
+    )
+
+    get("/error_event_frequencies/apps/:id", ErrorEventFrequencyController, :app_frequencies)
   end
 
   # Other scopes may use custom stacks.

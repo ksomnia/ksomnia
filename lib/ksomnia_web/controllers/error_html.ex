@@ -12,7 +12,10 @@ defmodule KsomniaWeb.ErrorHTML do
   # embed_templates "error_html/*"
 
   def render("500.html", assigns) do
-    Logger.error(Exception.format(:error, assigns[:reason], assigns[:stack]))
+    if assigns[:reason] do
+      Logger.error(Exception.format(:error, assigns[:reason], assigns[:stack]))
+    end
+
     "Internal system error"
   end
 

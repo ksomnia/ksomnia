@@ -15,7 +15,8 @@ defmodule Ksomnia.MixProject do
         warnings_as_errors: true
       ],
       dialyzer: [
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        plt_add_apps: [:mix]
       ]
     ]
   end

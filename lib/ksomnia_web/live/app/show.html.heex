@@ -14,14 +14,11 @@
     ) %>
   </div>
 
-  <%= if @latest_source_map do %>
-    <div class="px-7 py-2 text-slate-600 text-sm">
-      Latest source map for the release
-      <.commit_badge commit_hash={@latest_source_map.commit_hash} />
-      uploaded <%= Timex.from_now(@latest_source_map.inserted_at) %>.
+  <div id="chart-wrap" phx-hook="ChartHook" class="px-7 mt-8">
+    <div style="height: 100px;">
+      <canvas data-id={"#{@current_app.id}"} id="app-chart" phx-update="ignore"></canvas>
     </div>
-  <% end %>
-
+  </div>
   <div class="px-7 mt-3 mb-24 overflow-hidden">
     <.simple_form
       :let={f}

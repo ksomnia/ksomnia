@@ -1,7 +1,7 @@
 defmodule KsomniaWeb.SessionController do
   use KsomniaWeb, :controller
   alias Ksomnia.Auth
-  plug :put_layout, {KsomniaWeb.Layouts, :unauthenticated}
+  plug :put_layout, html: {KsomniaWeb.Layouts, :unauthenticated}
 
   def new(conn, _params) do
     conn
