@@ -1,7 +1,9 @@
 defmodule Ksomnia.Permissions do
+  alias Ksomnia.Queries.TeamQueries
   alias Ksomnia.Queries.TeamUserQueries
   alias Ksomnia.Team
   alias Ksomnia.User
+  alias Ksomnia.App
   alias Ksomnia.Invite
   alias Ksomnia.AppToken
 
@@ -32,5 +34,11 @@ defmodule Ksomnia.Permissions do
         %AppToken{} = app_token
       ) do
     TeamUserQueries.is_owner(team, current_user) || app_token.user_id == current_user.id
+  end
+
+  @spec can_view_app(User.t(), App.t()) :: boolean()
+  def can_view_app(user, app) do
+    team = TeamQueries.get_by_id(app.team_id)
+    team && TeamUserQueries.is_owner(team, user)
   end
 end

@@ -14,6 +14,11 @@ defmodule Ksomnia.Queries.TeamUserQueries do
     end
   end
 
+  @spec is_member(Team.t(), User.t()) :: boolean()
+  def is_member(%Team{} = team, %User{} = user) do
+    !!get_by_team_id_and_user_id(team.id, user.id)
+  end
+
   @spec team_has_single_owner(Team.t()) :: boolean()
   def team_has_single_owner(%Team{} = team) do
     Repo.one(

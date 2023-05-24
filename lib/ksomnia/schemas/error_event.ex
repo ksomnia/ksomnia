@@ -28,7 +28,7 @@ defmodule Ksomnia.Schemas.ErrorEvent do
       user_agent: params["user_agent"],
       ip_address: params["ip_address"],
       ipv4_address: params["ipv4_address"],
-      ipv6_address: params["ipv6_address"],
+      ipv6_address: params["ipv6_address"]
     }
   end
 end

@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "alpinejs": "^3.10.2"
+    "alpinejs": "^3.10.2",
+    "chart.js": "^4.3.0",
+    "chartjs-adapter-moment": "^1.0.1",
+    "moment": "^2.29.4"
   },
   "scripts": {
     "build": "node build.js"

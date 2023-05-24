@@ -38,7 +38,7 @@ defmodule Ksomnia.Util do
   end
 
   def ecto_struct_to_map(structs) when is_list(structs) do
-    Enum.map(structs, & ecto_struct_to_map(&1))
+    Enum.map(structs, &ecto_struct_to_map(&1))
   end
 
   def ecto_struct_to_map(struct) do

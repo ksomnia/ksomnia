@@ -42,7 +42,12 @@
       </div>
     <% end %>
   </div>
-
+  <div id="chart-wrap" phx-hook="ChartHook" class="px-7 mt-8">
+    <div style="height: 100px;">
+      <canvas data-id={"#{@error_identity.id}"} id="error-identity-chart" phx-update="ignore">
+      </canvas>
+    </div>
+  </div>
   <div class="px-7 mt-8 mb-24 overflow-hidden">
     <.table id="error_records" rows={@pagination.entries}>
       <:col :let={error_record} label="IP address">

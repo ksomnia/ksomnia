@@ -22,6 +22,7 @@ import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 import Alpine from 'alpinejs'
+import { drawChart } from './event_chart'
 
 window.Alpine = Alpine
 
@@ -30,8 +31,23 @@ Alpine.start()
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 
 let Hooks = {}
-Hooks.PlusComponentHook = {
+Hooks.ChartHook = {
   mounted() {
+    setTimeout(() => {
+      (async function () {
+        const chartEl = document.getElementById('error-identity-chart')
+        if (chartEl) {
+          const data = await getErrorIdentityChart(chartEl.getAttribute('data-id'))
+          drawChart(chartEl, data)
+        }
+
+        const appChartEl = document.getElementById('app-chart')
+        if (appChartEl) {
+          const data = await getAppChart(appChartEl.getAttribute('data-id'))
+          drawChart(appChartEl, data)
+        }
+      })()
+    }, 100)
   }
 }
 
@@ -87,5 +103,31 @@ window.KsomniaHelpers = {
       window.location.assign('/logout');
     }
   }
+}
+
+const getErrorIdentityChart = async (id) => {
+  const response = await fetch(`/api/v1/error_event_frequencies/error_identities/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const jsonPromise = response.json();
+  const json = await jsonPromise;
+  return json
+}
+
+const getAppChart = async (id) => {
+  const response = await fetch(`/api/v1/error_event_frequencies/apps/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  const jsonPromise = response.json();
+  const json = await jsonPromise;
+  return json
 }
 
