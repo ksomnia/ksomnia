@@ -1,6 +1,6 @@
-defmodule Ksomnia.Schemas.ErrorEvent do
+defmodule Ksomnia.ErrorEvent do
   use Ecto.Schema
-  alias Ksomnia.Schemas.ErrorEvent
+  alias Ksomnia.ErrorEvent
 
   @primary_key false
   schema "error_events" do
