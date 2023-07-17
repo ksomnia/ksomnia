@@ -14,24 +14,4 @@ defmodule Ksomnia.ErrorIdentityTest do
       assert ie2.track_count == 2
     end
   end
-
-  def create_error_identity(app) do
-    stacktrace = """
-    TypeError: Cannot read properties of undefined (reading 'missing-key')
-    |     at Array.e (http://localhost:5500/assets/app.js:17:15006)
-    |     at t (http://localhost:5500/assets/app.js:17:15037)
-    |     at HTMLButtonElement.<anonymous> (http://localhost:5500/assets/app.js:17:15367)
-    """
-
-    ErrorIdentityMutations.create(app, %{
-      "source" => "http://localhost:5500/assets/app.js",
-      "message" =>
-        "Uncaught TypeError: Cannot read properties of undefined (reading 'missing-key')",
-      "stacktrace" => stacktrace,
-      "line_number" => "17",
-      "column_number" => "15006",
-      "last_error_at" => NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second),
-      "commit_hash" => "4507f5025dc80afd8492fc78a4ddd30aae3e0c2a"
-    })
-  end
 end

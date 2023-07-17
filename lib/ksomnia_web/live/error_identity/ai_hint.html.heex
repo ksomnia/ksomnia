@@ -1,6 +1,6 @@
-<main class="flex-1">
+<main class="flex-1 mb-10">
   <div class="px-7">
-    <div class="py-2 text-indigo-600 font-medium mb-3">
+    <div class="py-2 text-indigo-600 dark:text-indigo-400 font-medium mb-3">
       <%= Util.truncate_string(@error_identity.message, 200) %>
     </div>
     <span class="commit-badge mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
@@ -18,17 +18,24 @@
     </.sub_nav_menu>
   </div>
   <div class="px-7 mt-2 ai-suggestion">
-    <h1 class="font-semibold text-indigo-600 mb-4">
-      Prompt builder
-    </h1>
-    <div class="">
-      <a class="btn-default">Error message</a>
-      <a class="btn-default">File content</a>
-      <a class="btn-default">Stacktrace</a>
+    <div class="border border-indigo-500 rounded-md py-4 px-4">
+      <h1 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+        Prompt builder
+      </h1>
+      <p>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">Error message</span>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">Full Stacksrace</span>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">File containing the error</span>
+      </p>
+      <textarea class="dark:bg-slate-700 dark:text-slate-400 dark:ring-slate-700 block h-64 my-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:focus:ring-slate-500">
+        <%= @prompt %>
+      </textarea>
     </div>
-    <textarea class="block h-64 my-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-      <%= @prompt %>
-    </textarea>
-    <.markdown text={@ai_hint} />
+    <div class="border border-violet-500 rounded-md py-4 px-4 mt-4">
+      <h1 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+        AI Hint
+      </h1>
+      <.markdown :if={@ai_reply} text={@ai_reply} />
+    </div>
   </div>
 </main>

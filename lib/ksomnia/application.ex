@@ -10,10 +10,9 @@ defmodule Ksomnia.Application do
     children = [
       # Start the Ecto repository
       Ksomnia.Repo,
-      Ksomnia.Clickhouse,
-      Ksomnia.ClickhouseReadRepo,
       # Start the Telemetry supervisor
       KsomniaWeb.Telemetry,
+      Ksomnia.ClickhouseReadRepo,
       # Start the PubSub system
       {Phoenix.PubSub, name: Ksomnia.PubSub},
 

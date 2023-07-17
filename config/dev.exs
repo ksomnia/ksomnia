@@ -77,3 +77,9 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :ksomnia, :app_hooks, [{Ksomnia.Dev.Logger, :attatch, []}]
+
+config :ksomnia, :ai_hint, %{
+  provider: Ksomnia.AIHint.MockHint,
+  models: ["mock-1"],
+  default_model: "mock-1"
+}

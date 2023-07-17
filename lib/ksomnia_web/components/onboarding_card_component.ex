@@ -5,14 +5,14 @@ defmodule KsomniaWeb.OnboardingCardComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div id="onboarding-card" class="p-6 bg-slate-50 border border-slate-200 rounded-lg shadow-lg">
-      <h3 class="text-lg font-medium text-slate-700 mb-4">
+    <div id="onboarding-card" class="p-6 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-indigo-400 rounded-lg shadow-lg">
+      <h3 class="text-lg font-medium mb-4">
         Welcome to <%= @team.name %>, <%= @current_user.username %>!
       </h3>
-      <p class="text-sm text-slate-600 mb-4">
+      <p class="text-sm mb-4">
         To start using the app, please follow these steps:
       </p>
-      <ul class="list-disc text-sm text-slate-600 mb-4">
+      <ul class="list-disc text-sm mb-4">
         <li>
           Take the application token from the
           <.link class="link" navigate={~p"/apps/#{@app.id}/settings/tokens"}>Tokens</.link>

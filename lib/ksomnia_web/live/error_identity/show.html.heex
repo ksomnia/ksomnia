@@ -1,6 +1,6 @@
 <main class="flex-1">
   <div class="px-7">
-    <div class="py-2 text-indigo-600 font-medium mb-3">
+    <div class="py-2 text-indigo-600 dark:text-indigo-400 font-medium mb-3">
       <%= Util.truncate_string(@error_identity.message, 200) %>
     </div>
     <span class="commit-badge mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
@@ -34,8 +34,6 @@
     </div>
     -->
 
-    <!-- | x x x | -->
-
     <.sub_nav_menu>
       <:item link={~p"/error_identities/#{@error_identity.id}"} active={true}>
         <Heroicons.queue_list class="w-4 h-4 inline-block" /> Source stacktrace
@@ -44,9 +42,6 @@
         <Heroicons.bolt class="w-4 h-4 inline-block" /> AI Hint
       </:item>
     </.sub_nav_menu>
-
-    <!-- | x x x | -->
-
     <%= if @stacktrace_type == "generated_source" do %>
       <%= bare_code_snippet(@error_identity.stacktrace) %>
     <% else %>

@@ -1,5 +1,5 @@
 defmodule Ksomnia.AppToken do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.App
   alias Ksomnia.User
@@ -7,13 +7,12 @@ defmodule Ksomnia.AppToken do
   alias Ksomnia.Util
 
   @type t() :: %AppToken{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "app_tokens" do
     field :token, :string
     field :revoked_at, :naive_datetime
-    belongs_to :app, App, type: Ecto.ShortUUID
-    belongs_to :user, User, type: Ecto.ShortUUID
+    belongs_to :app, App
+    belongs_to :user, User
 
     timestamps()
   end

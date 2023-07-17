@@ -1,5 +1,5 @@
 defmodule Ksomnia.Invite do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.Invite
   alias Ksomnia.Team
@@ -8,13 +8,12 @@ defmodule Ksomnia.Invite do
   alias Ksomnia.Queries.UserQueries
 
   @type t() :: %Invite{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "invites" do
     field :email, :string
     field :accepted_at, :naive_datetime
-    belongs_to :team, Team, type: Ecto.ShortUUID
-    belongs_to :inviter, User, type: Ecto.ShortUUID
+    belongs_to :team, Team
+    belongs_to :inviter, User
 
     timestamps()
   end

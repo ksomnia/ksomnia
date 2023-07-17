@@ -8,7 +8,7 @@
 
 @layer components {
   .label {
-    @apply text-sm font-medium text-gray-900 select-none;
+    @apply text-sm font-medium text-gray-900 dark:hover:text-indigo-400 select-none;
   }
 
   .label-secondary {
@@ -16,35 +16,35 @@
   }
 
   .btn-primary {
-    @apply cursor-pointer bg-indigo-600 text-white hover: bg-indigo-700 focus:ring-indigo-500 border text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
+    @apply cursor-pointer bg-indigo-600 dark:border-indigo-500 text-white hover:bg-indigo-700 focus:ring-indigo-500 border text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
   }
 
   .btn-default {
-    @apply cursor-pointer rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover: bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+    @apply cursor-pointer rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white dark:bg-slate-300 text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
   }
 
   .btn-danger {
-    @apply cursor-pointer bg-red-500 hover: bg-red-600 text-white focus:ring-red-500 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
+    @apply cursor-pointer bg-red-500 hover:bg-red-600 text-white focus:ring-red-500 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
   }
 
   .btn-secondary-danger {
-    @apply cursor-pointer bg-slate-100 hover: bg-slate-200 text-red-600 focus:ring-red-500 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
+    @apply cursor-pointer bg-slate-100 hover:bg-slate-200 text-red-600 focus:ring-red-500 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 px-4 py-2;
   }
 
   .link {
-    @apply text-sm font-medium text-indigo-500 hover: text-indigo-600;
+    @apply text-sm font-medium text-indigo-500 hover:text-indigo-600;
   }
 
   .link-secondary {
-    @apply text-sm font-medium text-slate-400 hover: text-slate-500;
+    @apply text-sm font-medium text-slate-400 hover:text-slate-500;
   }
 
   .link-gray {
-    @apply text-sm font-medium text-gray-800 hover: text-gray-700;
+    @apply text-sm font-medium text-gray-800 hover:text-gray-700;
   }
 
   .commit-badge {
-    @apply px-2 py-1 bg-blue-50 text-slate-600 font-semibold text-sm rounded-md font-mono;
+    @apply px-2 py-1 bg-blue-50 text-slate-600 font-semibold text-sm rounded-md font-mono dark:bg-transparent dark:border dark:border-slate-500 dark:text-slate-400;
   }
 
   .badge {
@@ -56,15 +56,15 @@
   }
 
   .code-snippet {
-    @apply bg-slate-50 border border-slate-200 text-indigo-600 whitespace-pre-line leading-6 rounded-md py-2 text-sm w-full;
+    @apply bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-500 text-indigo-600 dark:text-indigo-400 whitespace-pre-line leading-6 rounded-md py-2 text-sm w-full;
   }
 
   .ai-suggestion pre {
-    @apply bg-slate-50 border border-slate-200 text-indigo-600 leading-6 rounded-md p-2 text-sm w-full;
+    @apply bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-400 leading-6 rounded-md p-2 text-sm w-full;
   }
 
   .ai-suggestion code.inline {
-    @apply bg-slate-50 border border-slate-200 text-indigo-600 leading-6 rounded-md p-1 text-sm w-full;
+    @apply bg-slate-50 dark:bg-slate-600 border border-slate-200 dark:border-slate-600 text-indigo-600 dark:text-indigo-400 leading-6 rounded-md p-1 text-sm w-full;
   }
 
   ::-webkit-scrollbar {
@@ -74,7 +74,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-slate-200 hover: bg-slate-300 rounded-full;
+    @apply bg-slate-200 hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-600 rounded-full;
     min-height: 40px;
   }
 }

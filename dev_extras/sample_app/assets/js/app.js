@@ -24,6 +24,7 @@ import "phoenix_html"
 import { Socket } from "phoenix"
 import { LiveSocket } from "phoenix_live_view"
 import topbar from "../vendor/topbar"
+import init from './page.js'
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken } })
@@ -42,9 +43,9 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
-const commitHash = process.env.COMMIT_HASH
+window.SAMPLE_APP_COMMIT_HASH = process.env.COMMIT_HASH
 
-console.log('Commit hash', commitHash)
+console.log('Commit hash', SAMPLE_APP_COMMIT_HASH)
 
 window.onerror = function (message, source, lineNumber, columnNumber, error) {
   KSOMNIA.api('track', 'POST', {
@@ -62,7 +63,7 @@ window.onerror = function (message, source, lineNumber, columnNumber, error) {
 
 const BASE_URL = process.env.KSOMNIA_BASE_URL
 
-console.log({BASE_URL})
+console.log({ BASE_URL })
 
 window.KSOMNIA = {}
 
@@ -79,40 +80,4 @@ KSOMNIA.api = (url, method, data) => {
   })
 }
 
-const nested = () => {
-  const errorSample = (x) => {
-    return x['missing-key'](x)
-  }
-
-  const errorWrapper = (...x) => {
-    return errorSample.apply(x)
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    let appTokenInput = document.getElementById('app-token')
-    appTokenInput.value = localStorage.getItem('ksomnia-sample-app-token')
-    appTokenInput.addEventListener('input', (e) => {
-      localStorage.setItem('ksomnia-sample-app-token', e.target.value)
-    })
-
-    let errorSampleBtn = document.getElementById('error-sample-btn')
-    errorSampleBtn.addEventListener('click', () => {
-      errorWrapper('')
-    })
-
-    document.getElementById('deploy-btn').addEventListener('click', () => {
-      console.log('deploy', document.getElementById('app-token').value)
-
-      fetch(`/api/deploy`, {
-        method: 'POST',
-        headers: JSONHeaders,
-        body: JSON.stringify({
-          token: document.getElementById('app-token').value,
-          commit_hash: commitHash
-        })
-      })
-    })
-  })
-}
-
-nested()
+init()

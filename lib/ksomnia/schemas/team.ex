@@ -1,5 +1,5 @@
 defmodule Ksomnia.Team do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.Team
   alias Ksomnia.TeamUser
@@ -7,7 +7,6 @@ defmodule Ksomnia.Team do
   alias Ksomnia.Invite
 
   @type t() :: %Team{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "teams" do
     field :name, :string

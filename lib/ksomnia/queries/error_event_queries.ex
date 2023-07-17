@@ -4,23 +4,21 @@ defmodule Ksomnia.Queries.ErrorEventQueries do
   alias Ksomnia.ClickhouseReadRepo
 
   def for_error_identity(error_identity) do
-    {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
-
     from(e in ErrorEventView,
-      where: e.error_identity_id == ^error_identity_id,
+      where: e.error_identity_id == ^error_identity.id,
       order_by: [desc: e.inserted_at]
     )
   end
 
   def app_frequencies(app) do
-    {:ok, app_id} = ShortUUID.decode(app.id)
+    # {:ok, app_id} = ShortUUID.decode(app.id)
 
     sql = """
       SELECT
         toStartOfInterval(inserted_at, INTERVAL 1 HOUR) AS hour,
         count(id)
       FROM error_events
-      WHERE inserted_at >= now() - INTERVAL 24 HOUR AND app_id = '#{app_id}'
+      WHERE inserted_at >= now() - INTERVAL 24 HOUR AND app_id = '#{app.id}'
       GROUP BY hour
       ORDER BY hour ASC WITH FILL FROM now() - INTERVAL 24 HOUR TO now() STEP toIntervalHour(1)
     """
