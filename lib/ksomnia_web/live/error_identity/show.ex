@@ -33,6 +33,29 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> ErrorEventQueries.for_error_identity()
       |> ClickhousePagination.paginate(current_page)
 
+    ai_hint = """
+    Based on the provided stacktrace, it seems that there is an error related to the 'missing-key' property of the 'x' object. Here are some possible solutions or hints to resolve the issue:
+
+    1. Check if the 'missing-key' property exists in the 'x' object before accessing it. You can use the `hasOwnProperty` method to check if the property exists.
+
+    Example:
+    ```javascript
+    const errorSample = (x) => {
+      if (x.hasOwnProperty('missing-key')) {
+        return x['missing-key'](x);
+      }
+      // Handle the case when the 'missing-key' property does not exist
+      // e.g., throw an error, return a default value, or handle the case accordingly
+    }
+    ```
+
+    2. Ensure that the 'missing-key' property is a function and can be invoked. If it's not a function, you may need to modify your code accordingly.
+
+    3. Verify if the 'x' object is being passed correctly to the 'errorSample' function. Double-check the code that calls the `errorSample` function and ensure that the argument being passed has the necessary properties.
+
+    4. Examine the stacktrace further and look for any additional error messages or line numbers that could provide more context on what might be causing the issue.
+    """
+
     socket =
       socket
       |> assign(:page_title, error_identity.message)
@@ -41,6 +64,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:team, team)
       |> assign(:pagination, pagination)
       |> assign(:__current_app__, app.id)
+      |> assign(:ai_hint, ai_hint)
 
     view_pid = self()
 

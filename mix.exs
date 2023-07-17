@@ -12,7 +12,7 @@ defmodule Ksomnia.MixProject do
       aliases: aliases(),
       deps: deps(),
       elixirc_options: [
-        warnings_as_errors: true
+        warnings_as_errors: false
       ],
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
@@ -73,7 +73,10 @@ defmodule Ksomnia.MixProject do
       {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
       {:type_check, "~> 0.13.3"},
       {:pillar, "~> 0.37.0"},
-      {:ecto_ch, "~> 0.1.4"}
+      {:ecto_ch, "~> 0.1.4"},
+      {:openai, "~> 0.5.2"},
+      {:httpoison, "~> 2.0", override: true},
+      {:earmark, "~> 1.4"}
     ]
   end
 

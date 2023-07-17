@@ -8,6 +8,7 @@
         @error_identity
       ) %>
     </span>
+    <!--
     <div class="mt-2 mb-4 border-box">
       <span
         phx-click="set_stacktrace_type"
@@ -19,11 +20,33 @@
       <span
         phx-click="set_stacktrace_type"
         phx-value-type="generated_source"
-        class={"#{if @stacktrace_type == "generated_source", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}
+        class={"#{if @stacktrace_type == "generated_source", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2 mr-2"}
       >
         Generated source
       </span>
+      <span
+        phx-click="set_stacktrace_type"
+        phx-value-type="generated_source"
+        class={"#{if @stacktrace_type == "generated_source", do: "bg-slate-100 hover:bg-slate-100", else: "bg-slate-50 hover:bg-slate-100"} text-slate-700 cursor-pointer rounded-md px-2 pt-2 pb-2"}
+      >
+        AI suggestions
+      </span>
     </div>
+    -->
+
+    <!-- | x x x | -->
+
+    <.sub_nav_menu>
+      <:item link={~p"/error_identities/#{@error_identity.id}"} active={true}>
+        <Heroicons.queue_list class="w-4 h-4 inline-block" /> Source stacktrace
+      </:item>
+      <:item link={~p"/error_identities/#{@error_identity.id}/ai_hint"} active={false}>
+        <Heroicons.bolt class="w-4 h-4 inline-block" /> AI Hint
+      </:item>
+    </.sub_nav_menu>
+
+    <!-- | x x x | -->
+
     <%= if @stacktrace_type == "generated_source" do %>
       <%= bare_code_snippet(@error_identity.stacktrace) %>
     <% else %>
@@ -41,6 +64,12 @@
         </div>
       </div>
     <% end %>
+  </div>
+  <div class="px-7 mt-8 ai-suggestion">
+    <h1 class="font-semibold text-indigo-600">
+      AI suggestion
+    </h1>
+    <.markdown text={@ai_hint} />
   </div>
   <div id="chart-wrap" phx-hook="ChartHook" class="px-7 mt-8">
     <div style="height: 100px;">

@@ -11,7 +11,7 @@
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
-  <body class={"#{if assigns[:user], do: "bg-whtie", else: "bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50"} h-full"}>
+  <body class={"#{if assigns[:user], do: "bg-whtie dark:bg-slate-800", else: "bg-gradient-to-r from-violet-50 via-indigo-50 to-blue-50"} h-full"}>
     <%= unless assigns[:current_user] do %>
       <header class="mx-auto px-20">
         <div class="p-4 flex justify-between">

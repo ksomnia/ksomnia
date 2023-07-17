@@ -15,6 +15,6 @@
     "phoenix_html": "../deps/phoenix_html",
     "phoenix_live_view": "../deps/phoenix_live_view",
     "postcss": "^8.4.17",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.3.3"
   }
 }
