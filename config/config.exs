@@ -88,18 +88,19 @@ config :ksomnia, :ai_hint, %{
   default_model: "gpt-3.5-turbo"
 }
 
+config :ex_rated,
+  timeout: 10_000,
+  cleanup_rate: 10_000,
+  persistent: false,
+  name: :ex_rated,
+  ets_table_name: :ets_rated_buckets
+
 config :openai,
-  # find it at https://platform.openai.com/account/api-keys
   api_key: System.get_env("OPENAI_API_KEY"),
   # find it at https://platform.openai.com/account/org-settings under "Organization ID"
   # organization_key: "your-organization-key",
   # optional, passed to [HTTPoison.Request](https://hexdocs.pm/httpoison/HTTPoison.Request.html) options
-  http_options: [recv_timeout: 30_000]
-
-# optional, useful if you want to do local integration tests using Bypass or similar
-# (https://github.com/PSPDFKit-labs/bypass), do not use it for production code,
-# but only in your test config!
-# api_url: "http://localhost/"
+  http_options: [recv_timeout: 60_000]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

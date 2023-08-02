@@ -24,8 +24,12 @@
       </h1>
       <p>
         <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">Error message</span>
-        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">Full Stacksrace</span>
-        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">File containing the error</span>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">
+          Full Stacksrace
+        </span>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">
+          File containing the error
+        </span>
       </p>
       <textarea class="dark:bg-slate-700 dark:text-slate-400 dark:ring-slate-700 block h-64 my-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:focus:ring-slate-500">
         <%= @prompt %>
@@ -35,7 +39,7 @@
       <h1 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
         AI Hint
       </h1>
-      <.markdown :if={@ai_reply} text={@ai_reply} />
+      <.markdown :if={@ai_hint} text={@ai_hint.response} />
     </div>
   </div>
 </main>

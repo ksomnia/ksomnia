@@ -6,8 +6,8 @@ defmodule Ksomnia.Repo.Migrations.CreateAiHints do
       add(:id, :uuid, primary_key: true)
       add(:provider, :string)
       add(:model, :string)
-      add(:prompt, :string)
-      add(:response, :string)
+      add(:prompt, :text)
+      add(:response, :text)
       add(:prompt_hash, :string)
       add(:error_identity_id, references(:error_identities, type: :uuid))
 

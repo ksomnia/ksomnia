@@ -11,8 +11,6 @@ defmodule Ksomnia.Queries.ErrorEventQueries do
   end
 
   def app_frequencies(app) do
-    # {:ok, app_id} = ShortUUID.decode(app.id)
-
     sql = """
       SELECT
         toStartOfInterval(inserted_at, INTERVAL 1 HOUR) AS hour,
@@ -28,14 +26,12 @@ defmodule Ksomnia.Queries.ErrorEventQueries do
   end
 
   def error_identity_frequencies(error_identity) do
-    {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
-
     sql = """
       SELECT
         toStartOfInterval(inserted_at, INTERVAL 1 HOUR) AS hour,
         count(id)
       FROM error_events
-      WHERE inserted_at >= now() - INTERVAL 24 HOUR AND error_identity_id = '#{error_identity_id}'
+      WHERE inserted_at >= now() - INTERVAL 24 HOUR AND error_identity_id = '#{error_identity.id}'
       GROUP BY hour
       ORDER BY hour ASC WITH FILL FROM now() - INTERVAL 24 HOUR TO now() STEP toIntervalHour(1)
     """

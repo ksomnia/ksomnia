@@ -64,7 +64,8 @@ defmodule KsomniaWeb.CoreComponents.Modal do
               class={[
                 "hidden relative rounded-2xl bg-white  p-6 shadow-lg",
                 "shadow-zinc-700/10 ring-1 ring-zinc-700/10 transition",
-                "dark:text-slate-200 dark:bg-slate-800 dark:ring-slate-800"]}
+                "dark:text-slate-200 dark:bg-slate-800 dark:ring-slate-800"
+              ]}
             >
               <div class="absolute top-6 right-5 ">
                 <button
@@ -78,10 +79,16 @@ defmodule KsomniaWeb.CoreComponents.Modal do
               </div>
               <div id={"#{@id}-content"} class="">
                 <header :if={@title != []}>
-                  <h1 id={"#{@id}-title"} class="text-lg font-semibold leading-8 text-zinc-800 dark:text-zinc-200">
+                  <h1
+                    id={"#{@id}-title"}
+                    class="text-lg font-semibold leading-8 text-zinc-800 dark:text-zinc-200"
+                  >
                     <%= render_slot(@title) %>
                   </h1>
-                  <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                  <p
+                    :if={@subtitle != []}
+                    class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300"
+                  >
                     <%= render_slot(@subtitle) %>
                   </p>
                 </header>

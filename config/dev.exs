@@ -78,8 +78,22 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :ksomnia, :app_hooks, [{Ksomnia.Dev.Logger, :attatch, []}]
 
+# config :ksomnia, :ai_hint, %{
+#   provider: Ksomnia.AIHint.MockHint,
+#   models: ["mock-1"],
+#   default_model: "mock-1"
+# }
+
 config :ksomnia, :ai_hint, %{
-  provider: Ksomnia.AIHint.MockHint,
-  models: ["mock-1"],
-  default_model: "mock-1"
+  provider: Ksomnia.AIHint.ChatGPTHint,
+  models: [
+    "gpt-4",
+    "gpt-4-0613",
+    "gpt-4-32k",
+    "gpt-4-32k-0613",
+    "gpt-3.5-turbo",
+    "gpt-3.5-turbo-0613",
+    "gpt-3.5-turbo-16k-0613"
+  ],
+  default_model: "gpt-3.5-turbo"
 }

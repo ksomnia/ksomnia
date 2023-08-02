@@ -5,7 +5,10 @@ defmodule KsomniaWeb.OnboardingCardComponent do
   @impl true
   def render(assigns) do
     ~H"""
-    <div id="onboarding-card" class="p-6 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-indigo-400 rounded-lg shadow-lg">
+    <div
+      id="onboarding-card"
+      class="p-6 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-indigo-400 rounded-lg shadow-lg"
+    >
       <h3 class="text-lg font-medium mb-4">
         Welcome to <%= @team.name %>, <%= @current_user.username %>!
       </h3>

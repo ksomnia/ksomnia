@@ -54,12 +54,13 @@ defmodule KsomniaWeb.CoreComponents.Pagination do
           <.link
             navigate={@link.(1)}
             class={[
-              (if @current_page == 1,
+              if(@current_page == 1,
                 do: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600",
-                else: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"),
-                "inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20"
-              ]
-            }>
+                else: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+              ),
+              "inline-flex items-center border px-4 py-2 text-sm font-medium focus:z-20"
+            ]}
+          >
             1
           </.link>
           <span

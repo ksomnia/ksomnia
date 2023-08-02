@@ -29,11 +29,14 @@ defmodule KsomniaWeb.CoreComponents.Table do
     ~H"""
     <div id={@id} class="overflow-y-auto divide-y divide-gray-300 px-4 sm:overflow-visible sm:px-0">
       <table class="mt-2 w-[40rem] sm:w-full">
-        <thead :if={@headers} class={[
-          "text-left text-[0.8125rem] leading-6",
-          "bg-gray-50 text-zinc-500",
-          "dark:bg-slate-700 dark:text-slate-300"
-        ]}>
+        <thead
+          :if={@headers}
+          class={[
+            "text-left text-[0.8125rem] leading-6",
+            "bg-gray-50 text-zinc-500",
+            "dark:bg-slate-700 dark:text-slate-300"
+          ]}
+        >
           <tr>
             <th
               :for={col <- @col}

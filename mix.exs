@@ -13,10 +13,6 @@ defmodule Ksomnia.MixProject do
       deps: deps(),
       elixirc_options: [
         warnings_as_errors: false
-      ],
-      dialyzer: [
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
-        plt_add_apps: [:mix]
       ]
     ]
   end
@@ -73,7 +69,8 @@ defmodule Ksomnia.MixProject do
       {:ecto_ch, "~> 0.1.4"},
       {:openai, "~> 0.5.2"},
       {:httpoison, "~> 2.0", override: true},
-      {:earmark, "~> 1.4"}
+      {:earmark, "~> 1.4"},
+      {:ex_rated, "~> 2.1"}
     ]
   end
 
