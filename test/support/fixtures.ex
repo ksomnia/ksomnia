@@ -16,6 +16,7 @@ defmodule Ksomnia.Fixtures do
       alias Ksomnia.Invite
       alias Ksomnia.TeamUser
       alias Ksomnia.ErrorIdentity
+      alias Ksomnia.AIHint
 
       def repo_count(query) do
         Repo.count(query)
@@ -104,6 +105,55 @@ defmodule Ksomnia.Fixtures do
       def create_app!(team, user, attrs \\ []) do
         {:ok, app} = create_app(team, user, attrs)
         app
+      end
+
+      def create_error_identity(app) do
+        stacktrace = """
+        TypeError: Cannot read properties of undefined (reading 'missing-key')
+        |     at Array.e (http://localhost:5500/assets/app.js:17:15006)
+        |     at t (http://localhost:5500/assets/app.js:17:15037)
+        |     at HTMLButtonElement.<anonymous> (http://localhost:5500/assets/app.js:17:15367)
+        """
+
+        ErrorIdentityMutations.create(app, %{
+          "source" => "http://localhost:5500/assets/app.js",
+          "message" =>
+            "Uncaught TypeError: Cannot read properties of undefined (reading 'missing-key')",
+          "stacktrace" => stacktrace,
+          "line_number" => "17",
+          "column_number" => "15006",
+          "last_error_at" => NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second),
+          "commit_hash" => "4507f5025dc80afd8492fc78a4ddd30aae3e0c2a"
+        })
+      end
+
+      def create_error_identity!(app) do
+        {:ok, error_identity} = create_error_identity(app)
+        error_identity
+      end
+
+      def create_ai_hint(error_identity, attrs \\ %{}) do
+        user = create_user!()
+        team = create_team!(user)
+        app = create_app!(team, user)
+
+        error_identity = create_error_identity!(app)
+
+        attrs =
+          attrs
+          |> Map.put_new(:prompt, "prompt")
+          |> Map.put_new(:provider, "llama")
+          |> Map.put_new(:model, "v1")
+
+        Ksomnia.Mutations.AIHintMutations.create(
+          error_identity,
+          attrs
+        )
+      end
+
+      def create_ai_hint!(error_identity, attrs \\ %{}) do
+        {:ok, ai_hint} = create_ai_hint(error_identity, attrs)
+        ai_hint
       end
     end
   end

@@ -1,5 +1,5 @@
 defmodule Ksomnia.TeamUser do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.TeamUser
   alias Ksomnia.Team
@@ -8,8 +8,8 @@ defmodule Ksomnia.TeamUser do
   @type t() :: %TeamUser{}
 
   schema "team_users" do
-    belongs_to(:team, Team, type: Ecto.ShortUUID)
-    belongs_to(:user, User, type: Ecto.ShortUUID)
+    belongs_to(:team, Team)
+    belongs_to(:user, User)
     field(:role, :string)
     field(:completed_onboarding_at, :naive_datetime)
 

@@ -12,11 +12,7 @@ defmodule Ksomnia.MixProject do
       aliases: aliases(),
       deps: deps(),
       elixirc_options: [
-        warnings_as_errors: true
-      ],
-      dialyzer: [
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
-        plt_add_apps: [:mix]
+        warnings_as_errors: false
       ]
     ]
   end
@@ -57,12 +53,9 @@ defmodule Ksomnia.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:ecto_shortuuid, "~> 0.1.3"},
       {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:comeonin, "~> 5.3"},
       {:argon2_elixir, "~> 3.0"},
-      {:shortuuid, "~> 2.1"},
-      {:elixir_uuid, "~> 1.6", hex: :uuid_utils},
       {:timex, "~> 3.7"},
       {:tesla, "~> 1.4"},
       {:cors_plug, "~> 3.0"},
@@ -73,7 +66,11 @@ defmodule Ksomnia.MixProject do
       {:dialyxir, "~> 1.2", only: [:dev], runtime: false},
       {:type_check, "~> 0.13.3"},
       {:pillar, "~> 0.37.0"},
-      {:ecto_ch, "~> 0.1.4"}
+      {:ecto_ch, "~> 0.1.4"},
+      {:openai, "~> 0.5.2"},
+      {:httpoison, "~> 2.0", override: true},
+      {:earmark, "~> 1.4"},
+      {:ex_rated, "~> 2.1"}
     ]
   end
 

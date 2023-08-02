@@ -6,12 +6,14 @@ defmodule KsomniaWeb.SidebarComponent do
     ~H"""
     <div
       id="sidebar-component"
-      class="flex-1 flex flex-col min-h-0 border-r border-gray-200 shadow-md bg-gray-50"
+      class="flex-1 flex flex-col min-h-0 border-r border-gray-200 shadow-md bg-gray-50 dark:bg-slate-800 dark:border-slate-800"
     >
       <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
         <.link navigate={~p"/teams"}>
           <div class="flex items-center flex-shrink-0 px-4">
-            <h2 class="h-8 w-auto text-2xl font-semibold text-indigo-500">Ksomnia</h2>
+            <h2 class="h-8 w-auto text-2xl font-semibold text-indigo-500 dark:text-indigo-400">
+              Ksomnia
+            </h2>
           </div>
         </.link>
         <nav class="flex-1 space-y-1 mt-5" aria-label="Sidebar">
@@ -21,7 +23,7 @@ defmodule KsomniaWeb.SidebarComponent do
                 navigate={~p"/t/#{team.id}/apps"}
                 class={
                   "#{if team && team.id == (assigns[:current_team] && assigns[:current_team].id),
-                  do: "text-indigo-400", else: ""} hover:text-indigo-500"
+                  do: "text-indigo-400 dark:text-indigo-300", else: ""} hover:text-indigo-500"
                 }
               >
                 <%= team.name %>
@@ -41,9 +43,9 @@ defmodule KsomniaWeb.SidebarComponent do
               navigate={~p"/apps/#{app.id}/"}
               class={"#{
                 if (@current_app && @current_app.id) == app.id,
-                  do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4",
-                  else: "border-l-4 border-slate-50"
-                } text-slate-600 font-medium text-sm px-4 py-2 hover:bg-indigo-50 cursor-pointer block"}
+                  do: "bg-indigo-50 border-indigo-600 text-indigo-600 border-l-4 dark:bg-slate-700 dark:text-slate-300 dark:border-indigo-400",
+                  else: "border-l-4 border-slate-50 dark:border-slate-900 dark:border-slate-800"
+                } text-slate-600 dark:text-slate-500 font-medium text-sm px-4 py-2 hover:bg-indigo-50 dark:hover:bg-slate-700 dark:hover:text-slate-300 cursor-pointer block"}
             >
               <div class="flex">
                 <.avatar_sm name={app.name} src={app.avatar_original_path} />
@@ -55,7 +57,7 @@ defmodule KsomniaWeb.SidebarComponent do
           <% end %>
         </nav>
       </div>
-      <div class="flex-shrink-0 flex border-t border-gray-200 p-4">
+      <div class="flex-shrink-0 flex border-t border-gray-200 dark:border-slate-800 p-4">
         <.link navigate={~p"/account/profile"} class="flex-shrink-0 w-full group block">
           <div class="flex items-center">
             <div>
@@ -66,10 +68,12 @@ defmodule KsomniaWeb.SidebarComponent do
               />
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900">
+              <p class="text-sm font-medium text-gray-700 group-hover:text-gray-900 dark:text-slate-400 group-hover:text-slate-300">
                 <%= @current_user.username %>
               </p>
-              <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700">View profile</p>
+              <p class="text-xs font-medium text-gray-500 group-hover:text-gray-700 dark:text-slate-500 group-hover:text-slate-400">
+                View profile
+              </p>
             </div>
           </div>
         </.link>

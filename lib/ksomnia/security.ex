@@ -10,4 +10,8 @@ defmodule Ksomnia.Security do
     :crypto.strong_rand_bytes(8)
     |> :binary.decode_unsigned(:big)
   end
+
+  def hash_sha256(content) do
+    :crypto.hash(:sha256, content) |> Base.url_encode64()
+  end
 end

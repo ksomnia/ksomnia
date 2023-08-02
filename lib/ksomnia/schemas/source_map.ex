@@ -1,11 +1,10 @@
 defmodule Ksomnia.SourceMap do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.App
   alias Ksomnia.SourceMap
 
   @type t() :: %SourceMap{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "source_maps" do
     field :commit_hash, :string
@@ -13,7 +12,7 @@ defmodule Ksomnia.SourceMap do
     field :target_file_hash, :string
     field :source_map, :map, virtual: true
     field :target_file, :map, virtual: true
-    belongs_to :app, App, type: Ecto.ShortUUID
+    belongs_to :app, App
 
     timestamps()
   end

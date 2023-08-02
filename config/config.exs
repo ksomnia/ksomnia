@@ -8,7 +8,8 @@
 import Config
 
 config :ksomnia,
-  ecto_repos: [Ksomnia.Repo]
+  ecto_repos: [Ksomnia.Repo],
+  generators: [binary_id: true]
 
 # Configures the endpoint
 config :ksomnia, KsomniaWeb.Endpoint,
@@ -51,7 +52,7 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :tailwind,
-  version: "3.1.2",
+  version: "3.3.3",
   default: [
     args: ~w(
       --config=tailwind.config.js
@@ -72,6 +73,34 @@ config :meilisearch,
 
 config :ksomnia,
   clickhouse_url: "http://localhost:8123"
+
+config :ksomnia, :ai_hint, %{
+  provider: Ksomnia.AIHint.ChatGPTHint,
+  models: [
+    "gpt-4",
+    "gpt-4-0613",
+    "gpt-4-32k",
+    "gpt-4-32k-0613",
+    "gpt-3.5-turbo",
+    "gpt-3.5-turbo-0613",
+    "gpt-3.5-turbo-16k-0613"
+  ],
+  default_model: "gpt-3.5-turbo"
+}
+
+config :ex_rated,
+  timeout: 10_000,
+  cleanup_rate: 10_000,
+  persistent: false,
+  name: :ex_rated,
+  ets_table_name: :ets_rated_buckets
+
+config :openai,
+  api_key: System.get_env("OPENAI_API_KEY"),
+  # find it at https://platform.openai.com/account/org-settings under "Organization ID"
+  # organization_key: "your-organization-key",
+  # optional, passed to [HTTPoison.Request](https://hexdocs.pm/httpoison/HTTPoison.Request.html) options
+  http_options: [recv_timeout: 60_000]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

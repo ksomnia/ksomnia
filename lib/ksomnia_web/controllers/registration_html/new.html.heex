@@ -5,13 +5,19 @@
     </h2>
   </div>
   <div class="mx-auto w-full text-center pb-5">
-    <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700">
+    <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700 dark:text-indigo-400">
       Sign up for an account
     </h2>
   </div>
-  <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
+  <div class="bg-white dark:bg-indigo-900 py-10 px-4 shadow-xl sm:rounded-lg">
     <div class="flex justify-center">
-      <.simple_form :let={f} for={:user} method="post" action={~p"/signup"}>
+      <.simple_form
+        :let={f}
+        for={:user}
+        method="post"
+        action={~p"/signup"}
+        class="dark:bg-transparent"
+      >
         <.error :if={assigns[:error]}>
           <%= @error %>
         </.error>

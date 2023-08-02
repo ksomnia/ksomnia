@@ -1,6 +1,6 @@
 defmodule Ksomnia.ClickhousePagination do
   import Ecto.Query
-  alias Ksomnia.ClickhouseRepo
+  alias Ksomnia.ClickhouseReadRepo
   alias Ksomnia.ClickhousePagination
   use Phoenix.Component
 
@@ -27,14 +27,14 @@ defmodule Ksomnia.ClickhousePagination do
   def paginate(query, current_page, page_size \\ 10, surrounding_size \\ 2) do
     offset = (current_page - 1) * page_size
 
-    entry_count = ClickhouseRepo.aggregate(query, :count)
+    entry_count = ClickhouseReadRepo.aggregate(query, :count)
     total_pages = trunc(Float.ceil(entry_count / page_size))
 
     entries =
       query
       |> offset(^offset)
       |> limit(^page_size)
-      |> ClickhouseRepo.all()
+      |> ClickhouseReadRepo.all()
 
     current_page_size = length(entries)
 

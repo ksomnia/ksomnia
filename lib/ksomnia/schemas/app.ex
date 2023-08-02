@@ -1,11 +1,10 @@
 defmodule Ksomnia.App do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.App
   alias Ksomnia.Team
 
   @type t() :: %App{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "apps" do
     field :name, :string
@@ -13,7 +12,7 @@ defmodule Ksomnia.App do
     field :avatar_original_path, :string
     field :avatar_resized_paths, :map, default: %{}
 
-    belongs_to :team, Team, type: Ecto.ShortUUID
+    belongs_to :team, Team
 
     timestamps()
   end

@@ -1,11 +1,10 @@
 defmodule Ksomnia.ErrorIdentity do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.App
   alias Ksomnia.ErrorIdentity
 
   @type t() :: %ErrorIdentity{}
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
   schema "error_identities" do
     field :error_identity_hash, :string
@@ -17,7 +16,7 @@ defmodule Ksomnia.ErrorIdentity do
     field :commit_hash, :string
     field :track_count, :integer, default: 1
     field :last_error_at, :naive_datetime
-    belongs_to :app, App, type: Ecto.ShortUUID
+    belongs_to :app, App
 
     timestamps()
   end

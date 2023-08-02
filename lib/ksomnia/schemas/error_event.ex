@@ -1,6 +1,6 @@
-defmodule Ksomnia.Schemas.ErrorEvent do
+defmodule Ksomnia.ErrorEvent do
   use Ecto.Schema
-  alias Ksomnia.Schemas.ErrorEvent
+  alias Ksomnia.ErrorEvent
 
   @primary_key false
   schema "error_events" do
@@ -16,13 +16,13 @@ defmodule Ksomnia.Schemas.ErrorEvent do
   end
 
   def new(app, error_identity, params) do
-    {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
-    {:ok, app_id} = ShortUUID.decode(app.id)
+    # {:ok, error_identity_id} = ShortUUID.decode(error_identity.id)
+    # {:ok, app_id} = ShortUUID.decode(app.id)
 
     %ErrorEvent{
       id: Ksomnia.Security.random_uint64(),
-      error_identity_id: error_identity_id,
-      app_id: app_id,
+      error_identity_id: error_identity.id,
+      app_id: app.id,
       timestamp: params["timestamp"],
       inserted_at: NaiveDateTime.utc_now(),
       user_agent: params["user_agent"],

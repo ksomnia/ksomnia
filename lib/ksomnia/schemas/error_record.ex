@@ -1,19 +1,18 @@
 defmodule Ksomnia.ErrorRecord do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.App
   alias Ksomnia.ErrorRecord
   alias Ksomnia.Repo
 
   @type t() :: %ErrorRecord{}
-  @primary_key {:id, Ksomnia.ShortUUID6, autogenerate: true}
 
   schema "error_records" do
     field :ip_address, :string
     field :user_agent, :string
     field :client_version, :string
-    belongs_to :app, App, type: Ksomnia.ShortUUID6
-    belongs_to :error_identity, App, type: Ksomnia.ShortUUID6
+    belongs_to :app, App
+    belongs_to :error_identity, App
 
     timestamps()
   end

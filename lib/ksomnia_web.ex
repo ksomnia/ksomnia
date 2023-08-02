@@ -56,7 +56,7 @@ defmodule KsomniaWeb do
 
       unquote(html_helpers())
 
-      on_mount {KsomniaWeb.LiveCurrentUser, :current_user}
+      on_mount({KsomniaWeb.LiveCurrentUser, :current_user})
     end
   end
 
@@ -87,6 +87,18 @@ defmodule KsomniaWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import KsomniaWeb.CoreComponents
+      import KsomniaWeb.CoreComponents.Modal
+      import KsomniaWeb.CoreComponents.Flash
+      import KsomniaWeb.CoreComponents.SimpleForm
+      import KsomniaWeb.CoreComponents.Button
+      import KsomniaWeb.CoreComponents.Input
+      import KsomniaWeb.CoreComponents.Table
+      import KsomniaWeb.CoreComponents.List
+      import KsomniaWeb.CoreComponents.ItemMenu
+      import KsomniaWeb.CoreComponents.TopNavMenu
+      import KsomniaWeb.CoreComponents.SubNavMenu
+      import KsomniaWeb.CoreComponents.Avatar
+      import KsomniaWeb.CoreComponents.Pagination
       import KsomniaWeb.Gettext
 
       # Shortcut for generating JS commands

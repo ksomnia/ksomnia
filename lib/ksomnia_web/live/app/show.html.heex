@@ -58,7 +58,9 @@
         <%= error_identity.track_count %>
       </:col>
       <:col :let={error_identity} label="Last occurred at">
-        <%= Timex.format!(error_identity.last_error_at, "{h24}:{m}:{s}") %>
+        <span class="">
+          <%= Timex.format!(error_identity.last_error_at, "{h24}:{m}:{s}") %>
+        </span>
         <span class="text-gray-500">
           <%= Timex.format!(error_identity.last_error_at, "{D} {Mshort} {YYYY}") %>
         </span>

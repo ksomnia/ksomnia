@@ -1,19 +1,30 @@
 <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
   <div class="mx-auto w-full text-center py-1">
-    <h2 class="mt-1 text-center text-2xl font-semibold text-indigo-500">Ksomnia</h2>
+    <h2 class="mt-1 text-center text-2xl font-semibold text-indigo-500 select-none">Ksomnia</h2>
   </div>
   <div class="mx-auto w-full text-center pb-5">
-    <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700">
+    <h2 class="mt-6 text-center text-2xl font-semibold text-slate-700 dark:text-indigo-400">
       Sign in to your account
     </h2>
   </div>
-  <div class="bg-white py-10 px-4 shadow-xl sm:rounded-lg">
+  <div class="bg-white dark:bg-indigo-900 py-10 px-4 shadow-xl sm:rounded-lg">
     <div class="flex justify-center">
-      <.simple_form :let={f} for={:user} method="post" action={~p"/signin"}>
+      <.simple_form
+        :let={f}
+        for={:user}
+        method="post"
+        action={~p"/signin"}
+        class="dark:bg-transparent"
+      >
         <.error :if={assigns[:error]}>
           <%= @error %>
         </.error>
-        <.input field={{f, :email}} type="text" label="email" />
+        <.input
+          field={{f, :email}}
+          type="text"
+          label="email"
+          class="dark:bg-indigo-400 dark:text-indigo-100"
+        />
         <.input field={{f, :password}} type="password" label="password" />
         <:actions>
           <div>
@@ -23,7 +34,10 @@
             <div class="flex items-center justify-between mt-5">
               <div></div>
               <div class="text-sm">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                <a
+                  href="#"
+                  class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400"
+                >
                   Forgot your password?
                 </a>
               </div>
@@ -33,7 +47,7 @@
       </.simple_form>
     </div>
   </div>
-  <div class="flex items-center justify-between mt-5 text-slate-800">
+  <div class="flex items-center justify-between mt-5 text-slate-800 dark:text-indigo-400">
     <div></div>
     <div class="text-medium">
       Don't have an account?

@@ -1,0 +1,45 @@
+<main class="flex-1 mb-10">
+  <div class="px-7">
+    <div class="py-2 text-indigo-600 dark:text-indigo-400 font-medium mb-3">
+      <%= Util.truncate_string(@error_identity.message, 200) %>
+    </div>
+    <span class="commit-badge mb-2 inline-block" title={"#{@error_identity.commit_hash}"}>
+      <span class="text-slate-400 select-none">COMMIT: </span><%= Ksomnia.SourceMap.commit_hash_abbriv(
+        @error_identity
+      ) %>
+    </span>
+    <.sub_nav_menu>
+      <:item link={~p"/error_identities/#{@error_identity.id}"} active={false}>
+        <Heroicons.queue_list class="w-4 h-4 inline-block" /> Source stacktrace
+      </:item>
+      <:item link={~p"/error_identities/#{@error_identity.id}/ai_hint"} active={true}>
+        <Heroicons.bolt class="w-4 h-4 inline-block" /> AI Hint
+      </:item>
+    </.sub_nav_menu>
+  </div>
+  <div class="px-7 mt-2 ai-suggestion">
+    <div class="border border-indigo-500 rounded-md py-4 px-4">
+      <h1 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+        Prompt builder
+      </h1>
+      <p>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">Error message</span>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">
+          Full Stacksrace
+        </span>
+        <span class="text-indigo-400 border border-indigo-500 p-2 rounded-md">
+          File containing the error
+        </span>
+      </p>
+      <textarea class="dark:bg-slate-700 dark:text-slate-400 dark:ring-slate-700 block h-64 my-5 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:focus:ring-slate-500">
+        <%= @prompt %>
+      </textarea>
+    </div>
+    <div class="border border-violet-500 rounded-md py-4 px-4 mt-4">
+      <h1 class="font-semibold text-indigo-600 dark:text-indigo-400 mb-4">
+        AI Hint
+      </h1>
+      <.markdown :if={@ai_hint} text={@ai_hint.response} />
+    </div>
+  </div>
+</main>

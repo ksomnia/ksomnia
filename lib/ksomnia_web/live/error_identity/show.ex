@@ -33,6 +33,21 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> ErrorEventQueries.for_error_identity()
       |> ClickhousePagination.paginate(current_page)
 
+    ai_hint = """
+    Hint sample:
+
+    Example:
+    ```javascript
+    const errorSample = (x) => {
+      if (x.hasOwnProperty('missing-key')) {
+        return x['missing-key'](x);
+      }
+      // Handle the case when the 'missing-key' property does not exist
+      // e.g., throw an error, return a default value, or handle the case accordingly
+    }
+    ```
+    """
+
     socket =
       socket
       |> assign(:page_title, error_identity.message)
@@ -41,6 +56,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
       |> assign(:team, team)
       |> assign(:pagination, pagination)
       |> assign(:__current_app__, app.id)
+      |> assign(:ai_hint, ai_hint)
 
     view_pid = self()
 
@@ -80,7 +96,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
 
         content_tag(:div, [left, right],
           class:
-            "group w-full hover:bg-indigo-100 cursor-pointer whitespace-nowrap pl-2 #{if(current_line == i, do: " bg-indigo-100", else: "")}",
+            "group w-full hover:bg-indigo-100 dark:hover:bg-slate-800 cursor-pointer whitespace-nowrap pl-2 #{if(current_line == i, do: " bg-indigo-100 dark:bg-slate-800", else: "")}",
           "phx-click": "set_line_context",
           "phx-value-line": i
         )
@@ -114,6 +130,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     lines =
       for {line, i} <- source do
         line_num_content = String.pad_leading("#{i + 1} ", max_line_num_len, " ")
+
         line_num = content_tag(:span, line_num_content, class: "text-slate-400 select-none")
 
         if i + 1 == current_line_map["line"] do
@@ -136,7 +153,8 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
             )
 
           content_tag(:div, [code_line_left_tag, code_line_right_tag, hint],
-            class: "group w-full bg-orange-100 whitespace-pre-wrap pl-2 relative "
+            class:
+              "group w-full bg-orange-100 dark:bg-slate-800 whitespace-pre-wrap pl-2 relative "
           )
         else
           code_line =
@@ -170,7 +188,7 @@ defmodule KsomniaWeb.ErrorIdentityLive.Show do
     sources[map["source"]]
     |> String.split(~r/\n/)
     |> Enum.with_index()
-    |> Enum.slice(map["line"] - 4, 7)
+    |> Enum.slice(Enum.max([map["line"] - 4, 0]), 7)
   end
 
   @impl true

@@ -11,11 +11,11 @@ defmodule Ksomnia.Application do
       # Start the Ecto repository
       Ksomnia.Repo,
       # Start the Telemetry supervisor
-      Ksomnia.ClickhouseRepo,
-      Ksomnia.ClickhouseReadRepo,
       KsomniaWeb.Telemetry,
+      Ksomnia.ClickhouseReadRepo,
       # Start the PubSub system
       {Phoenix.PubSub, name: Ksomnia.PubSub},
+
       # Start the Endpoint (http/https)
       KsomniaWeb.Endpoint
       # Start a worker by calling: Ksomnia.Worker.start_link(arg)

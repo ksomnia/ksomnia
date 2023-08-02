@@ -1,16 +1,15 @@
 defmodule Ksomnia.UserApp do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.User
   alias Ksomnia.App
   alias Ksomnia.UserApp
 
   @type t() :: %UserApp{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "user_apps" do
-    belongs_to :user, User, type: Ecto.ShortUUID
-    belongs_to :app, App, type: Ecto.ShortUUID
+    belongs_to :user, User
+    belongs_to :app, App
 
     timestamps()
   end

@@ -1,11 +1,10 @@
 defmodule Ksomnia.User do
-  use Ecto.Schema
+  use Ksomnia.Schema
   import Ecto.Changeset
   alias Ksomnia.User
   alias Ksomnia.TeamUser
 
   @type t() :: %User{}
-  @primary_key {:id, Ecto.ShortUUID, autogenerate: true}
 
   schema "users" do
     field :email, :string
